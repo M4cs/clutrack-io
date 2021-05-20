@@ -54,18 +54,18 @@ def search_parser():
 def search():
     parser = search_parser()
     args = parser.parse_args()
-    print(args)
     if args.get('address'):
         return render_template('rewards.html', contract=contract, w3=w3, wallet_addr=args.get('address'), Decimal=Decimal)
-    return render_template('index.html')
+    return render_template('index.html', count=len(Holder.objects().all()))
 
 @app.route('/')
 def index():
+    from app.models.holder import Holder
     if session.get('access_token'):
         holder = decodeJWT(session.get('access_token'))
         if holder:
             return render_template('rewards.html', contract=contract, w3=w3, wallet_addr=holder.address, Decimal=Decimal)
-    return render_template('index.html')
+    return render_template('index.html', count=len(Holder.objects().all()))
 
 @app.route('/assets/<file>')
 def serve(file):
@@ -79,7 +79,6 @@ def sign():
     if holder:
         if holder.check_msg(data['sig'], data['hash']):
             session['access_token'] = (signJWT(holder.id, holder.address), time.time() + 3500 * 20)
-            print(session['access_token'])
             return {'redirect': 'https://clutrack.io/'}
     else:
         new_holder = {
