@@ -1,5 +1,5 @@
 function getRewards(addr) {
-    fetch(' https://24bce46b8c29.ngrok.io/getRewards/' + addr, {
+    fetch('https://clutrack.io/getRewards/' + addr, {
         method: 'get',
         headers: {'Content-Type': 'application/json'}
     }).then((response) => {

@@ -7,7 +7,7 @@ let signer;
 function sign() {
     now = (Date.now()/1000).toFixed(0);
     near = now-(now%600);
-    var message = "Signing message to Cluwards.com at " + near
+    var message = "Signing message to https://clutrack.io at " + near
     var message_hash = ethers.utils.hashMessage(message + ":" + message.length.toString())
     signer.signMessage(message + ":" + message.length.toString(), accountAddress, "1234567890!!!").then((signature) => {
         handleAuth(accountAddress, signature, message_hash)
@@ -15,7 +15,7 @@ function sign() {
 }
 
 function handleAuth(accountAddress, signature, message_hash) {
-    fetch('https://24bce46b8c29.ngrok.io/sign', {
+    fetch('https://clutrack.io/sign', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
