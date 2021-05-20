@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html style="overflow-y: hidden;">
+  <style>
+    .center-screen {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      min-height: 100vh;
+    }
+  </style>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Authenticate with Ethur</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+  </head>
+  <body>
+  <section class="section hero is-fullheight is-dark is-bold">
+    <div class="center-screen container">
+      <h1 class="title" id="title">
+        Connect CLUWards to your BSC Wallet
+      </h1>
+      <p class="subtitle">
+        We will never request to withdraw from your account.
+      </p>
+      <button id="rusty" onclick="sign()" class="button is-rounded is-warning">
+        Click Here
+      </button>
+      <p class="subtitle">
+          Don't want to sign in or don't have access to a wallet extension? Search an address below:
+      </p>
+      <form action='/search' method='GET'>
+          <div class="field has-addons">
+            <div class="control">
+              <input class="input" type="text" name="address" placeholder="Ex: 0x44f6498D1403321890F3f2917E00F22dBDE3577a">
+            </div>
+            <div class="control">
+              <button type="submit" class="button is-warning">
+                Search
+              </button>
+            </div>
+          </div>
+      </form>
+    </div>
+  </section>
+  <script src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js"
+        type="application/javascript"></script>
+  <script src="assets/app.js"></script>
+  </body>
+</html>

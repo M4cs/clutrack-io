@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html style="overflow-y: hidden;">
+  <style>
+    .center-screen {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      min-height: 100vh;
+    }
+  </style>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Track Your Rewards</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+  </head>
+  <body>
+  <section class="section hero is-fullheight is-dark is-bold">
+      <div class="hero-head is-fullwidth">
+          <div class="navbar">
+              <div class="container">
+                <div class="navbar-brand">
+                    <a class="navbar-item">
+                      <img src="https://clucoin.com/static/images/3000.png" style="margin-right: 2%" alt="Logo">
+                      CLUTRACK.io
+                    </a>
+                  </div>
+                  <div class="navbar-end">
+                      <form action='/search' method='GET'>
+                          <div class="field has-addons is-grouped-right"> 
+                              <div class="control">
+                              <input class="input" type="text" name="address" placeholder="Ex: 0x44f6498D1403321890F3f2917E00F22dBDE3577a">
+                              </div>
+                              <div class="control">
+                              <button type="submit" class="button is-warning">
+                                  Search
+                              </button>
+                              </div>
+                          </div>
+                      </form>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="hero-body">
+          <div class="container has-text-centered">
+              <h1 class="title">CluCoin Redistribution Tracker</h1>
+              <div class="box">
+                  <h1 class="title" id="title" style="color: black">
+                      Displaying Rewards for Wallet:
+                  </h1>
+                  <p class="subtitle" style="color: rgb(104, 104, 104)">
+                      <a src="https://bscscan.com/address/{{wallet_addr}}" target="_blank">{{wallet_addr}}</a>
+                  </p>
+                  <p class="subtitle" style="color: black">
+                    Current Balance: {{w3.fromWei(Decimal(contract.functions.balanceOf(wallet_addr).call())* (Decimal(10) ** 9), "ether")}}
+                  </p>
+                  <hr style="background-color: grey">
+                  <div id="rewardStats">
+                      <p class="subtitle" style="color: black">
+                          Loading Reward Stats...
+                      </p>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section>
+  <script src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js"
+        type="application/javascript"></script>
+  <script src="assets/reward.js"></script>
+  <script>
+      window.addEventListener('load', function() {
+          var intervalId = window.setInterval(function() {
+              getRewards(`{{wallet_addr}}`)
+          }, 5000)
+      })
+  </script>
+  </body>
+</html>
