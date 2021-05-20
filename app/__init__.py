@@ -80,7 +80,7 @@ def sign():
         if holder.check_msg(data['sig'], data['hash']):
             session['access_token'] = (signJWT(holder.id, holder.address), time.time() + 3500 * 20)
             print(session['access_token'])
-            return {'redirect': 'https://24bce46b8c29.ngrok.io/'}
+            return {'redirect': 'https://clutrack.io/'}
     else:
         new_holder = {
             'address': data['wallet_address']
@@ -88,7 +88,7 @@ def sign():
         nh = Holder(**new_holder)
         if nh.save():
             print('NEW HOLDER MADE')
-    return {'redirect': 'https://24bce46b8c29.ngrok.io/'}
+    return {'redirect': 'https://clutrack.io/'}
 
 @app.route('/getRewards/<addr>')
 def getRewards(addr):
