@@ -54,9 +54,8 @@
                   <h1 class="title" id="title" style="color: black">
                       Displaying Rewards for Wallet:
                   </h1>
-                  <p class="subtitle" style="color: rgb(104, 104, 104)">
-                      <a src="https://bscscan.com/address/{{wallet_addr}}" target="_blank">{{wallet_addr}}</a>
-                  </p>
+                  
+                      <a src="https://bscscan.com/address/{{wallet_addr}}" target="_blank"><p class="subtitle" style="color: rgb(104, 104, 104)">{{wallet_addr}}</p></a>
                   <p class="subtitle" style="color: black">
                     Current Balance: {{w3.fromWei(Decimal(contract.functions.balanceOf(wallet_addr).call())* (Decimal(10) ** 9), "ether")}}
                     <br>
