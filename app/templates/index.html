@@ -1,86 +1,113 @@
 <!DOCTYPE html>
 <html style="overflow-y: hidden;">
-  <style>
+<style>
     .center-screen {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        min-height: 100vh;
     }
-  </style>
-  <head>
+</style>
+
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Authenticate with Ethur</title>
+    <title>CLUTrack.io - CluCoin Redistribution Tracker</title>
+    <meta name="title" content="CLUTrack.io - CluCoin Redistribution Tracker">
+    <meta name="description"
+        content="Track the rewards you gain from holding CLU in your wallet. Link with one-click and start seeing those gains.">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://metatags.io/">
+    <meta property="og:title" content="CLUTrack.io - CluCoin Redistribution Tracker">
+    <meta property="og:description"
+        content="Track the rewards you gain from holding CLU in your wallet. Link with one-click and start seeing those gains.">
+    <meta property="og:image"
+        content="https://metatags.io/assets/meta-tags-16a33a6a8531e519cc0936fbba0ad904e52d35f34a46c97a2c9f6f7dd7d336f2.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://metatags.io/">
+    <meta property="twitter:title" content="CLUTrack.io - CluCoin Redistribution Tracker">
+    <meta property="twitter:description"
+        content="Track the rewards you gain from holding CLU in your wallet. Link with one-click and start seeing those gains.">
+    <meta property="twitter:image"
+        content="https://metatags.io/assets/meta-tags-16a33a6a8531e519cc0936fbba0ad904e52d35f34a46c97a2c9f6f7dd7d336f2.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
-  </head>
-  <body>
-  <section class="section hero is-fullheight is-dark is-bold">
-    <div class="hero-head is-fullwidth">
-        <div class="navbar">
-            <div class="container">
-              <div class="navbar-brand">
-                  <a class="navbar-item">
-                    <img src="https://clucoin.com/static/images/3000.png" style="margin-right: 2%" alt="Logo">
-                    CLUTRACK.io
-                  </a>
-                </div>
-                <div class="navbar-end">
-                    <form action='/search' method='GET'>
-                        <div class="field has-addons is-grouped-right"> 
-                            <div class="control">
-                            <input class="input" type="text" name="address" placeholder="Ex: 0x44f6498D1403321890F3f2917E00F22dBDE3577a">
+</head>
+
+<body>
+    <section class="section hero is-fullheight is-dark is-bold">
+        <div class="hero-head is-fullwidth">
+            <div class="navbar">
+                <div class="container">
+                    <div class="navbar-brand">
+                        <a class="navbar-item">
+                            <img src="https://clucoin.com/static/images/3000.png" style="margin-right: 2%" alt="Logo">
+                            CLUTRACK.io
+                        </a>
+                    </div>
+                    <div class="navbar-end">
+                        <form action='/search' method='GET'>
+                            <div class="field has-addons is-grouped-right">
+                                <div class="control">
+                                    <input class="input" type="text" name="address"
+                                        placeholder="Ex: 0x44f6498D1403321890F3f2917E00F22dBDE3577a">
+                                </div>
+                                <div class="control">
+                                    <button type="submit" class="button is-warning">
+                                        Search Address
+                                    </button>
+                                </div>
                             </div>
-                            <div class="control">
-                            <button type="submit" class="button is-warning">
-                                Search Address
-                            </button>
-                            </div>
-                        </div>
-                    </form>
-                    <a style="margin-left: 5px;" class="button is-warning" href="https://github.com/M4cs/clutrack-io" target="_blank">
-                      View Source Code
-                    </a>
+                        </form>
+                        <a style="margin-left: 5px;" class="button is-warning"
+                            href="https://github.com/M4cs/clutrack-io" target="_blank">
+                            View Source Code
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="hero-body">
-        <div class="center-screen container">
-        <h1 class="title">CluCoin Redistribution Tracker</h1>
-          <h1 class="title" id="title">
-            
-          </h1>
-          <p class="subtitle">
-            Connect CLUWards to your BSC Wallet<br>
-            We will never request to withdraw from your account. If you ever get a request<br>
-            that requires you pay gas, reject it!!
-          </p>
-          <button id="rusty" onclick="sign()" class="button is-rounded is-warning">
-            Sign In With Wallet
-          </button>
-          <p class="subtitle">
-              Don't want to sign in or don't have access to a wallet extension? Search an address below:
-          </p>
-          <form action='/search' method='GET'>
-              <div class="field has-addons">
-                <div class="control">
-                  <input class="input" type="text" name="address" placeholder="Ex: 0x44f6498D1403321890F3f2917E00F22dBDE3577a">
-                </div>
-                <div class="control">
-                  <button type="submit" class="button is-warning">
-                    Search Address
-                  </button>
-                </div>
-              </div>
-          </form>
+        <div class="hero-body">
+            <div class="center-screen container">
+                <h1 class="title">CluCoin Redistribution Tracker</h1>
+                <h1 class="title" id="title">
+
+                </h1>
+                <p class="subtitle">
+                    Connect CLUWards to your BSC Wallet<br>
+                    We will never request to withdraw from your account. If you ever get a request<br>
+                    that requires you pay gas, reject it!!
+                </p>
+                <button id="rusty" onclick="sign()" class="button is-rounded is-warning">
+                    Sign In With Wallet
+                </button>
+                <p class="subtitle">
+                    Don't want to sign in or don't have access to a wallet extension? Search an address below:
+                </p>
+                <form action='/search' method='GET'>
+                    <div class="field has-addons">
+                        <div class="control">
+                            <input class="input" type="text" name="address"
+                                placeholder="Ex: 0x44f6498D1403321890F3f2917E00F22dBDE3577a">
+                        </div>
+                        <div class="control">
+                            <button type="submit" class="button is-warning">
+                                Search Address
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
-  </section>
-  <script src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js"
-        type="application/javascript"></script>
-  <script src="assets/app.js"></script>
-  </body>
+    </section>
+    <script src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js" type="application/javascript"></script>
+    <script src="assets/app.js"></script>
+</body>
+
 </html>
