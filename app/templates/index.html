@@ -74,24 +74,23 @@
             </div>
         </div>
         <div class="hero-body">
-            <div class="center-screen container">
+            <div class="container">
                 <h1 class="title">CluCoin Redistribution Tracker</h1>
                 <h1 class="title" id="title">
 
                 </h1>
                 <p class="subtitle">
-                    Connect CLUWards to your BSC Wallet<br>
-                    We will never request to withdraw from your account. If you ever get a request<br>
-                    that requires you pay gas, reject it!!
+                    Connect to your BSC Wallet<br>
                 </p>
                 <button id="rusty" onclick="sign()" class="button is-rounded is-warning">
                     Sign In With Wallet
                 </button>
-                <p class="subtitle">
-                    Don't want to sign in or don't have access to a wallet extension? Search an address below:
-                </p>
+                <br><br>
                 <form action='/search' method='GET'>
-                    <div class="field has-addons">
+                    <label class="label" for="search" style="color: #868686">
+                        Don't want to sign in or don't have access to a wallet extension? Search an address below:
+                    </label>
+                    <div id="search" class="field has-addons">
                         <div class="control">
                             <input class="input" type="text" name="address"
                                 placeholder="Ex: 0x44f6498D1403321890F3f2917E00F22dBDE3577a">
@@ -104,6 +103,16 @@
                     </div>
                 </form>
             </div>
+        </div>
+        <div class="hero-foot">
+                <div class="container has-text-centered">
+                    <p>
+                    <strong>Clutrack.io</strong> was created by <a href="https://twitter.com/maxbridgland">Max Bridgland</a>. The source code is licensed
+                    <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content
+                    is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>. We will never request to withdraw from your account. If you ever get a request
+                    that requires you pay gas, reject it! <strong>You can Donate CLU or any ERC/BEP-20 Token to: 0x44f6498D1403321890F3f2917E00F22dBDE3577a</strong>
+                    </p>
+                </div>
         </div>
     </section>
     <script src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js" type="application/javascript"></script>
