@@ -51,7 +51,7 @@ def search_parser():
     return parser
 
 @app.route('/search')
-async def search():
+def search():
     parser = search_parser()
     args = parser.parse_args()
     print(args)
@@ -60,7 +60,7 @@ async def search():
     return render_template('index.html')
 
 @app.route('/')
-async def index():
+def index():
     if session.get('access_token'):
         holder = decodeJWT(session.get('access_token'))
         if holder:
@@ -68,11 +68,11 @@ async def index():
     return render_template('index.html')
 
 @app.route('/assets/<file>')
-async def serve(file):
+def serve(file):
     return send_file(f'templates/assets/{file}')
 
 @app.route('/sign', methods=['POST'])
-async def sign():
+def sign():
     from app.models.holder import Holder
     data = json.loads(request.data)
     holder = Holder.objects(address=data['wallet_address']).first()
@@ -91,7 +91,7 @@ async def sign():
     return {'redirect': 'https://24bce46b8c29.ngrok.io/'}
 
 @app.route('/getRewards/<addr>')
-async def getRewards(addr):
+def getRewards(addr):
     currentBlock = w3.eth.blockNumber
     currentBalance = contract.functions.balanceOf(addr).call()
     block = currentBlock
