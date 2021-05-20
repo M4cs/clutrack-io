@@ -18,34 +18,65 @@
   </head>
   <body>
   <section class="section hero is-fullheight is-dark is-bold">
-    <div class="center-screen container">
-      <h1 class="title" id="title">
-        Connect CLUWards to your BSC Wallet
-      </h1>
-      <p class="subtitle">
-        We will never request to withdraw from your account.
-      </p>
-      <button id="rusty" onclick="sign()" class="button is-rounded is-warning">
-        Click Here
-      </button>
-      <p class="subtitle">
-          Don't want to sign in or don't have access to a wallet extension? Search an address below:
-      </p>
-      <form action='/search' method='GET'>
-          <div class="field has-addons">
-            <div class="control">
-              <input class="input" type="text" name="address" placeholder="Ex: 0x44f6498D1403321890F3f2917E00F22dBDE3577a">
+    <div class="hero-head is-fullwidth">
+        <div class="navbar">
+            <div class="container">
+              <div class="navbar-brand">
+                  <a class="navbar-item">
+                    <img src="https://clucoin.com/static/images/3000.png" style="margin-right: 2%" alt="Logo">
+                    CLUTRACK.io
+                  </a>
+                </div>
+                <div class="navbar-end">
+                    <form action='/search' method='GET'>
+                        <div class="field has-addons is-grouped-right"> 
+                            <div class="control">
+                            <input class="input" type="text" name="address" placeholder="Ex: 0x44f6498D1403321890F3f2917E00F22dBDE3577a">
+                            </div>
+                            <div class="control">
+                            <button type="submit" class="button is-warning">
+                                Search Address
+                            </button>
+                            </div>
+                        </div>
+                    </form>
+                    <a style="margin-left: 5px;" class="button is-warning" href="https://github.com/M4cs/clutrack-io" target="_blank">
+                      View Source Code
+                    </a>
+                </div>
             </div>
-            <div class="control">
-              <button type="submit" class="button is-warning">
-                Search
-              </button>
-            </div>
-          </div>
-      </form>
-      <a class="button is-warning" href="https://github.com/M4cs/clutrack-io" target="_blank">
-        View Source Code
-      </a>
+        </div>
+    </div>
+    <div class="hero-body">
+        <div class="center-screen container">
+        <h1 class="title">CluCoin Redistribution Tracker</h1>
+          <h1 class="title" id="title">
+            
+          </h1>
+          <p class="subtitle">
+            Connect CLUWards to your BSC Wallet<br>
+            We will never request to withdraw from your account. If you ever get a request<br>
+            that requires you pay gas, reject it!!
+          </p>
+          <button id="rusty" onclick="sign()" class="button is-rounded is-warning">
+            Sign In With Wallet
+          </button>
+          <p class="subtitle">
+              Don't want to sign in or don't have access to a wallet extension? Search an address below:
+          </p>
+          <form action='/search' method='GET'>
+              <div class="field has-addons">
+                <div class="control">
+                  <input class="input" type="text" name="address" placeholder="Ex: 0x44f6498D1403321890F3f2917E00F22dBDE3577a">
+                </div>
+                <div class="control">
+                  <button type="submit" class="button is-warning">
+                    Search Address
+                  </button>
+                </div>
+              </div>
+          </form>
+        </div>
     </div>
   </section>
   <script src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js"

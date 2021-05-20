@@ -9,13 +9,13 @@ function getRewards(addr) {
             elem.innerHTML = `<div class="columns">
             <div class="column is-half">
                 <div class="box">
-                    <p class="subtitle"><strong style="color: black">Avg. Reward Per Minute</strong></p>
+                    <p class="subtitle"><strong style="color: black">Avg. RPB Per Minute</strong></p>
                     <p class="subtitle" style="color: black">` + data.avg_br_1m.toString() + `</p>
                 </div>
             </div>
             <div class="column is-half">
               <div class="box">
-                  <p class="subtitle"><strong style="color: black">Avg. Reward Per 3 Minutes</strong></p>
+                  <p class="subtitle"><strong style="color: black">Avg. RPB Per 3 Minutes</strong></p>
                   <p class="subtitle" style="color: black">` + data.avg_br_3m.toString() + `</p>
               </div>
           </div>

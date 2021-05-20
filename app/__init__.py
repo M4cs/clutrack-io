@@ -108,7 +108,7 @@ async def getRewards(addr):
     while currentBlock - block <= 60:
         try:
             balance = contract.functions.balanceOf(addr).call(block_identifier=block)
-            bals.append(w3.fromWei((Decimal(lastBal) - Decimal(balance))* (Decimal(10) ** 9), 'ether'))
+            bals.append(w3.fromWei(Decimal(Decimal(lastBal) - Decimal(balance))* (Decimal(10) ** 9), 'ether'))
             lastBal = balance
             block -= 1
         except ValueError:

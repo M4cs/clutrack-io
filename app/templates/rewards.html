@@ -31,15 +31,18 @@
                       <form action='/search' method='GET'>
                           <div class="field has-addons is-grouped-right"> 
                               <div class="control">
-                              <input class="input" type="text" name="address" placeholder="Ex: 0x44f6498D1403321890F3f2917E00F22dBDE3577a">
+                                <input id="addy" class="input" type="text" name="address" placeholder="Ex: 0x44f6498D1403321890F3f2917E00F22dBDE3577a">
                               </div>
                               <div class="control">
                               <button type="submit" class="button is-warning">
-                                  Search
+                                  Search Address
                               </button>
                               </div>
                           </div>
                       </form>
+                      <a style="margin-left: 5px;" class="button is-warning" href="https://github.com/M4cs/clutrack-io" target="_blank">
+                        View Source Code
+                      </a>
                   </div>
               </div>
           </div>
@@ -56,6 +59,8 @@
                   </p>
                   <p class="subtitle" style="color: black">
                     Current Balance: {{w3.fromWei(Decimal(contract.functions.balanceOf(wallet_addr).call())* (Decimal(10) ** 9), "ether")}}
+                    <br>
+                    RPB = Reward Per Block (0.3 Blocks per second are processed)
                   </p>
                   <hr style="background-color: grey">
                   <div id="rewardStats">
