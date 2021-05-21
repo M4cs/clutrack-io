@@ -106,29 +106,41 @@ def sign():
 
 @app.route('/getRewards/<addr>')
 def getRewards(addr):
-    currentBlock = w3.eth.blockNumber
-    currentBalance = contract.functions.balanceOf(addr).call()
-    block = currentBlock
-    lastBal = contract.functions.balanceOf(addr).call(block_identifier=block)
-    bals = []
-    block24 = w3.eth.blockNumber - 28800
-    blockWk = w3.eth.blockNumber - (28800 * 7)
-    block_data = {}
-    try:
-        bal24hr = contract.functions.balanceOf(addr).call(block_identifier=block24)
-        balWk = contract.functions.balanceOf(addr).call(block_identifier=blockWk)
-    except:
-        bal24hr = 0
-        balWk = 0
-    while currentBlock - block <= 60:
+    while True:
         try:
-            balance = contract.functions.balanceOf(addr).call(block_identifier=block)
-            bals.append(w3.fromWei(Decimal(Decimal(lastBal) - Decimal(balance))* (Decimal(10) ** 9), 'ether'))
-            block_data['b' + str(block)] = float(w3.fromWei(Decimal(Decimal(lastBal) - Decimal(balance))* (Decimal(10) ** 9), 'ether'))
-            lastBal = balance
-            block -= 1
-        except ValueError:
-            block -= 1
+            currentBlock = w3.eth.blockNumber
+            currentBalance = contract.functions.balanceOf(addr).call()
+            block = currentBlock
+            lastBal = contract.functions.balanceOf(addr).call(block_identifier=block)
+            bals = []
+            block24 = w3.eth.blockNumber - 28800
+            blockWk = w3.eth.blockNumber - (28800 * 7)
+            block_data = {}
+            try:
+                bal24hr = contract.functions.balanceOf(addr).call(block_identifier=block24)
+                balWk = contract.functions.balanceOf(addr).call(block_identifier=blockWk)
+            except:
+                bal24hr = 0
+                balWk = 0
+            while currentBlock - block <= 60:
+                try:
+                    balance = contract.functions.balanceOf(addr).call(block_identifier=block)
+                    bals.append(w3.fromWei(Decimal(Decimal(lastBal) - Decimal(balance))* (Decimal(10) ** 9), 'ether'))
+                    block_data['b' + str(block)] = float(w3.fromWei(Decimal(Decimal(lastBal) - Decimal(balance))* (Decimal(10) ** 9), 'ether'))
+                    lastBal = balance
+                    block -= 1
+                except ValueError:
+                    block -= 1
+            break
+        except HTTPError:
+            try:
+                w3 = Web3(Web3.HTTPProvider('https://bsc-dataseed1.defibit.io/'))
+            except HTTPError:
+                try:
+                    w3 = w3 = Web3(Web3.HTTPProvider('https://bsc-dataseed1.ninicoin.io/'))
+                except HTTPError:
+                    w3 = Web3(Web3.HTTPProvider('https://bsc-dataseed.binance.org/'))
+ 
     return jsonify({
         'avg_br_1m': float(sum(bals[0:20]) / len(bals[0:20])),
         'avg_br_3m': float(sum(bals) / len(bals)),
