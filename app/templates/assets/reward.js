@@ -61,12 +61,12 @@ function getRewards(addr) {
                         label: 'RPB/min by Block',
                         data: Object.values(data.block_data).slice(41, 60),
                         backgroundColor: [
-                            'rgba(90, 194, 25, 0.2)'
+                            'rgba(90, 194, 25, 1)'
                         ],
                         borderColor: [
                             'rgba(207, 207, 207, 1)'
                         ],
-                        borderWidth: 1
+                        borderWidth: 2,
                     }]
                 },
                 options: {
@@ -86,7 +86,7 @@ function getRewards(addr) {
                         label: 'RPB/3min by Block',
                         data: Object.values(data.block_data),
                         backgroundColor: [
-                            'rgba(90, 194, 25, 0.2)'
+                            'rgba(90, 194, 25, 1)'
                         ],
                         borderColor: [
                             'rgba(207, 207, 207, 1)'
