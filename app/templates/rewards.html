@@ -123,15 +123,10 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.2.1/dist/chart.min.js"></script>
     <script src="assets/reward.js"></script>
     <script>
-        let isVisible = true;
-        document.addEventListener("visibilitychange", function() {
-            isVisible = !document.hidden;
-        }, false);
         window.addEventListener('load', function () {
+            getRewards(`{{wallet_addr}}`)
             var intervalId = window.setInterval(function () {
-                if (isVisible){
-                    getRewards(`{{wallet_addr}}`)
-                }
+                getRewards(`{{wallet_addr}}`)
             }, 30000)
         })
     </script>
