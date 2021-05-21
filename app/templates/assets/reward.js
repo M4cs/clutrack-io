@@ -13,22 +13,7 @@ function getRewards(addr) {
             console.log(data)
             console.log(data.block_data)
             var elem = document.getElementById('rewardStats')
-            elem.innerHTML = `<div class="columns">
-            <div class="column is-half">
-                <div class="box">
-                    <p class="subtitle"><strong style="color: black">Avg. RPB Per Minute</strong></p>
-                    <p class="subtitle" style="color: black">` + numberWithCommas(data.avg_br_1m) + `</p>
-                    <canvas id="minuteChart" width="600" height="200"></canvas>
-                </div>
-            </div>
-            <div class="column is-half">
-              <div class="box">
-                  <p class="subtitle"><strong style="color: black">Avg. RPB Per 3 Minutes</strong></p>
-                  <p class="subtitle" style="color: black">` + numberWithCommas(data.avg_br_3m) + `</p>
-                  <canvas id="threeMinChart" width="600" height="200"></canvas>
-                  </div>
-            </div>
-            </div>
+            elem.innerHTML = `
             <div class="columns">
                 <div class="column is-half">
                     <div class="box">
@@ -40,6 +25,22 @@ function getRewards(addr) {
                     <div class="box">
                         <p class="subtitle"><strong style="color: black">Total Gained<br>3 Minutes</strong></p>
                         <p class="subtitle" style="color: black">` + numberWithCommas(data.total_reward_3m) + `</p>
+                    </div>
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column is-half">
+                    <div class="box">
+                        <p class="subtitle"><strong style="color: black">Avg. RPB Per Minute</strong></p>
+                        <p class="subtitle" style="color: black">` + numberWithCommas(data.avg_br_1m) + `</p>
+                        <canvas id="minuteChart" width="600" height="200"></canvas>
+                    </div>
+                </div>
+                <div class="column is-half">
+                <div class="box">
+                    <p class="subtitle"><strong style="color: black">Avg. RPB Per 3 Minutes</strong></p>
+                    <p class="subtitle" style="color: black">` + numberWithCommas(data.avg_br_3m) + `</p>
+                    <canvas id="threeMinChart" width="600" height="200"></canvas>
                     </div>
                 </div>
             </div>
