@@ -15,7 +15,7 @@ function sign() {
 }
 
 function handleAuth(accountAddress, signature, message_hash) {
-    fetch('http://localhost:5000/sign', {
+    fetch('https://clutrack.io/sign', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -25,7 +25,7 @@ function handleAuth(accountAddress, signature, message_hash) {
         })
     }).then((response) => {
         response.json().then(data => {
-            window.location = 'http://localhost:5000/';
+            window.location = 'https://clutrack.io/';
         });
     });
 }
