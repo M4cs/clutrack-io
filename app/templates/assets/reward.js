@@ -67,6 +67,7 @@ function getRewards(addr) {
                             'rgba(207, 207, 207, 1)'
                         ],
                         borderWidth: 2,
+                        tension: 0.3
                     }]
                 },
                 options: {
@@ -92,7 +93,7 @@ function getRewards(addr) {
                             'rgba(207, 207, 207, 1)'
                         ],
                         borderWidth: 2,
-                        tension: 0.1
+                        tension: 0.3
                     }]
                 },
                 options: {
