@@ -1,3 +1,9 @@
+function numberWithCommas(x) {
+    var parts = x.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
+}
+
 function getRewards(addr) {
     fetch('https://clutrack.io/getRewards/' + addr, {
         method: 'get',
@@ -11,14 +17,14 @@ function getRewards(addr) {
             <div class="column is-half">
                 <div class="box">
                     <p class="subtitle"><strong style="color: black">Avg. RPB Per Minute</strong></p>
-                    <p class="subtitle" style="color: black">` + data.avg_br_1m.toString() + `</p>
+                    <p class="subtitle" style="color: black">` + numberWithCommas(data.avg_br_1m) + `</p>
                     <canvas id="minuteChart" width="600" height="200"></canvas>
                 </div>
             </div>
             <div class="column is-half">
               <div class="box">
                   <p class="subtitle"><strong style="color: black">Avg. RPB Per 3 Minutes</strong></p>
-                  <p class="subtitle" style="color: black">` + data.avg_br_3m.toString() + `</p>
+                  <p class="subtitle" style="color: black">` + numberWithCommas(data.avg_br_3m) + `</p>
                   <canvas id="threeMinChart" width="600" height="200"></canvas>
                   </div>
             </div>
@@ -27,13 +33,13 @@ function getRewards(addr) {
                 <div class="column is-half">
                     <div class="box">
                         <p class="subtitle"><strong style="color: black">Total Gained<br>1 Minute</strong></p>
-                        <p class="subtitle" style="color: black">` + data.total_reward_1m.toString() + `</p>
+                        <p class="subtitle" style="color: black">` + numberWithCommas(data.total_reward_1m) + `</p>
                     </div>
                 </div>
                 <div class="column is-half">
                     <div class="box">
                         <p class="subtitle"><strong style="color: black">Total Gained<br>3 Minutes</strong></p>
-                        <p class="subtitle" style="color: black">` + data.total_reward_3m.toString() + `</p>
+                        <p class="subtitle" style="color: black">` + numberWithCommas(data.total_reward_3m) + `</p>
                     </div>
                 </div>
             </div>
@@ -41,13 +47,13 @@ function getRewards(addr) {
                 <div class="column is-half">
                     <div class="box">
                         <p class="subtitle"><strong style="color: black">Balance Change<br>1 Day</strong></p>
-                        <p class="subtitle" style="color: black">` + data.tfhr_increase.toString() + `</p>
+                        <p class="subtitle" style="color: black">` + numberWithCommas(data.tfhr_increase) + `</p>
                     </div>
                 </div>
                 <div class="column is-half">
                     <div class="box">
                         <p class="subtitle"><strong style="color: black">Balance Change<br>1 Week</strong></p>
-                        <p class="subtitle" style="color: black">` + data.wk_increase.toString() + `</p>
+                        <p class="subtitle" style="color: black">` + numberWithCommas(data.wk_increase) + `</p>
                     </div>
                 </div>
             </div>`

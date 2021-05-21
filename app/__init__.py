@@ -102,10 +102,6 @@ def sign():
         if nh.save():
             print('NEW HOLDER MADE')
     return {'redirect': config.base_url}
-
-@app.route('/getStats')
-def getStats():
-    txnCount = 0
     
 
 @app.route('/getRewards/<addr>')
