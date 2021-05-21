@@ -109,10 +109,10 @@ def getRewards(addr):
     currentBlock = w3.eth.blockNumber
     currentBalance = contract.functions.balanceOf(addr).call()
     block = currentBlock
-    lastBal = contract.functions.balanceOf(addr).call(block_identifier=block)
+    lastBal = currentBalance
     bals = []
-    block24 = w3.eth.blockNumber - 28800
-    blockWk = w3.eth.blockNumber - (28800 * 7)
+    block24 = currentBlock - 28800
+    blockWk = currentBlock - (28800 * 7)
     block_data = {}
     try:
         bal24hr = contract.functions.balanceOf(addr).call(block_identifier=block24)
