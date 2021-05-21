@@ -5,6 +5,7 @@ from flask_mongoengine import MongoEngine
 from flask_restful import reqparse
 from app.config import conf
 from web3 import Web3
+from requests.exceptions import HTTPError
 from decimal import Decimal
 from bson import ObjectId
 import requests
@@ -17,7 +18,17 @@ ABI = [{"inputs":[],"stateMutability":"payable","type":"constructor"},{"anonymou
 
 def create_app():
     app = Flask(__name__)
-    w3 = Web3(Web3.HTTPProvider('https://bsc-dataseed.binance.org/'))
+    try:
+        w3 = Web3(Web3.HTTPProvider('https://bsc-dataseed.binance.org/'))
+    except HTTPError:
+        try:
+            w3 = Web3(Web3.HTTPProvider('https://bsc-dataseed1.defibit.io/'))
+        except HTTPError:
+            try:
+                w3 = w3 = Web3(Web3.HTTPProvider('https://bsc-dataseed1.ninicoin.io/'))
+            except HTTPError:
+                w3 = Web3(Web3.HTTPProvider('https://bsc-dataseed.binance.org/'))
+ 
     from web3.middleware import geth_poa_middleware
     w3.middleware_onion.inject(geth_poa_middleware, layer=0)
     contract = w3.eth.contract(address=Web3.toChecksumAddress('0x1162e2efce13f99ed259ffc24d99108aaa0ce935'), abi=ABI)
@@ -95,6 +106,7 @@ def sign():
 @app.route('/getStats')
 def getStats():
     txnCount = 0
+    
 
 @app.route('/getRewards/<addr>')
 def getRewards(addr):
