@@ -52,6 +52,7 @@ def search_parser():
 
 @app.route('/search')
 def search():
+    from app.models.holder import Holder
     parser = search_parser()
     args = parser.parse_args()
     if args.get('address'):
@@ -79,7 +80,7 @@ def sign():
     if holder:
         if holder.check_msg(data['sig'], data['hash']):
             session['access_token'] = (signJWT(holder.id, holder.address), time.time() + 3500 * 20)
-            return {'redirect': 'https://clutrack.io/'}
+            return {'redirect': config.base_url}
     else:
         new_holder = {
             'address': data['wallet_address']
@@ -87,7 +88,7 @@ def sign():
         nh = Holder(**new_holder)
         if nh.save():
             print('NEW HOLDER MADE')
-    return {'redirect': 'https://clutrack.io/'}
+    return {'redirect': config.base_url}
 
 @app.route('/getRewards/<addr>')
 def getRewards(addr):
@@ -98,6 +99,7 @@ def getRewards(addr):
     bals = []
     block24 = w3.eth.blockNumber - 28800
     blockWk = w3.eth.blockNumber - (28800 * 7)
+    block_data = {}
     try:
         bal24hr = contract.functions.balanceOf(addr).call(block_identifier=block24)
         balWk = contract.functions.balanceOf(addr).call(block_identifier=blockWk)
@@ -108,6 +110,7 @@ def getRewards(addr):
         try:
             balance = contract.functions.balanceOf(addr).call(block_identifier=block)
             bals.append(w3.fromWei(Decimal(Decimal(lastBal) - Decimal(balance))* (Decimal(10) ** 9), 'ether'))
+            block_data['b' + str(block)] = float(w3.fromWei(Decimal(Decimal(lastBal) - Decimal(balance))* (Decimal(10) ** 9), 'ether'))
             lastBal = balance
             block -= 1
         except ValueError:
@@ -117,6 +120,7 @@ def getRewards(addr):
         'avg_br_3m': float(sum(bals) / len(bals)),
         'total_reward_3m': float(sum(bals)),
         'total_reward_1m': float(sum(bals[:20])),
+        'block_data': block_data,
         'wk_increase': float(w3.fromWei((Decimal(currentBalance) - Decimal(balWk))* (Decimal(10) ** 9), 'ether')),
         'tfhr_increase': float(w3.fromWei((Decimal(currentBalance) - Decimal(bal24hr))* (Decimal(10) ** 9), 'ether'))
     })

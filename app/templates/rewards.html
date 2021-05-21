@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html style="overflow-y: hidden;">
+<html>
 <style>
     .center-screen {
         display: flex;
@@ -8,6 +8,18 @@
         align-items: center;
         text-align: center;
         min-height: 100vh;
+    }
+    html {
+        overflow: scroll;
+        overflow-x: hidden;
+    }
+    ::-webkit-scrollbar {
+        width: 0;  /* Remove scrollbar space */
+        background: transparent;  /* Optional: just make scrollbar invisible */
+    }
+    /* Optional: show position indicator in red */
+    ::-webkit-scrollbar-thumb {
+        background: #FF0000;
     }
 </style>
 
@@ -111,6 +123,7 @@
     </div>
     </section>
     <script src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js" type="application/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.2.1/dist/chart.min.js"></script>
     <script src="assets/reward.js"></script>
     <script>
         window.addEventListener('load', function () {
