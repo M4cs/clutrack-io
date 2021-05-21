@@ -123,9 +123,15 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.2.1/dist/chart.min.js"></script>
     <script src="assets/reward.js"></script>
     <script>
+        const isVisible = true;
+        document.addEventListener("visibilitychange", function() {
+            isVisible = !document.hidden;
+        }, false);
         window.addEventListener('load', function () {
             var intervalId = window.setInterval(function () {
-                getRewards(`{{wallet_addr}}`)
+                if (isVisible){
+                    getRewards(`{{wallet_addr}}`)
+                }
             }, 10000)
         })
     </script>
