@@ -91,7 +91,8 @@ function getRewards(addr) {
                         borderColor: [
                             'rgba(207, 207, 207, 1)'
                         ],
-                        borderWidth: 1
+                        borderWidth: 2,
+                        tension: 0.1
                     }]
                 },
                 options: {
