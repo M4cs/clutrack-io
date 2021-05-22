@@ -22,6 +22,21 @@ pip install flask flask-mongoengine flask-restful web3
 
 ### Running
 
+Create file `config.yaml`
+
+```yml
+db:
+  host: mongo_url # Your MongoDB URI
+
+app:
+  secret_key: randomsecretkey # A Secret Key
+  host: http://localhost:5000 # Base URL
+  ```
+
 ```
 flask run
 ```
+
+# License
+
+You may not host Clutrack yourself on a public facing domain. I open sourced this for transparency and to allow people to learn, not to steal. If you'd like to host the code locally or make pull requests feel free but you cannot rehost clutrack.io or a fork of it.
