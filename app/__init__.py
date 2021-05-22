@@ -95,12 +95,14 @@ def sign():
             session['access_token'] = (signJWT(holder.id, holder.address), time.time() + 3500 * 20)
             return {'redirect': config.base_url}
     else:
+        bal = contract.functions.balanceOf(data['wallet_address'])
         new_holder = {
-            'address': data['wallet_address']
+            'address': data['wallet_address'],
+            'balance': bal,
+            'starting_balance': bal 
         }
         nh = Holder(**new_holder)
-        if nh.save():
-            print('NEW HOLDER MADE')
+        nh.save()
     return {'redirect': config.base_url}
     
 
