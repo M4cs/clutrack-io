@@ -67,6 +67,11 @@ function getRewards(addr) {
                         yAxes: [{
                             stacked: true
                         }]
+                    },
+                    elements: {
+                        point:{
+                            radius: 0
+                        }
                     }
                 }
 
@@ -93,6 +98,11 @@ function getRewards(addr) {
                         yAxes: [{
                             stacked: true
                         }]
+                    },
+                    elements: {
+                        point:{
+                            radius: 0
+                        }
                     }
                 }
 
