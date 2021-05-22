@@ -101,18 +101,3 @@ function getRewards(addr) {
         })
     })
 }
-
-ethereum.enable().then(function () {
-    provider = new ethers.providers.Web3Provider(web3.currentProvider);
-
-    provider.getNetwork().then(function (result) {
-        if (result['chainId'] != 56){
-            document.getElementById("title").textContent = 'Please Switch to the BSC Network!';
-        } else {
-            provider.listAccounts().then(function (result) {
-                accountAddress = result[0];
-                signer = provider.getSigner();
-            })
-        }
-    })
-})
