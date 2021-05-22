@@ -8,7 +8,6 @@ from web3 import Web3
 from requests.exceptions import HTTPError
 from decimal import Decimal
 from bson import ObjectId
-import requests
 import jwt
 import json
 
@@ -66,10 +65,16 @@ def search_parser():
 @app.route('/search')
 def search():
     from app.models.holder import Holder
+    is_logged = False
+    if session.get('access_token'):
+        holder = decodeJWT(session.get('access_token'))
+        if holder:
+            is_logged = True
     parser = search_parser()
     args = parser.parse_args()
     if args.get('address'):
-        return render_template('rewards.html', contract=contract, w3=w3, wallet_addr=args.get('address'), Decimal=Decimal)
+        bal = contract.functions.balanceOf(args.get('address')).call()
+        return render_template('rewards.html', contract=contract, w3=w3, wallet_addr=args.get('address'), Decimal=Decimal, is_logged_in=is_logged, wallet_bal=f"{bal:,}")
     return render_template('index.html', count=len(Holder.objects().all()))
 
 @app.route('/')
@@ -79,7 +84,7 @@ def index():
         holder = decodeJWT(session.get('access_token'))
         if holder:
             bal = w3.fromWei(Decimal(contract.functions.balanceOf(holder.address).call())*(Decimal(10) ** 9), "ether")
-            return render_template('rewards.html', contract=contract, w3=w3, wallet_addr=holder.address, Decimal=Decimal, wallet_bal=f"{bal:,}")
+            return render_template('rewards.html', contract=contract, w3=w3, wallet_addr=holder.address, Decimal=Decimal, wallet_bal=f"{bal:,}", is_logged_in=True)
     return render_template('index.html', count=len(Holder.objects().all()))
 
 @app.route('/assets/<file>')

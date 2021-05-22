@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html style="overflow-y: hidden;">
+<html>
 <style>
     .center-screen {
         display: flex;
@@ -9,14 +9,19 @@
         text-align: center;
         min-height: 100vh;
     }
+
     html {
         overflow: scroll;
         overflow-x: hidden;
     }
+
     ::-webkit-scrollbar {
-        width: 0;  /* Remove scrollbar space */
-        background: transparent;  /* Optional: just make scrollbar invisible */
+        width: 0;
+        /* Remove scrollbar space */
+        background: transparent;
+        /* Optional: just make scrollbar invisible */
     }
+
     /* Optional: show position indicator in red */
     ::-webkit-scrollbar-thumb {
         background: #4d4d4d;
@@ -38,8 +43,7 @@
     <meta property="og:title" content="CLUTrack.io - CluCoin Redistribution Tracker">
     <meta property="og:description"
         content="Track the rewards you gain from holding CLU in your wallet. Link with one-click and start seeing those gains.">
-    <meta property="og:image"
-        content="https://clucoin.com/static/images/3000.png">
+    <meta property="og:image" content="https://clucoin.com/static/images/3000.png">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
@@ -47,8 +51,7 @@
     <meta property="twitter:title" content="CLUTrack.io - CluCoin Redistribution Tracker">
     <meta property="twitter:description"
         content="Track the rewards you gain from holding CLU in your wallet. Link with one-click and start seeing those gains.">
-    <meta property="twitter:image"
-        content="https://clucoin.com/static/images/3000.png">
+    <meta property="twitter:image" content="https://clucoin.com/static/images/3000.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
 </head>
 
@@ -103,13 +106,25 @@
                 </form>
             </div>
         </div>
-        <div class="hero-foot">
+    </section>
+    <section class="hero is-dark is-medium">
+        <div class="hero-body">
             <div class="container has-text-centered">
-                <p>
-                <strong>Clutrack.io</strong> was created by <a href="https://twitter.com/maxbridgland">Max Bridgland</a> and is <strong>NOT</strong> affiliated with the CluCoin team. The website content
-                is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>. We will never request to withdraw from your account. If you ever get a request
-                that requires you pay gas, reject it! <strong>If you find use and want to support the site you can Donate CLU or any ERC/BEP-20 Token to: 0x44f6498D1403321890F3f2917E00F22dBDE3577a</strong>
-                </p>
+                <div class="box">
+                    <h1 class="title" style="color: black">Is this site safe?</h1>
+                    <p class="subtitle" style="color: black">
+                        Yes! This site was made for the community to help allow everybody keep track of their rewards from
+                        Clu! It's hard to tell just how much you are gaining if you just look at your wallet every once in a
+                        while. Signing in with your wallet does 3 things: Signs a Message to prove you are the owner of your
+                        wallet, Stores your wallet address in a database to create an account to start tracking balances,
+                        and stores a JWT token based off your user to keep you logged in.
+                        <br><br>
+                        You will <strong style="color: black">NEVER</strong> receive a request to send CLU/BNB/Any Token to Anywhere. If you ever
+                        get a request to send funds, reject it and immediately contact me on Discord (@macs#0420) or Twitter
+                        (@maxbridgland). All source code that this site runs on is available for public viewing and auditing
+                        on GitHub. Click the button above to head over to the GitHub Source.
+                    </p>
+                </div>
             </div>
         </div>
     </section>

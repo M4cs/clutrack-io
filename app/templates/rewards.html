@@ -81,6 +81,11 @@
                             href="https://github.com/M4cs/clutrack-io" target="_blank">
                             View Source Code
                         </a>
+                        {% if not is_logged_in %}
+                        <a style="margin-left: 5px;" class="button is-warning" onclick="login()">
+                            Connect To Wallet
+                        </a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
