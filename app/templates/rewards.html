@@ -58,7 +58,7 @@
             <div class="navbar">
                 <div class="container">
                     <div class="navbar-brand">
-                        <a class="navbar-item">
+                        <a class="navbar-item" href="https://clutrack.io/">
                             <img src="https://clucoin.com/static/images/3000.png" style="margin-right: 2%" alt="Logo">
                             CLUTRACK.io
                         </a>
@@ -96,8 +96,7 @@
                     <a src="https://bscscan.com/address/{{wallet_addr}}" target="_blank" class="subtitle"
                         style="color: rgb(104, 104, 104)">{{wallet_addr}}</a>
                     <p class="subtitle" style="color: black">
-                        Current Balance: {{w3.fromWei(Decimal(contract.functions.balanceOf(wallet_addr).call())*
-                        (Decimal(10) ** 9), "ether")}}
+                        Current Balance: {{wallet_bal}}
                         <br>
                         RPB = Reward Per Block (0.3 Blocks per second are processed)
                     </p>

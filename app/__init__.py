@@ -78,7 +78,8 @@ def index():
     if session.get('access_token'):
         holder = decodeJWT(session.get('access_token'))
         if holder:
-            return render_template('rewards.html', contract=contract, w3=w3, wallet_addr=holder.address, Decimal=Decimal)
+            bal = w3.fromWei(Decimal(contract.functions.balanceOf(holder.address).call())*(Decimal(10) ** 9), "ether")
+            return render_template('rewards.html', contract=contract, w3=w3, wallet_addr=holder.address, Decimal=Decimal, wallet_bal=f"{bal:,}")
     return render_template('index.html', count=len(Holder.objects().all()))
 
 @app.route('/assets/<file>')
