@@ -113,15 +113,7 @@ def getRewards(addr):
     block = currentBlock
     lastBal = currentBalance
     bals = []
-    block24 = currentBlock - 28800
-    blockWk = currentBlock - (28800 * 7)
     block_data = {}
-    try:
-        bal24hr = contract.functions.balanceOf(addr).call(block_identifier=block24)
-        balWk = contract.functions.balanceOf(addr).call(block_identifier=blockWk)
-    except:
-        bal24hr = 0
-        balWk = 0
     while currentBlock - block <= 60:
         try:
             balance = contract.functions.balanceOf(addr).call(block_identifier=block)
@@ -138,7 +130,5 @@ def getRewards(addr):
         'avg_br_3m': float(sum(bals) / len(bals)),
         'total_reward_3m': float(sum(bals)),
         'total_reward_1m': float(sum(bals[:20])),
-        'block_data': block_data,
-        'wk_increase': float(w3.fromWei((Decimal(currentBalance) - Decimal(balWk))* (Decimal(10) ** 9), 'ether')),
-        'tfhr_increase': float(w3.fromWei((Decimal(currentBalance) - Decimal(bal24hr))* (Decimal(10) ** 9), 'ether'))
+        'block_data': block_data
     })

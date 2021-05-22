@@ -42,20 +42,6 @@ function getRewards(addr) {
                     <canvas id="threeMinChart" width="600" height="200"></canvas>
                     </div>
                 </div>
-            </div>
-            <div class="columns">
-                <div class="column is-half">
-                    <div class="box">
-                        <p class="subtitle"><strong style="color: black">Balance Change<br>1 Day</strong></p>
-                        <p class="subtitle" style="color: black">` + numberWithCommas(data.tfhr_increase) + `</p>
-                    </div>
-                </div>
-                <div class="column is-half">
-                    <div class="box">
-                        <p class="subtitle"><strong style="color: black">Balance Change<br>1 Week</strong></p>
-                        <p class="subtitle" style="color: black">` + numberWithCommas(data.wk_increase) + `</p>
-                    </div>
-                </div>
             </div>`
             var minuteCtx = document.getElementById('minuteChart').getContext('2d')
             var threeMinCtx = document.getElementById('threeMinChart').getContext('2d')
