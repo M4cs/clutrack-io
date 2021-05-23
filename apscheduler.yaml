@@ -1,0 +1,13 @@
+version: '3.7'
+
+services:
+  apsched:
+    build:
+      context: .
+      dockerfile: Dockerfile.apsched
+    volumes:
+      - ./:/usr/app/src/
+    environment:
+      - PYTHONBUFFERED=1
+      - COLUMNS=120
+    command: python -m scheduler

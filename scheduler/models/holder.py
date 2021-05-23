@@ -1,5 +1,5 @@
 from mongoengine.fields import DictField, IntField, StringField
-from app import mongo
+from apscheduler import mongo
 
 class Holder(mongo.Document):
     balance = IntField(default=0)
