@@ -17,6 +17,3 @@ async def update_balances():
             balances = document.get('balances')
         balances[datetime.fromtimestamp(timestamp).strftime('%m:%d:%YT%H:%M:%S')] = float(currentBal)
         result = await db.holder.update_one({'_id': document.get('_id')}, {'$set': {'balances': balances}})
-        new_res = await db.holder.find_one({'_id': document.get('_id')})
-        logger.info('Updated Document:')
-        logger.info(new_res)
