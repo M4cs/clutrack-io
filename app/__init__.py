@@ -73,8 +73,8 @@ def search():
     parser = search_parser()
     args = parser.parse_args()
     if args.get('address'):
-        bal = contract.functions.balanceOf(args.get('address')).call()
-        return render_template('rewards.html', contract=contract, w3=w3, wallet_addr=args.get('address'), Decimal=Decimal, is_logged_in=is_logged, wallet_bal=f"{bal:,}")
+        bal = w3.fromWei(Decimal(contract.functions.balanceOf(args.get('address')).call()) * Decimal(10 ** 9), 'ether')
+        return render_template('rewards.html', contract=contract, w3=w3, wallet_addr=args.get('address'), Decimal=Decimal, is_logged_in=is_logged, wallet_bal=f"{float(bal):,}")
     return render_template('index.html', count=len(Holder.objects().all()))
 
 @app.route('/')

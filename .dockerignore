@@ -2,4 +2,4 @@
 
 !scheduler
 !requirements.txt
-!Dockerfile.apsched
+!config.yaml
