@@ -41,7 +41,7 @@ function handleAuth(accountAddress, signature, message_hash) {
         })
     }).then((response) => {
         response.json().then(data => {
-            window.location = data.redirect;
+            window.location.reload();
         });
     });
 }
