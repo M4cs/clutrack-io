@@ -6,7 +6,7 @@ function numberWithCommas(x) {
 }
 
 function getRewards(addr) {
-    fetch('http://localhost:8000/getRewards/' + addr, {
+    fetch('https://clutrack.io/getRewards/' + addr, {
         method: 'get',
         headers: {'Content-Type': 'application/json'}
     }).then((response) => {
