@@ -194,6 +194,7 @@ def getRewards(addr):
         if len(holder.balances) >= 12:
             has_12hr = True
             bal_list = list(holder.balances.items())[-12:]
+            print(bal_list)
             for bal in bal_list:
                 bal_12hr[str(bal[0])] = bal[1]
             total_12hr = bal_list[-1][1] - bal_list[0][1]

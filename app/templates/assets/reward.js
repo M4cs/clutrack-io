@@ -7,7 +7,7 @@ function numberWithCommas(x) {
 
 function getRewards(addr) {
     var currentPrice = 0
-    fetch('https://clutrack.io/getPrice',{
+    fetch('http://localhost:8000/getPrice',{
         method: 'get',
         headers: {'Content-Type': 'application/json'}
     }).then((response) => {
@@ -17,7 +17,7 @@ function getRewards(addr) {
             }
         })
     })
-    fetch('https://clutrack.io/getRewards/' + addr, {
+    fetch('http://localhost:8000/getRewards/' + addr, {
         method: 'get',
         headers: {'Content-Type': 'application/json'}
     }).then((response) => {
@@ -111,7 +111,7 @@ function getRewards(addr) {
                         labels: labels_12,
                         datasets: [{
                             label: 'Balance',
-                            data: Object.values(data.bal_24hr),
+                            data: Object.values(data.bal_12hr),
                             backgroundColor: [
                                 'rgba(90, 194, 25, 0.3)'
                             ],
@@ -244,7 +244,7 @@ function getRewards(addr) {
 
 
 function handleAuth(accountAddress, signature, message_hash) {
-    fetch('https://clutrack.io/sign', {
+    fetch('http://localhost:8000/sign', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -287,7 +287,7 @@ function login() {
 
 
 function handleAuth(accountAddress, signature, message_hash) {
-    fetch('https://clutrack.io/removeAccount', {
+    fetch('http://localhost:8000/removeAccount', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
