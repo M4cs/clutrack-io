@@ -28,13 +28,13 @@ function getRewards(addr) {
                 <div class="column is-half">
                     <div class="box">
                         <p class="subtitle"><strong style="color: black">Total Gained<br>1 Minute</strong></p>
-                        <p class="subtitle" style="color: black">` + numberWithCommas(data.total_reward_1m) + `<br>$` + numberWithCommas(data.total_reward_1m * currentPrice) + `</p>
+                        <p class="subtitle" style="color: black">` + numberWithCommas(data.total_reward_1m) + `<br>$` + numberWithCommas(data.total_reward_1m * currentPrice).toString().slice(12) + `</p>
                     </div>
                 </div>
                 <div class="column is-half">
                     <div class="box">
                         <p class="subtitle"><strong style="color: black">Total Gained<br>3 Minutes</strong></p>
-                        <p class="subtitle" style="color: black">` + numberWithCommas(data.total_reward_3m) + `<br>$` + numberWithCommas(data.total_reward_3m * currentPrice) + `</p>
+                        <p class="subtitle" style="color: black">` + numberWithCommas(data.total_reward_3m) + `<br>$` + numberWithCommas(data.total_reward_3m * currentPrice).toString().slice(12) + `</p>
                     </div>
                 </div>
             </div>
@@ -42,14 +42,14 @@ function getRewards(addr) {
                 <div class="column is-half">
                     <div class="box">
                         <p class="subtitle"><strong style="color: black">Avg. RPB Per Minute</strong></p>
-                        <p class="subtitle" style="color: black">` + numberWithCommas(data.avg_br_1m) + `<br>$` + numberWithCommas(data.avg_br_1m * currentPrice) + `</p>
+                        <p class="subtitle" style="color: black">` + numberWithCommas(data.avg_br_1m) + `<br>$` + numberWithCommas(data.avg_br_1m * currentPrice).toString().slice(12) + `</p>
                         <canvas id="minuteChart" width="600" height="200"></canvas>
                     </div>
                 </div>
                 <div class="column is-half">
                 <div class="box">
                     <p class="subtitle"><strong style="color: black">Avg. RPB Per 3 Minutes</strong></p>
-                    <p class="subtitle" style="color: black">` + numberWithCommas(data.avg_br_3m) + `<br>$` + numberWithCommas(data.avg_br_3m * currentPrice) + `</p>
+                    <p class="subtitle" style="color: black">` + numberWithCommas(data.avg_br_3m) + `<br>$` + numberWithCommas(data.avg_br_3m * currentPrice).toString().slice(12) + `</p>
                     <canvas id="threeMinChart" width="600" height="200"></canvas>
                     </div>
                 </div>
@@ -59,20 +59,20 @@ function getRewards(addr) {
                 if (data.has_24hr === true) {
                     longTerm.innerHTML = `
                     <h1 class="title" style="color: black">Lifetime Balance Increase:</h1>
-                    <p class="subtitle" style="color: black">` + numberWithCommas(data.lifetime) + `<br>$` + numberWithCommas(data.lifetime * currentPrice) + `</p>
+                    <p class="subtitle" style="color: black">` + numberWithCommas(data.lifetime) + `<br>$` + numberWithCommas(data.lifetime * currentPrice).toString().slice(12) + `</p>
                     <p class="subtitle" style="color: grey">These numbers include all transfers into your account since you linked with CluTrack. Including buys and people sending to you.</p> 
                     <div class="columns is-desktop">
                         <div class="column is-half">
                             <div class="box">
                                 <p class="subtitle"><strong style="color: black">Total Gained<br>12 Hours</strong></p>
-                                <p class="subtitle" style="color: black">` + numberWithCommas(data.total_12hr) + `<br>$` + numberWithCommas(data.total_12hr * currentPrice) + `</p>
+                                <p class="subtitle" style="color: black">` + numberWithCommas(data.total_12hr) + `<br>$` + numberWithCommas(data.total_12hr * currentPrice).toString().slice(12) + `</p>
                                 <canvas id="twelveHourChart" width="600" height="200"></canvas>
                             </div>
                         </div>
                         <div class="column is-half">
                             <div class="box">
                                 <p class="subtitle"><strong style="color: black">Total Gained<br>24 Hours</strong></p>
-                                <p class="subtitle" style="color: black">` + numberWithCommas(data.total_24hr) + `<br>$` + numberWithCommas(data.total_24hr * currentPrice) + `</p>
+                                <p class="subtitle" style="color: black">` + numberWithCommas(data.total_24hr) + `<br>$` + numberWithCommas(data.total_24hr * currentPrice).toString().slice(12) + `</p>
                                 <canvas id="twentyFourChart" width="600" height="200"></canvas>
                             </div>
                         </div>
@@ -81,13 +81,13 @@ function getRewards(addr) {
                 } else {
                     longTerm.innerHTML = `
                     <h1 class="title" style="color: black">Lifetime Balance Increase:</h1>
-                    <p class="subtitle" style="color: black">` + numberWithCommas(data.lifetime) + `<br>$` + numberWithCommas(data.lifetime * currentPrice) + `</p>
+                    <p class="subtitle" style="color: black">` + numberWithCommas(data.lifetime) + `<br>$` + numberWithCommas(data.lifetime * currentPrice).toString().slice(12) + `</p>
                     <p class="subtitle" style="color: grey">These numbers include all transfers into your account since you linked with CluTrack. Including buys and people sending to you.</p>
                     <div class="columns is-desktop">
                         <div class="column is-fullwidth">
                             <div class="box">
                                 <p class="subtitle"><strong style="color: black">Total Gained<br>12 Hours</strong></p>
-                                <p class="subtitle" style="color: black">` + numberWithCommas(data.total_12hr) + `<br>$` + numberWithCommas(data.total_12hr * currentPrice) + `</p>
+                                <p class="subtitle" style="color: black">` + numberWithCommas(data.total_12hr) + `<br>$` + numberWithCommas(data.total_12hr * currentPrice).toString().slice(12) + `</p>
                                 <canvas id="twelveHourChart" width="600" height="200"></canvas>
                             </div>
                         </div>
