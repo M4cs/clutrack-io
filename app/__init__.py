@@ -115,10 +115,10 @@ def logout():
     from app.models.holder import Holder
     if session.get('access_token'):
         session['access_token'] = None
-        response = make_response(redirect('https://clutrack.io'))
+        response = make_response(redirect('https://clutrack.io/'))
         response.set_cookie('access_token', expires=0)
         return response
-    return redirect('https://clutrack.io/')
+    return redirect('https://clutrack.io//')
 
 @app.route('/removeAccount', methods=['POST'])
 def remove():
@@ -146,6 +146,7 @@ def price():
 def sign():
     from app.models.holder import Holder
     data = json.loads(request.data)
+    print('hello')
     holder = Holder.objects(address=str(data['wallet_address'])).first()
     if holder:
         if holder.check_msg(data['sig'], data['hash']):
@@ -155,10 +156,11 @@ def sign():
         bal = contract.functions.balanceOf(data['wallet_address']).call()
         new_holder = {
             'address': data['wallet_address'],
-            'balances': []
+            'balances': {}
         }
         nh = Holder(**new_holder)
         nh.save()
+        session['access_token'] = (signJWT(str(nh.id), nh.address), time.time() + 3500 * 20)
     return {'redirect': conf.app.host}
     
 
