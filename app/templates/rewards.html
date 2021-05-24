@@ -143,42 +143,42 @@
     <script src="assets/reward.js"></script>
     <script>
         window.addEventListener('load', function () {
-            // fetch('https://clutrack.io/getPrice',{
-            //     method: 'get',
-            //     headers: {'Content-Type': 'application/json'}
-            // }).then((response) => {
-            //     response.json().then(data => {
-            //         if (data.data !== null) {
-            //             var elem = document.getElementById('cluPrice')
-            //             elem.innerHTML = `
-            //             <p class="subtitle" id="cluPrice">
-            //                 CLU Price: $` + data.data.price.slice(14) + ` | ` + data.data.price_BNB.slice(14) + `
-            //             </p>
-            //             `
-            //         }
-            //     })
-            // })
+            fetch('https://clutrack.io/getPrice',{
+                method: 'get',
+                headers: {'Content-Type': 'application/json'}
+            }).then((response) => {
+                response.json().then(data => {
+                    if (data.data !== null) {
+                        var elem = document.getElementById('cluPrice')
+                        elem.innerHTML = `
+                        <p class="subtitle" id="cluPrice" style="font-size: x-small; margin-right: 5px;">
+                            CLU Price: $` + data.price + ` | ` + data.price_BNB + `
+                        </p>
+                        `
+                    }
+                })
+            })
             getRewards(`{{wallet_addr}}`)
             var intervalId = window.setInterval(function () {
                 getRewards(`{{wallet_addr}}`)
             }, 30000)
-            // var interval = window.setInterval(function() {
-            //     fetch('https://clutrack.io/getPrice',{
-            //         method: 'get',
-            //         headers: {'Content-Type': 'application/json'}
-            //     }).then((response) => {
-            //         response.json().then(data => {
-            //             if (data.data !== null) {
-            //                 var elem = document.getElementById('cluPrice')
-            //                 elem.innerHTML = `
-            //                 <p class="subtitle" id="cluPrice">
-            //                     CLU Price: $` + data.data.price.slice(14) + ` | ` + data.data.price_BNB.slice(14) + `
-            //                 </p>
-            //                 `
-            //             }
-            //         })
-            //     })
-            // }, 60000)
+            var interval = window.setInterval(function() {
+                fetch('https://clutrack.io/getPrice',{
+                    method: 'get',
+                    headers: {'Content-Type': 'application/json'}
+                }).then((response) => {
+                    response.json().then(data => {
+                        if (data.data !== null) {
+                            var elem = document.getElementById('cluPrice')
+                            elem.innerHTML = `
+                            <p class="subtitle" id="cluPrice" style="font-size: x-small; margin-right: 5px;">
+                                CLU Price: $` + data.price + ` | ` + data.price_BNB + `
+                            </p>
+                            `
+                        }
+                    })
+                })
+            }, 60000)
         })
     </script>
 </body>

@@ -136,7 +136,11 @@ def remove():
 @app.route('/getPrice')
 def price():
     res = requests.get('https://api.pancakeswap.info/api/v2/tokens/0x1162e2efce13f99ed259ffc24d99108aaa0ce935').json()
-    return res
+    obj = {
+        'price': res.get('data').get('price'),
+        'price_BNB': res.get('data').get('price_BNB')
+    }
+    return jsonify(obj)
 
 @app.route('/sign', methods=['POST'])
 def sign():
