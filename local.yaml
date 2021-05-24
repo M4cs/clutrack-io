@@ -5,10 +5,9 @@ services:
         build: .
         volumes:
             - .:/usr/src
-            - ./app/templates/assets
         ports:
             - 8000:4410
         environment:
             - PYTHONBUFFERED=1
             - ENV=local
-        command: gunicorn app:app --bind=0.0.0.0:4410 --debug --reload
+        command: gunicorn app:app --bind=0.0.0.0:4410 --reload

@@ -10,3 +10,4 @@ omegaconf==2.0.6
 PyJWT==2.1.0
 rich==10.2.2
 web3==5.19.0
+flask-cors==3.0.10
