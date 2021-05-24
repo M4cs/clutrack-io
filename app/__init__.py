@@ -74,7 +74,14 @@ def search():
     args = parser.parse_args()
     if args.get('address'):
         bal = w3.fromWei(Decimal(contract.functions.balanceOf(args.get('address')).call()) * Decimal(10 ** 9), 'ether')
-        return render_template('rewards.html', contract=contract, w3=w3, wallet_addr=args.get('address'), Decimal=Decimal, is_logged_in=is_logged, wallet_bal=f"{float(bal):,}")
+        holder = Holder.objects(address=args.get('address')).first()
+        longterm_msg = "This address is not linked with CluTrack"
+        if holder:
+            if holder_bal_count := len(holder.balances) < 12:
+                longterm_msg = "Long term stats will kick in after at least 12 hours of linking. Hours Left: " + str(12 - holder_bal_count)
+            else:
+                longterm_msg = "Long term stats loading..."
+        return render_template('rewards.html', contract=contract, w3=w3, wallet_addr=args.get('address'), Decimal=Decimal, is_logged_in=is_logged, wallet_bal=f"{float(bal):,}", longterm_msg=longterm_msg)
     return render_template('index.html', count=len(Holder.objects().all()))
 
 @app.route('/')

@@ -45,7 +45,7 @@ function getRewards(addr) {
                 </div>
             </div>`
             var longTerm = document.getElementById('longTermStats')
-            if (data.has_12hr === true) {
+            if (data.has_12hr !== null && data.has_12hr === true) {
                 if (data.has_24hr === true) {
                     longTerm.innerHTML = `
                     <h1 class="title" style="color: black">Lifetime Balance Increase:</h1>
@@ -82,7 +82,7 @@ function getRewards(addr) {
                     `
                 }
             }
-            if (data.has_12hr === true) {
+            if (data.has_12hr !== null && data.has_12hr === true) {
                 var labels_12 = []
                 for (var i = 0; i < 12; i++){
                     labels_12.push('')
