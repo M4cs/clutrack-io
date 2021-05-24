@@ -254,7 +254,7 @@ function handleAuth(accountAddress, signature, message_hash) {
         })
     }).then((response) => {
         response.json().then(data => {
-            window.location.reload()
+            window.location = data.redirect
         });
     });
 }
@@ -297,7 +297,7 @@ function handleAuth(accountAddress, signature, message_hash) {
         })
     }).then((response) => {
         response.json().then(data => {
-            window.location.reload();
+            window.location = data.redirect
         });
     });
 }

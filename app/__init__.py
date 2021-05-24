@@ -146,21 +146,20 @@ def price():
 def sign():
     from app.models.holder import Holder
     data = json.loads(request.data)
-    holder = Holder.objects(address=data['wallet_address']).first()
+    holder = Holder.objects(address=str(data['wallet_address'])).first()
     if holder:
         if holder.check_msg(data['sig'], data['hash']):
-            session['access_token'] = (signJWT(holder.id, holder.address), time.time() + 3500 * 20)
-            return {'redirect': config.base_url}
+            session['access_token'] = (signJWT(str(holder.id), holder.address), time.time() + 3500 * 20)
+            return {'redirect': conf.app.host}
     else:
         bal = contract.functions.balanceOf(data['wallet_address']).call()
         new_holder = {
             'address': data['wallet_address'],
-            'balance': bal,
-            'starting_balance': bal 
+            'balances': []
         }
         nh = Holder(**new_holder)
         nh.save()
-    return {'redirect': config.base_url}
+    return {'redirect': conf.app.host}
     
 
 @app.route('/getRewards/<addr>')
@@ -194,7 +193,6 @@ def getRewards(addr):
         if len(holder.balances) >= 12:
             has_12hr = True
             bal_list = list(holder.balances.items())[-12:]
-            print(bal_list)
             for bal in bal_list:
                 bal_12hr[str(bal[0])] = bal[1]
             total_12hr = bal_list[-1][1] - bal_list[0][1]
