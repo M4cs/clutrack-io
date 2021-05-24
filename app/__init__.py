@@ -3,6 +3,7 @@ import time
 from flask import Flask, render_template, send_file, request, session, jsonify
 from flask_mongoengine import MongoEngine
 from flask_restful import reqparse
+from werkzeug.utils import redirect
 from app.config import conf
 from web3 import Web3
 from web3.exceptions import InvalidAddress
@@ -109,10 +110,13 @@ def serve(file):
 
 @app.route('/logout')
 def logout():
+    from flask import make_response
     from app.models.holder import Holder
     if session.get('access_token'):
-        session['access_token'] = (None, 0)
-    return render_template('index.html', count=len(Holder.objects().all()))
+        response = make_response(redirect('https://clutrack.io'))
+        response.set_cookie('access_token', expires=0)
+        return response
+    return redirect('https://clutrack.io/')
 
 @app.route('/removeAccount', methods=['POST'])
 def remove():
