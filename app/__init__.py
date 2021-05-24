@@ -107,6 +107,25 @@ def index():
 def serve(file):
     return send_file(f'templates/assets/{file}')
 
+@app.route('/logout')
+def logout():
+    from app.models.holder import Holder
+    session.get('access_token') = ('', 0)
+    return render_template('index.html', count=len(Holder.objects().all()))
+
+@app.route('/removeAccount', methods=['POST'])
+def remove():
+    from app.models.holder import Holder
+    data = json.loads(request.data)
+    holder = decodeJWT(session.get('access_token'))
+    if holder and data:
+        if holder.check_msg(data['sig'], data['hash']):
+            session.get('access_token') = ('', 0)
+            if Holder.objects(id=holder.id).delete():
+                return render_template('index.html', count=len(Holder.objects().all()))
+        else:
+            return render_template('error.html', msg="Your wallet signature did not match your logged in user")
+
 @app.route('/sign', methods=['POST'])
 def sign():
     from app.models.holder import Holder
