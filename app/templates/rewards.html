@@ -148,7 +148,7 @@
                 headers: {'Content-Type': 'application/json'}
             }).then((response) => {
                 response.json().then(data => {
-                    if (data.data !== null) {
+                    if (data.price != null) {
                         var elem = document.getElementById('cluPrice')
                         elem.innerHTML = `
                         <p class="subtitle" id="cluPrice" style="font-size: small; margin-right: 10px;  padding-top: 5px;">
@@ -168,7 +168,7 @@
                     headers: {'Content-Type': 'application/json'}
                 }).then((response) => {
                     response.json().then(data => {
-                        if (data.data !== null) {
+                        if (data.price != null) {
                             var elem = document.getElementById('cluPrice')
                             elem.innerHTML = `
                             <p class="subtitle" id="cluPrice" style="font-size: small; margin-right: 10px; padding-top: 5px;">
