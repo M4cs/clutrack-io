@@ -137,7 +137,7 @@ def remove():
 def price():
     res = requests.get('https://api.pancakeswap.info/api/v2/tokens/0x1162e2efce13f99ed259ffc24d99108aaa0ce935').json()
     obj = {
-        'price': res.get('data').get('price')[0:14],
+        'price': res.get('data').get('price')[0:12],
         'price_BNB': res.get('data').get('price_BNB')[0:14]
     }
     return jsonify(obj)
