@@ -5,6 +5,7 @@ from flask_mongoengine import MongoEngine
 from flask_restful import reqparse
 from app.config import conf
 from web3 import Web3
+from web3.exceptions import InvalidAddress
 from requests.exceptions import HTTPError
 from decimal import Decimal
 from bson import ObjectId
@@ -73,9 +74,12 @@ def search():
     parser = search_parser()
     args = parser.parse_args()
     if args.get('address'):
-        bal = w3.fromWei(Decimal(contract.functions.balanceOf(args.get('address')).call()) * Decimal(10 ** 9), 'ether')
+        try:
+            bal = w3.fromWei(Decimal(contract.functions.balanceOf(args.get('address')).call()) * Decimal(10 ** 9), 'ether')
+        except InvalidAddress:
+            return render_template('badaddress.html')
         holder = Holder.objects(address=args.get('address')).first()
-        longterm_msg = "This address is not linked with CluTrack"
+        longterm_msg = "This address is not linked with CluTrack, long term stats unavailable."
         if holder:
             if holder_bal_count := len(holder.balances) < 12:
                 longterm_msg = "Long term stats will kick in after at least 12 hours of linking. Hours Left: " + str(12 - holder_bal_count)

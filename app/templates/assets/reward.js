@@ -6,7 +6,7 @@ function numberWithCommas(x) {
 }
 
 function getRewards(addr) {
-    fetch('https://clutrack.io/getRewards/' + addr, {
+    fetch('http://localhost:8000/getRewards/' + addr, {
         method: 'get',
         headers: {'Content-Type': 'application/json'}
     }).then((response) => {
@@ -148,9 +148,6 @@ function getRewards(addr) {
                         scales: {
                             yAxes: [{
                                 stacked: true
-                            }],
-                            xAxes: [{
-                                display: true
                             }]
                         },
                         elements: {
@@ -185,9 +182,6 @@ function getRewards(addr) {
                     scales: {
                         yAxes: [{
                             stacked: true
-                        }],
-                        xAxes: [{
-                            display: true
                         }]
                     },
                     elements: {
@@ -201,7 +195,7 @@ function getRewards(addr) {
             var threeMinChart = new Chart(threeMinCtx, {
                 type: 'line',
                 data: {
-                    labels: [Object.keys(data.block_data)],
+                    labels: Object.keys(data.block_data),
                     datasets: [{
                         label: 'RPB/3min by Block',
                         data: Object.values(data.block_data),
