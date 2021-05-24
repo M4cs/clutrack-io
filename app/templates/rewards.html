@@ -143,7 +143,7 @@
     <script src="assets/reward.js"></script>
     <script>
         window.addEventListener('load', function () {
-            fetch('https://api.pancakeswap.info/api/v2/tokens/0x1162e2efce13f99ed259ffc24d99108aaa0ce935',{
+            fetch('https://clutrack.io/getPrice',{
                 method: 'get',
                 headers: {'Content-Type': 'application/json'}
             }).then((response) => {
@@ -163,7 +163,7 @@
                 getRewards(`{{wallet_addr}}`)
             }, 30000)
             var interval = window.setInterval(function() {
-                fetch('https://api.pancakeswap.info/api/v2/tokens/0x1162e2efce13f99ed259ffc24d99108aaa0ce935',{
+                fetch('https://clutrack.io/getPrice',{
                     method: 'get',
                     headers: {'Content-Type': 'application/json'}
                 }).then((response) => {

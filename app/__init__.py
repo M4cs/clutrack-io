@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 import time
+import requests
 from flask import Flask, render_template, send_file, request, session, jsonify
 from flask_mongoengine import MongoEngine
 from flask_restful import reqparse
@@ -131,6 +132,11 @@ def remove():
                 return render_template('index.html', count=len(Holder.objects().all()))
         else:
             return render_template('error.html', msg="Your wallet signature did not match your logged in user")
+
+@app.route('/getPrice')
+def price():
+    res = requests.get('https://api.pancakeswap.info/api/v2/tokens/0x1162e2efce13f99ed259ffc24d99108aaa0ce935').json()
+    return res
 
 @app.route('/sign', methods=['POST'])
 def sign():
