@@ -14,7 +14,7 @@ function getRewards(addr) {
             console.log(data)
             var elem = document.getElementById('rewardStats')
             elem.innerHTML = `
-            <div class="columns">
+            <div class="columns is-desktop">
                 <div class="column is-half">
                     <div class="box">
                         <p class="subtitle"><strong style="color: black">Total Gained<br>1 Minute</strong></p>
@@ -28,7 +28,7 @@ function getRewards(addr) {
                     </div>
                 </div>
             </div>
-            <div class="columns">
+            <div class="columns is-desktop">
                 <div class="column is-half">
                     <div class="box">
                         <p class="subtitle"><strong style="color: black">Avg. RPB Per Minute</strong></p>
@@ -51,7 +51,7 @@ function getRewards(addr) {
                     <h1 class="title" style="color: black">Lifetime Balance Increase:</h1>
                     <p class="subtitle" style="color: black">` + numberWithCommas(data.lifetime) + `
                     <p class="subtitle" style="color: grey">These numbers include all transfers into your account since you linked with CluTrack. Including buys and people sending to you.</p> 
-                    <div class="columns">
+                    <div class="columns is-desktop">
                         <div class="column is-half">
                             <div class="box">
                                 <p class="subtitle"><strong style="color: black">Total Gained<br>12 Hours</strong></p>
@@ -70,7 +70,10 @@ function getRewards(addr) {
                     `
                 } else {
                     longTerm.innerHTML = `
-                    <div class="columns">
+                    <h1 class="title" style="color: black">Lifetime Balance Increase:</h1>
+                    <p class="subtitle" style="color: black">` + numberWithCommas(data.lifetime) + `
+                    <p class="subtitle" style="color: grey">These numbers include all transfers into your account since you linked with CluTrack. Including buys and people sending to you.</p>
+                    <div class="columns is-desktop">
                         <div class="column is-fullwidth">
                             <div class="box">
                                 <p class="subtitle"><strong style="color: black">Total Gained<br>12 Hours</strong></p>
