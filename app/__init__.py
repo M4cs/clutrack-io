@@ -113,6 +113,7 @@ def logout():
     from flask import make_response
     from app.models.holder import Holder
     if session.get('access_token'):
+        session['access_token'] = None
         response = make_response(redirect('https://clutrack.io'))
         response.set_cookie('access_token', expires=0)
         return response
