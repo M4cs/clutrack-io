@@ -84,7 +84,12 @@ def index():
         holder = decodeJWT(session.get('access_token'))
         if holder:
             bal = w3.fromWei(Decimal(contract.functions.balanceOf(holder.address).call())*(Decimal(10) ** 9), "ether")
-            return render_template('rewards.html', contract=contract, w3=w3, wallet_addr=holder.address, Decimal=Decimal, wallet_bal=f"{bal:,}", is_logged_in=True)
+            longterm_msg = ""
+            if holder_bal_count := len(holder.balances) < 12:
+                longterm_msg = "Long term stats will kick in after at least 12 hours of linking. Hours Left: " + str(12 - holder_bal_count)
+            else:
+                longterm_msg = "Long term stats loading..."
+            return render_template('rewards.html', contract=contract, w3=w3, wallet_addr=holder.address, Decimal=Decimal, wallet_bal=f"{bal:,}", is_logged_in=True, longterm_msg=longterm_msg)
     return render_template('index.html', count=len(Holder.objects().all()))
 
 @app.route('/assets/<file>')
@@ -114,6 +119,7 @@ def sign():
 
 @app.route('/getRewards/<addr>')
 def getRewards(addr):
+    from app.models.holder import Holder
     currentBlock = w3.eth.blockNumber
     currentBalance = contract.functions.balanceOf(addr).call()
     block = currentBlock
@@ -129,12 +135,46 @@ def getRewards(addr):
             block -= 1
         except ValueError:
             block -= 1
-        
+    bal_12hr = {}
+    bal_24hr = {}
+    total_12hr = 0
+    total_24hr = 0
+    has_12hr = False
+    has_24hr = False
+    lifetime = 0
+    has_lifetime = False
+    holder = Holder.objects(address=addr).first()
+    if holder:
+        if len(holder.balances) >= 12:
+            has_12hr = True
+            bal_list = list(holder.balances.items())[-12:]
+            for bal in bal_list:
+                bal_12hr[str(bal[0])] = bal[1]
+            total_12hr = bal_list[-1][1] - bal_list[0][1]
+        if len(holder.balances) >= 24:
+            has_24hr = True
+            bal_list = list(holder.balances.items())[-24:]
+            for bal in bal_list:
+                bal_24hr[str(bal[0])] = bal[1]
+            total_24hr = bal_list[-1][1] - bal_list[0][1]
+        if len(holder.balances) > 0:
+            has_lifetime = True
+            lifetime = list(holder.balances.values())[-1] - list(holder.balances.values())[0]
+            
+
  
     return jsonify({
         'avg_br_1m': float(sum(bals[0:20]) / len(bals[0:20])),
         'avg_br_3m': float(sum(bals) / len(bals)),
         'total_reward_3m': float(sum(bals)),
         'total_reward_1m': float(sum(bals[:20])),
-        'block_data': block_data
+        'block_data': block_data,
+        'has_12hr': has_12hr,
+        'has_24hr': has_24hr,
+        'bal_12hr': bal_12hr,
+        'bal_24hr': bal_24hr,
+        'has_lifetime': has_lifetime,
+        'lifetime': lifetime,
+        'total_12hr': total_12hr,
+        'total_24hr': total_24hr
     })

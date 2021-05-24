@@ -11,6 +11,7 @@ function getRewards(addr) {
         headers: {'Content-Type': 'application/json'}
     }).then((response) => {
         response.json().then(data => {
+            console.log(data)
             var elem = document.getElementById('rewardStats')
             elem.innerHTML = `
             <div class="columns">
@@ -43,6 +44,123 @@ function getRewards(addr) {
                     </div>
                 </div>
             </div>`
+            var longTerm = document.getElementById('longTermStats')
+            if (data.has_12hr === true) {
+                if (data.has_24hr === true) {
+                    longTerm.innerHTML = `
+                    <h1 class="title" style="color: black">Lifetime Balance Increase:</h1>
+                    <p class="subtitle" style="color: black">` + numberWithCommas(data.lifetime) + `
+                    <p class="subtitle" style="color: grey">These numbers include all transfers into your account since you linked with CluTrack. Including buys and people sending to you.</p> 
+                    <div class="columns">
+                        <div class="column is-half">
+                            <div class="box">
+                                <p class="subtitle"><strong style="color: black">Total Gained<br>12 Hours</strong></p>
+                                <p class="subtitle" style="color: black">` + numberWithCommas(data.total_12hr) + `</p>
+                                <canvas id="twelveHourChart" width="600" height="200"></canvas>
+                            </div>
+                        </div>
+                        <div class="column is-half">
+                            <div class="box">
+                                <p class="subtitle"><strong style="color: black">Total Gained<br>24 Hours</strong></p>
+                                <p class="subtitle" style="color: black">` + numberWithCommas(data.total_24hr) + `</p>
+                                <canvas id="twentyFourChart" width="600" height="200"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    `
+                } else {
+                    longTerm.innerHTML = `
+                    <div class="columns">
+                        <div class="column is-fullwidth">
+                            <div class="box">
+                                <p class="subtitle"><strong style="color: black">Total Gained<br>12 Hours</strong></p>
+                                <p class="subtitle" style="color: black">` + numberWithCommas(data.total_12hr) + `</p>
+                                <canvas id="twelveHourChart" width="600" height="200"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    `
+                }
+            }
+            if (data.has_12hr === true) {
+                var labels_12 = []
+                for (var i = 0; i < 12; i++){
+                    labels_12.push('')
+                }
+                var labels_24 = []
+                for (var i = 0; i < 24; i++){
+                    labels_24.push('')
+                }
+                var thCtx = document.getElementById('twelveHourChart').getContext('2d')
+                var thChart = new Chart(thCtx, {
+                    type: 'line',
+                    data: {
+                        labels: labels_12,
+                        datasets: [{
+                            label: 'Balance',
+                            data: Object.values(data.bal_24hr),
+                            backgroundColor: [
+                                'rgba(90, 194, 25, 0.3)'
+                            ],
+                            borderColor: [
+                                'rgba(207, 207, 207, 1)'
+                            ],
+                            borderWidth: 2,
+                            tension: 0.3,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                stacked: true
+                            }]
+                        },
+                        elements: {
+                            point:{
+                                radius: 1
+                            }
+                        }
+                    }
+                })
+            }
+            if (data.has_24hr === true) {
+                var tfCtx = document.getElementById('twentyFourChart').getContext('2d')
+                var tfChart = new Chart(tfCtx, {
+                    type: 'line',
+                    data: {
+                        labels: labels_24,
+                        datasets: [{
+                            label: 'Balance',
+                            data: Object.values(data.bal_24hr),
+                            backgroundColor: [
+                                'rgba(90, 194, 25, 0.3)'
+                            ],
+                            borderColor: [
+                                'rgba(207, 207, 207, 1)'
+                            ],
+                            borderWidth: 2,
+                            tension: 0.3,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                stacked: true
+                            }],
+                            xAxes: [{
+                                display: true
+                            }]
+                        },
+                        elements: {
+                            point:{
+                                radius: 1
+                            }
+                        }
+                    }
+                })
+            }
             var minuteCtx = document.getElementById('minuteChart').getContext('2d')
             var threeMinCtx = document.getElementById('threeMinChart').getContext('2d')
             var minuteChart = new Chart(minuteCtx, {
@@ -53,24 +171,28 @@ function getRewards(addr) {
                         label: 'RPB/min by Block',
                         data: Object.values(data.block_data).slice(41, 60),
                         backgroundColor: [
-                            'rgba(90, 194, 25, 1)'
+                            'rgba(90, 194, 25, 0.3)'
                         ],
                         borderColor: [
                             'rgba(207, 207, 207, 1)'
                         ],
                         borderWidth: 2,
-                        tension: 0.3
+                        tension: 0.3,
+                        fill: true
                     }]
                 },
                 options: {
                     scales: {
                         yAxes: [{
                             stacked: true
+                        }],
+                        xAxes: [{
+                            display: true
                         }]
                     },
                     elements: {
                         point:{
-                            radius: 0
+                            radius: 1
                         }
                     }
                 }
@@ -79,18 +201,19 @@ function getRewards(addr) {
             var threeMinChart = new Chart(threeMinCtx, {
                 type: 'line',
                 data: {
-                    labels: Object.keys(data.block_data),
+                    labels: [Object.keys(data.block_data)],
                     datasets: [{
                         label: 'RPB/3min by Block',
                         data: Object.values(data.block_data),
                         backgroundColor: [
-                            'rgba(90, 194, 25, 1)'
+                            'rgba(90, 194, 25, 0.3)'
                         ],
                         borderColor: [
                             'rgba(207, 207, 207, 1)'
                         ],
                         borderWidth: 2,
-                        tension: 0.3
+                        tension: 0.3,
+                        fill: true
                     }]
                 },
                 options: {
@@ -101,7 +224,7 @@ function getRewards(addr) {
                     },
                     elements: {
                         point:{
-                            radius: 0
+                            radius: 1
                         }
                     }
                 }
