@@ -22,7 +22,6 @@ function getRewards(addr) {
         headers: {'Content-Type': 'application/json'}
     }).then((response) => {
         response.json().then(data => {
-            console.log(data)
             var elem = document.getElementById('rewardStats')
             elem.innerHTML = `
             <div class="columns is-desktop">
