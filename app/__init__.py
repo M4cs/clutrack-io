@@ -121,7 +121,7 @@ def remove():
     holder = decodeJWT(session.get('access_token'))
     if holder and data:
         if holder.check_msg(data['sig'], data['hash']):
-            session.get('access_token') = ('', 0)
+            session['access_token'] = ('', 0)
             if Holder.objects(id=holder.id).delete():
                 return render_template('index.html', count=len(Holder.objects().all()))
         else:
