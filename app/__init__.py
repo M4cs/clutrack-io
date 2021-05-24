@@ -110,7 +110,8 @@ def serve(file):
 @app.route('/logout')
 def logout():
     from app.models.holder import Holder
-    session.get('access_token') = ('', 0)
+    if session.get('access_token'):
+        session['access_token'] = (None, 0)
     return render_template('index.html', count=len(Holder.objects().all()))
 
 @app.route('/removeAccount', methods=['POST'])
