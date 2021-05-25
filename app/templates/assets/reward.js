@@ -286,7 +286,7 @@ function login() {
 }
 
 
-function handleAuth(accountAddress, signature, message_hash) {
+function handleDelete(accountAddress, signature, message_hash) {
     fetch('https://clutrack.io/removeAccount', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
