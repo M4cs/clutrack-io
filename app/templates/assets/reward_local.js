@@ -23,17 +23,72 @@ function getRewards(addr) {
     }).then((response) => {
         response.json().then(data => {
             var elem = document.getElementById('rewardStats')
+            var avgRewardPerSecond = data.total_reward_3m / 180
+            var rewardPerMinute = avgRewardPerSecond * 60
+            var rewardPerHour = rewardPerMinute * 60
+            var rewardPerDay = rewardPerHour * 24
+            var rewardPerMonth = rewardPerDay * 30
+
             elem.innerHTML = `
             <div class="columns is-desktop">
                 <div class="column is-half">
                     <div class="box">
-                        <p class="subtitle"><strong style="color: black">Total Gained<br>1 Minute</strong></p>
+                        <p class="subtitle">
+                            <strong style="color: black">Reflection Rate</strong><br>
+                            <span style="color: gray">3 Minutes</span>
+                        </p>
+                        <p class="subtitle" style="color: magenta">CLU per Second 🚀` +  numberWithCommas(1 * (avgRewardPerSecond).toPrecision(12)) + `</p>
+                        <p class="subtitle" style="color: green">USD per Second $` +  numberWithCommas(1 * (avgRewardPerSecond * currentPrice).toPrecision(8))  + `</p>
+                        <p style="line-height:50%" />
+                    </div>
+                </div>
+                <div class="column is-half">
+                    <div class="box">
+                        <p class="subtitle">
+                            <strong style="color: black">Projections</strong><br>
+                            <span style="color: gray">CLU per Second * Current Price * Timeframe</span>
+                        </p>
+                        <table class="center" style="text-align:right; width:70%">
+                        <thead style="table-header-group">
+                        <tr>
+                            <th>Timeframe</th>
+                            <th>Projected Value</th>
+                        </tr>
+                        </thead>
+                        <tbody style="display:table-row-group">
+                        <tr>
+                            <td width="50%">per Hour</td>
+                            <td style="color: green">USD $` +  numberWithCommas(1 * (rewardPerHour * currentPrice).toPrecision(8)) + `</td>
+                        </tr>
+                        <tr>
+                            <td width="50%">per Day</td>
+                            <td style="color: green">USD $` +  numberWithCommas(1 * (rewardPerDay * currentPrice).toPrecision(2)) + `</td>
+                        </tr>
+                        <tr>
+                            <td width="50%">per Month</td>
+                            <td style="color: green">USD $` +  numberWithCommas(1 * (rewardPerMonth * currentPrice).toPrecision(2)) + `</td>
+                        </tr>
+                        </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="columns is-desktop">
+                <div class="column is-half">
+                    <div class="box">
+                        <p class="subtitle">
+                            <strong style="color: black">Total Gained</strong><br>
+                            <span style="color: gray">1 Minute</span>
+                        </p>
                         <p class="subtitle" style="color: black">` + numberWithCommas(data.total_reward_1m) + `<br>$` + numberWithCommas(1 * (data.total_reward_1m * currentPrice).toPrecision(12)) + `</p>
                     </div>
                 </div>
                 <div class="column is-half">
                     <div class="box">
-                        <p class="subtitle"><strong style="color: black">Total Gained<br>3 Minutes</strong></p>
+                        <p class="subtitle">
+                            <strong style="color: black">Total Gained</strong><br>
+                            <span style="color: gray">3 Minutes</strong></span>
+                        </p>
                         <p class="subtitle" style="color: black">` + numberWithCommas(data.total_reward_3m) + `<br>$` + numberWithCommas(1 * (data.total_reward_3m * currentPrice).toPrecision(12)) + `</p>
                     </div>
                 </div>
