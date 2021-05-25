@@ -1,5 +1,10 @@
 
-function numberWithCommas(x) {
+function numberWithCommas(x, precision = -1) {
+    // precision is not negative, so round to the specified number of places
+    if (precision >= 0) {
+        x = (x * 1).toFixed(precision);
+    }
+
     var parts = x.toString().split(".");
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return parts.join(".");
@@ -22,8 +27,18 @@ function getRewards(addr) {
         headers: {'Content-Type': 'application/json'}
     }).then((response) => {
         response.json().then(data => {
-            var elem = document.getElementById('rewardStats')
-            elem.innerHTML = `
+            var realtimeBalance = document.getElementById('realtimeBalance')
+            realtimeBalance.innerHTML = `
+            <p class="subtitle" style="color: black">
+                Current Balance: 🚀 <span style="color: magenta">` + numberWithCommas(data.current_balance.toPrecision(12), 9) + `</span>
+                (<span style="color: green">USD $` + numberWithCommas(1 * (currentPrice * data.current_balance).toPrecision(12), 2) + `</span>
+                 <span style="color: gray; font-size: 12px; dsiplay:inline-block; vertical-align:middle; line-height:normal;">@ $` + numberWithCommas(currentPrice, 12) + ` / CLU</span>)
+                <br>
+            </p>
+            <br>
+            `
+            var rewardStats = document.getElementById('rewardStats')
+            rewardStats.innerHTML = `
             <div class="columns is-desktop">
                 <div class="column is-half">
                     <div class="box">

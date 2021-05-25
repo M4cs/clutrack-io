@@ -206,12 +206,15 @@ def getRewards(addr):
         if len(holder.balances) > 0:
             has_lifetime = True
             lifetime = list(holder.balances.values())[-1] - list(holder.balances.values())[0]
-            
 
- 
+    # get the current balance with 9 digits of precision
+    currentBalance = float(w3.fromWei(Decimal(currentBalance) * (Decimal(10) ** 9), 'ether'))
+    currentBalance = round(currentBalance, 9)
+
     return jsonify({
         'avg_br_1m': float(sum(bals[0:20]) / len(bals[0:20])),
         'avg_br_3m': float(sum(bals) / len(bals)),
+        'current_balance': currentBalance,
         'total_reward_3m': float(sum(bals)),
         'total_reward_1m': float(sum(bals[:20])),
         'block_data': block_data,

@@ -109,11 +109,15 @@
                     <a src="https://bscscan.com/address/{{wallet_addr}}" target="_blank" class="subtitle"
                         style="color: rgb(104, 104, 104)">{{wallet_addr}}</a>
                     <p class="subtitle" style="color: black">
-                        Current Balance: {{wallet_bal}}
-                        <br>
                         RPB = Reward Per Block (0.3 Blocks per second are processed)
                     </p>
                     <hr style="color: rgb(87, 87, 87)">
+                    <div id="realtimeBalance">
+                        <p class="subtitle" style="color: black">
+                            Loading realtime balance...
+                            <hr/>
+                        </p>
+                    </div>                    
                     <div id="rewardStats">
                         <p class="subtitle" style="color: black">
                             Loading Reward Stats...
