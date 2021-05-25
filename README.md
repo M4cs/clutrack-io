@@ -34,7 +34,7 @@ app:
 docker compose -f local.yaml up --build
 ```
 
-Go to https://localhost:8000
+Go to https://localhost:5000
 
 # License
 
