@@ -140,7 +140,11 @@
     </section>
     <script src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js" type="application/javascript"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.2.1/dist/chart.min.js"></script>
+    {% if conf.app.host == conf.app.local_host %}
+    <script src="assets/reward_local.js"></script>
+    {% else %}
     <script src="assets/reward.js"></script>
+    {% endif %}
     <script>
         window.addEventListener('load', function () {
             fetch('{{conf.app.host}}/getPrice',{

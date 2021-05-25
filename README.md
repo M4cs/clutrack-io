@@ -25,8 +25,8 @@ db:
 
 app:
   secret_key: randomsecretkey # A Secret Key
-  host: http://localhost:8000
-  local_host: http://localhost:8000 # Base URL
+  host: http://localhost:5000
+  local_host: http://localhost:5000 # Base URL
 ```
 # To run
 

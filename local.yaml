@@ -6,9 +6,9 @@ services:
         volumes:
             - .:/usr/src
         ports:
-            - 8000:5000
+            - 5000:5000
         environment:
             - PYTHONBUFFERED=1
             - ENV=local
             - FLASK_DEBUG=1
-        command: flask run
+        command: gunicorn -w 4 app:app --bind=0.0.0.0:5000

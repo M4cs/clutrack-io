@@ -210,7 +210,11 @@
         </div>
     </section>
     <script src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js" type="application/javascript"></script>
+    {% if conf.app.host == conf.app.local_host %}
+    <script src="assets/app_local.js"></script>
+    {% else %}
     <script src="assets/app.js"></script>
+    {% endif %}
 </body>
 
 </html>

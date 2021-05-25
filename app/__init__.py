@@ -87,8 +87,8 @@ def search():
                 longterm_msg = "Long term stats will kick in after at least 12 hours of linking. Hours Left: " + str(12 - holder_bal_count)
             else:
                 longterm_msg = "Long term stats loading..."
-        return render_template('rewards.html', contract=contract, w3=w3, wallet_addr=args.get('address'), Decimal=Decimal, is_logged_in=is_logged, wallet_bal=f"{float(bal):,}", longterm_msg=longterm_msg)
-    return render_template('index.html', count=len(Holder.objects().all()))
+        return render_template('rewards.html', contract=contract, w3=w3, wallet_addr=args.get('address'), Decimal=Decimal, is_logged_in=is_logged, wallet_bal=f"{float(bal):,}", longterm_msg=longterm_msg, conf=conf)
+    return render_template('index.html', count=len(Holder.objects().all()), conf=conf)
 
 @app.route('/')
 def index():
@@ -102,8 +102,8 @@ def index():
                 longterm_msg = "Long term stats will kick in after at least 12 hours of linking. Hours Left: " + str(12 - holder_bal_count)
             else:
                 longterm_msg = "Long term stats loading..."
-            return render_template('rewards.html', contract=contract, w3=w3, wallet_addr=holder.address, Decimal=Decimal, wallet_bal=f"{bal:,}", is_logged_in=True, longterm_msg=longterm_msg)
-    return render_template('index.html', count=len(Holder.objects().all()))
+            return render_template('rewards.html', contract=contract, w3=w3, wallet_addr=holder.address, Decimal=Decimal, wallet_bal=f"{bal:,}", is_logged_in=True, longterm_msg=longterm_msg, conf=conf)
+    return render_template('index.html', count=len(Holder.objects().all()), conf=conf)
 
 @app.route('/assets/<file>')
 def serve(file):
@@ -129,7 +129,7 @@ def remove():
         if holder.check_msg(data['sig'], data['hash']):
             session['access_token'] = ('', 0)
             if Holder.objects(id=holder.id).delete():
-                return render_template('index.html', count=len(Holder.objects().all()))
+                return render_template('index.html', count=len(Holder.objects().all()), conf=conf)
         else:
             return render_template('error.html', msg="Your wallet signature did not match your logged in user")
 
@@ -146,7 +146,6 @@ def price():
 def sign():
     from app.models.holder import Holder
     data = json.loads(request.data)
-    print('hello')
     holder = Holder.objects(address=str(data['wallet_address'])).first()
     if holder:
         if holder.check_msg(data['sig'], data['hash']):
