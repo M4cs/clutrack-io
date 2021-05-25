@@ -12,30 +12,29 @@ Go to [clutrack.io](https://clutrack.io) and click Sign in With Wallet or paste 
 
 ### Requirements:
 
-- Python 3.8+
-
-### Installation
-
-```
-pip install flask flask-mongoengine flask-restful web3
-```
+- Docker
 
 ### Running
 
 Create file `config.yaml`
 
 ```yml
+
 db:
   host: mongo_url # Your MongoDB URI
 
 app:
   secret_key: randomsecretkey # A Secret Key
-  host: http://localhost:5000 # Base URL
-  ```
+  host: http://localhost:8000
+  local_host: http://localhost:8000 # Base URL
+```
+# To run
 
 ```
-flask run
+docker compose -f local.yaml up --build
 ```
+
+Go to https://localhost:8000
 
 # License
 

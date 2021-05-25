@@ -31,7 +31,7 @@ function sign() {
 }
 
 function handleAuth(accountAddress, signature, message_hash) {
-    fetch('https://clutrack.io//sign', {
+    fetch('https://clutrack.io/sign', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({

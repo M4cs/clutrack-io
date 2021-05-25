@@ -115,10 +115,10 @@ def logout():
     from app.models.holder import Holder
     if session.get('access_token'):
         session['access_token'] = None
-        response = make_response(redirect('https://clutrack.io/'))
+        response = make_response(redirect(conf.app.host))
         response.set_cookie('access_token', expires=0)
         return response
-    return redirect('https://clutrack.io//')
+    return redirect(conf.app.host)
 
 @app.route('/removeAccount', methods=['POST'])
 def remove():
