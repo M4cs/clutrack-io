@@ -1,5 +1,10 @@
 
-function numberWithCommas(x) {
+function numberWithCommas(x, precision = -1) {
+    // precision is not negative, so round to the specified number of places
+    if (precision >= 0) {
+        x = (x * 1).toFixed(precision);
+    }
+
     var parts = x.toString().split(".");
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return parts.join(".");
@@ -23,13 +28,88 @@ function getRewards(addr) {
     }).then((response) => {
         response.json().then(data => {
             var title = document.getElementById('mainTitle')
-            title.innerHTML = "Displaying Rewards for Wallet:"
-            var elem = document.getElementById('rewardStats')
-            elem.innerHTML = `
+            title.innerText = "Displaying Rewards for Wallet:"
+            var realtimeBalance = document.getElementById('realtimeBalance')
+            realtimeBalance.innerHTML = `
+            <div class="container has-text-centered">
+                <p class="subtitle">
+                    Current Balance: 🚀 <span style="color: deeppink">` + numberWithCommas(data.current_balance.toPrecision(12), 9) + `</span>
+                    (<span style="color: green">USD $` + numberWithCommas(1 * (currentPrice * data.current_balance).toPrecision(12), 2) + `</span>
+                    <span style="color: gray; font-size: 12px; vertical-align:middle; line-height:normal; margin-bottom:4px">@ $` + numberWithCommas(currentPrice, 12) + ` / CLU</span>)
+                    <br><br><br>
+                </p>
+            </div>
+            <br>
+            `
+            var rewardStats = document.getElementById('rewardStats')
+            var avgRewardPerSecond = data.total_reward_3m / 180
+            var rewardPerMinute = avgRewardPerSecond * 60
+            var rewardPerHour = rewardPerMinute * 60
+            var rewardPerDay = rewardPerHour * 24
+            var rewardPerMonth = rewardPerDay * 30            
+            rewardStats.innerHTML = `
             <div class="columns is-desktop">
                 <div class="column is-half">
                     <div class="box">
-                        <p class="subtitle"><strong style="color: black">Total Gained<br>1 Minute</strong></p>
+                        <p class="subtitle">
+                            <strong style="color: black">Reflection Rate</strong><br>
+                            <span style="color: gray">3 Minutes</span>
+                        </p>
+                        <p class="subtitle" style="color: magenta">CLU per Second 🚀` +  numberWithCommas(1 * (avgRewardPerSecond).toPrecision(12)) + `</p>
+                        <p class="subtitle" style="color: green">USD per Second $` +  numberWithCommas(1 * (avgRewardPerSecond * currentPrice).toPrecision(8))  + `</p>
+                        <p style="line-height:50%" />
+                    </div>
+                </div>
+                <div class="column is-half">
+                    <div class="box">
+                        <button type="button"
+                                class="btn btn-info btn-sm"
+                                style="float:right; background-color: lightgray; color: black; border: none"
+                                data-toggle="modal"
+                                data-target="#disclaimerDialog">?</button>
+                        <p class="subtitle">
+                            <span>
+                                <strong style="color: black">
+                                &nbsp;&nbsp;Projections
+                                <sup style="font-size:10px; background-color: lightgray">
+                                BETA
+                                </sup>
+                            </strong>
+                            </span><br>
+                            <span style="color: gray">Reflection Rate * Market Price * Time</span>
+                        </p>
+                        <table class="center" style="text-align:right; width:70%">
+                        <thead style="table-header-group">
+                        <tr>
+                            <th>Timeframe</th>
+                            <th>Projected Value</th>
+                        </tr>
+                        </thead>
+                        <tbody style="display:table-row-group; font-weight: normal">
+                        <tr>
+                            <td width="50%">per Hour</td>
+                            <td style="color: green">USD $` +  numberWithCommas(1 * (rewardPerHour * currentPrice).toPrecision(8)) + `</td>
+                        </tr>
+                        <tr>
+                            <td width="50%">per Day</td>
+                            <td style="color: green">USD $` +  numberWithCommas(1 * (rewardPerDay * currentPrice).toPrecision(2)) + `</td>
+                        </tr>
+                        <tr>
+                            <td width="50%">per Month</td>
+                            <td style="color: green">USD $` +  numberWithCommas(1 * (rewardPerMonth * currentPrice).toPrecision(2)) + `</td>
+                        </tr>
+                        </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="columns is-desktop">
+                <div class="column is-half">
+                    <div class="box">
+                        <p class="subtitle">
+                            <strong style="color: black">Total Gained</strong><br>
+                            <span style="color: gray">1 Minute</span>
+                        </p>
                         <p class="subtitle" style="color: black">` + numberWithCommas(data.total_reward_1m) + `<br>$` + numberWithCommas(1 * (data.total_reward_1m * currentPrice).toPrecision(12)) + `</p>
                     </div>
                 </div>
@@ -60,6 +140,7 @@ function getRewards(addr) {
             if (data.has_12hr !== null && data.has_12hr === true) {
                 if (data.has_24hr === true) {
                     longTerm.innerHTML = `
+                    <br><br>
                     <h1 class="title fancyTitle">Lifetime Balance Increase:</h1>
                     <p class="subtitle fancyTitle">` + numberWithCommas(data.lifetime) + `<br>$` + numberWithCommas(1 * (data.lifetime * currentPrice).toPrecision(12)) + `</p>
                     <p class="subtitle" style="color: grey">These numbers include all transfers into your account since you linked with CluTrack. Including buys and people sending to you.</p> 
@@ -82,6 +163,7 @@ function getRewards(addr) {
                     `
                 } else {
                     longTerm.innerHTML = `
+                    <br><br>
                     <h1 class="title fancyTitle">Lifetime Balance Increase:</h1>
                     <p class="subtitle fancyTitle">` + numberWithCommas(data.lifetime) + `<br>$` + numberWithCommas(1 * (data.lifetime * currentPrice).toPrecision(12)) + `</p>
                     <p class="subtitle" style="color: grey">These numbers include all transfers into your account since you linked with CluTrack. Including buys and people sending to you.</p>
