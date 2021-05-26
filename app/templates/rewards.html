@@ -103,7 +103,7 @@
                             </a>
                             {% endif %}
                             {% if is_logged_in %}
-                            <a class="button is-danger" href="https://clutrack.io//logout">
+                            <a class="button is-danger" href="{{conf.app.host}}/logout">
                                 Logout
                             </a>
                             {% endif %}
@@ -113,7 +113,7 @@
             </div>
         </div>
     </nav>
-    <section class="section hero is-fullheight is-dark is-bold">
+    <section class="section hero is-fullheight is-dark"  style="background-color: rgb(32, 32, 32);">
         <div class="hero-head is-fullwidth">
         </div>
         <div class="hero-body">
@@ -193,6 +193,21 @@
                 })
             }, 60000)
         })
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+            if ($navbarBurgers.length > 0) {
+                $navbarBurgers.forEach(el => {
+                    el.addEventListener('click', () => {
+                        const target = el.dataset.target;
+                        const $target = document.getElementById(target);
+                        el.classList.toggle('is-active');
+                        $target.classList.toggle('is-active');
+                    });
+                });
+            }
+        });
     </script>
 </body>
 

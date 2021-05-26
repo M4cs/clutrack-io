@@ -67,14 +67,22 @@
                     <img src="https://clucoin.com/static/images/3000.png" style="margin-right: 2%" alt="Logo">
                     CLUTRACK.IO
                 </a>
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
+                    data-target="navbarBasicExample">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
             </div>
-            <div class="navbar-end">
-                <div class="navbar-item">
-                    <div class="buttons">
-                        <a style="margin-left: 5px;" class="button is-primary gradient"
-                            href="https://github.com/M4cs/clutrack-io" target="_blank">
-                            View Source Code
-                        </a>
+            <div id="navbarBasicExample" class="navbar-menu">
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <div class="buttons">
+                            <a style="margin-left: 5px;" class="button is-primary gradient"
+                                href="https://github.com/M4cs/clutrack-io" target="_blank">
+                                View Source Code
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -239,6 +247,21 @@
     {% else %}
     <script src="assets/js/app.js"></script>
     {% endif %}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+            if ($navbarBurgers.length > 0) {
+                $navbarBurgers.forEach(el => {
+                    el.addEventListener('click', () => {
+                        const target = el.dataset.target;
+                        const $target = document.getElementById(target);
+                        el.classList.toggle('is-active');
+                        $target.classList.toggle('is-active');
+                    });
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>
