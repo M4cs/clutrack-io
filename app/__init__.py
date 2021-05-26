@@ -133,9 +133,9 @@ def index():
                 credits=Markup(credits))
     return render_template('index.html', count=len(Holder.objects().all()), conf=conf)
 
-@app.route('/assets/<file>')
-def serve(file):
-    return send_file(f'templates/assets/{file}')
+@app.route('/assets/<folder>/<file>')
+def serve(folder, file):
+    return send_file(f'templates/assets/{folder}/{file}')
 
 @app.route('/logout')
 def logout():

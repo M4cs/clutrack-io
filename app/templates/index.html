@@ -53,8 +53,10 @@
     <meta property="twitter:description"
         content="Track the rewards you gain from holding CLU in your wallet. Link with one-click and start seeing those gains.">
     <meta property="twitter:image" content="https://clucoin.com/static/images/3000.png">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+    <link rel="stylesheet" href="/assets/css/clu.css">
     <script src="https://kit.fontawesome.com/bfef34323a.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+    <script src="/assets/js/gradanim.js"></script>
 </head>
 
 <body>
@@ -65,11 +67,11 @@
                     <div class="navbar-brand">
                         <a class="navbar-item" href="https://clutrack.io/">
                             <img src="https://clucoin.com/static/images/3000.png" style="margin-right: 2%" alt="Logo">
-                            CLUTRACK.io
+                            CLUTRACK.IO
                         </a>
                     </div>
                     <div class="navbar-end">
-                        <a style="margin-left: 5px;" class="button is-warning"
+                        <a style="margin-left: 5px;" class="button is-primary gradient"
                             href="https://github.com/M4cs/clutrack-io" target="_blank">
                             View Source Code
                         </a>
@@ -87,8 +89,8 @@
                     Connect to your BSC Wallet and join {{count}} others tracking their rewards<br>
                     Linking your wallet enables lifetime tracking and better reports!
                 </p>
-                <button id="rusty" onclick="sign()" class="button is-rounded is-warning">
-                    Sign In With Wallet
+                <button id="rusty" onclick="sign()" class="button is-rounded is-primary is-outlined">
+                    <strong class="fancyTitle">Sign In With Wallet</strong>
                 </button>
                 <br><br>
                 <form action='/search' method='GET'>
@@ -97,12 +99,12 @@
                     </label>
                     <div id="search" class="field has-addons">
                         <div class="control">
-                            <input class="input" type="text" name="address"
+                            <input class="input is-rounded is-normal" type="text" name="address"
                                 placeholder="Ex: 0x44f6498D1403321890F3f2917E00F22dBDE3577a">
                         </div>
                         <div class="control">
-                            <button type="submit" class="button is-warning">
-                                Search Address
+                            <button type="submit" class="button is-primary is-rounded is-outlined">
+                                <strong>Search</strong>
                             </button>
                         </div>
                     </div>
@@ -120,37 +122,58 @@
     </section>
     <section class="hero is-dark is-medium">
         <div class="hero-body" id="safetyInfo">
-            <div class="container has-text-centered">
-                <div class="box">
-                    <h1 class="title" style="color: black">Is this site safe?</h1>
-                    <p class="subtitle" style="color: black">
-                        Yes! This site was made for the community to help allow everybody keep track of their rewards from
-                        Clu! It's hard to tell just how much you are gaining if you just look at your wallet every once in a
-                        while. Signing in with your wallet does 3 things: Signs a Message to prove you are the owner of your
-                        wallet, Stores your wallet address in a database to create an account to start tracking balances,
-                        and stores a JWT token based off your user to keep you logged in.
-                        <br><br>
-                        You will <strong style="color: black">NEVER</strong> receive a request to send CLU/BNB/Any Token to Anywhere. If you ever
-                        get a request to send funds, reject it and immediately contact me on Discord (@macs#0420) or Twitter
-                        (@maxbridgland). All source code that this site runs on is available for public viewing and auditing
-                        on GitHub. Click the button above to head over to the GitHub Source.<br><br>
-                        The reason you must link your wallet to get longer reporting times is because it takes a snapshot every hour
-                        of your balance. There are 55k holders at the time of writing this and that number is growing rapidly, I can't
-                        track all of them. If you are linked, you will be able to see your rewards from the time of linking!
-                    </p>
-                    <br><br>
+            <div class="container">
+                <div class="columns is-desktop">
+                    <div class="column is-one-quarter">
+                        <h1 class="title fancyTitle is-1">Is CluTrack <strong style="color: deeppink">Safe</strong>?</h1>
+                    </div>
+                    <div class="column">
+                        <p class="subtitle">
+                            Yes! This site was made for the community to help allow everybody keep track of their rewards from
+                            Clu! It's hard to tell just how much you are gaining if you just look at your wallet every once in a
+                            while. Signing in with your wallet does 3 things: Signs a Message to prove you are the owner of your
+                            wallet, Stores your wallet address in a database to create an account to start tracking balances,
+                            and stores a JWT token based off your user to keep you logged in.
+                            <br><br>
+                            You will <strong style="color: deeppink">NEVER</strong> receive a request to send CLU/BNB/Any Token to Anywhere. If you ever
+                            get a request to send funds, reject it and immediately contact me on Discord (@macs#0420) or Twitter
+                            (@maxbridgland). All source code that this site runs on is available for public viewing and auditing
+                            on GitHub. Click the button above to head over to the GitHub Source.<br><br>
+                            The reason you must link your wallet to get longer reporting times is because it takes a snapshot every hour
+                            of your balance. There are 55k holders at the time of writing this and that number is growing rapidly, I can't
+                            track all of them. If you are linked, you will be able to see your rewards from the time of linking!
+                        </p>
+                    </div>
                 </div>
-                <div class="box">
-                    <h1 class="title" style="color: black">Tips to Stay Safe</h1>
-                    <p class="subtitle" style="color: black;">
-                        • Make sure the URL is <strong style="color: black">https://clutrack.io</strong>
-                        <br>
-                        • Never give your 12 Phrase Passcode Key to Anybody EVER
-                        <br>
-                        • Never give your private key and password to Anybody EVER
-                        <br>
-                        • This site will never ask you for your money. If it does check the URL
-                    </p>
+                <div class="columns is-desktop">
+                    <div class="column">
+                        <div class="box">
+                            <p class="subtitle fancyTitle" style="color: black;">
+                                Make sure the URL is <strong style="color: deeppink">https://clutrack.io</strong>. This is the only one.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="box">
+                            <p class="subtitle fancyTitle" style="color: black;">
+                                Never give your 12 Phrase Passcode Key to Anybody EVER
+                            </p>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="box">
+                            <p class="subtitle fancyTitle" style="color: black;">
+                                Never give your private key and password to Anybody EVER
+                            </p>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="box">
+                            <p class="subtitle fancyTitle" style="color: black;">
+                                This site will never ask you for your money, phrase, or private keys!
+                            </p>
+                        </div>
+                    </div>
                 </div>
                 <div class="box">
                     <h1 class="title" style="color: black">Want to Support CluTrack?</h1>
@@ -208,9 +231,9 @@
     </section>
     <script src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js" type="application/javascript"></script>
     {% if conf.app.host == conf.app.local_host %}
-    <script src="assets/app_local.js"></script>
+    <script src="assets/js/app_local.js"></script>
     {% else %}
-    <script src="assets/app.js"></script>
+    <script src="assets/js/app.js"></script>
     {% endif %}
 </body>
 

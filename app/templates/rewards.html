@@ -50,7 +50,7 @@
         content="Track the rewards you gain from holding CLU in your wallet. Link with one-click and start seeing those gains.">
     <meta property="twitter:image"
         content="https://clucoin.com/static/images/3000.png">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+    <link rel="stylesheet" href="/assets/css/clu.css">
 </head>
 
 <body>
@@ -74,18 +74,18 @@
                                         placeholder="Ex: 0x44f6498D1403321890F3f2917E00F22dBDE3577a">
                                 </div>
                                 <div class="control">
-                                    <button type="submit" class="button is-warning">
-                                        Search Address
+                                    <button type="submit" class="button is-primary">
+                                        <strong class="fancyTitle">Search</strong>
                                     </button>
                                 </div>
                             </div>
                         </form>
-                        <a style="margin-left: 5px;" class="button is-warning"
+                        <a style="margin-left: 5px;" class="button is-primary"
                             href="https://github.com/M4cs/clutrack-io" target="_blank">
                             View Source Code
                         </a>
                         {% if not is_logged_in %}
-                        <a style="margin-left: 5px;" class="button is-warning" onclick="login()">
+                        <a style="margin-left: 5px;" class="button is-primary" onclick="login()">
                             Connect To Wallet
                         </a>
                         {% endif %}
@@ -138,9 +138,9 @@
     <script src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js" type="application/javascript"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.2.1/dist/chart.min.js"></script>
     {% if conf.app.host == conf.app.local_host %}
-    <script src="assets/reward_local.js"></script>
+    <script src="assets/js/reward_local.js"></script>
     {% else %}
-    <script src="assets/reward.js"></script>
+    <script src="assets/js/reward.js"></script>
     {% endif %}
     <script>
         window.addEventListener('load', function () {
