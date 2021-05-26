@@ -22,6 +22,8 @@ function getRewards(addr) {
         headers: {'Content-Type': 'application/json'}
     }).then((response) => {
         response.json().then(data => {
+            var title = document.getElementById('mainTitle')
+            title.innerHTML = "Displaying Rewards for Wallet:"
             var elem = document.getElementById('rewardStats')
             elem.innerHTML = `
             <div class="columns is-desktop">
@@ -43,14 +45,14 @@ function getRewards(addr) {
                     <div class="box">
                         <p class="subtitle"><strong style="color: black">Avg. RPB Per Minute</strong></p>
                         <p class="subtitle" style="color: black">` + numberWithCommas(data.avg_br_1m) + `<br>$` + numberWithCommas(1 * (data.avg_br_1m * currentPrice).toPrecision(12)) + `</p>
-                        <canvas id="minuteChart" width="600" height="200"></canvas>
+                        <canvas id="minuteChart" height="200"></canvas>
                     </div>
                 </div>
                 <div class="column is-half">
                 <div class="box">
                     <p class="subtitle"><strong style="color: black">Avg. RPB Per 3 Minutes</strong></p>
                     <p class="subtitle" style="color: black">` + numberWithCommas(data.avg_br_3m) + `<br>$` + numberWithCommas(1 * (data.avg_br_3m * currentPrice).toPrecision(12)) + `</p>
-                    <canvas id="threeMinChart" width="600" height="200"></canvas>
+                    <canvas id="threeMinChart" height="200"></canvas>
                     </div>
                 </div>
             </div>`
@@ -58,37 +60,37 @@ function getRewards(addr) {
             if (data.has_12hr !== null && data.has_12hr === true) {
                 if (data.has_24hr === true) {
                     longTerm.innerHTML = `
-                    <h1 class="title" style="color: black">Lifetime Balance Increase:</h1>
-                    <p class="subtitle" style="color: black">` + numberWithCommas(data.lifetime) + `<br>$` + numberWithCommas(1 * (data.lifetime * currentPrice).toPrecision(12)) + `</p>
+                    <h1 class="title fancyTitle">Lifetime Balance Increase:</h1>
+                    <p class="subtitle fancyTitle">` + numberWithCommas(data.lifetime) + `<br>$` + numberWithCommas(1 * (data.lifetime * currentPrice).toPrecision(12)) + `</p>
                     <p class="subtitle" style="color: grey">These numbers include all transfers into your account since you linked with CluTrack. Including buys and people sending to you.</p> 
                     <div class="columns is-desktop">
                         <div class="column is-half">
                             <div class="box">
                                 <p class="subtitle"><strong style="color: black">Total Gained<br>12 Hours</strong></p>
                                 <p class="subtitle" style="color: black">` + numberWithCommas(data.total_12hr) + `<br>$` + numberWithCommas(1 * (data.total_12hr * currentPrice).toPrecision(12)) + `</p>
-                                <canvas id="twelveHourChart" width="600" height="200"></canvas>
+                                <canvas id="twelveHourChart" height="200"></canvas>
                             </div>
                         </div>
                         <div class="column is-half">
                             <div class="box">
                                 <p class="subtitle"><strong style="color: black">Total Gained<br>24 Hours</strong></p>
                                 <p class="subtitle" style="color: black">` + numberWithCommas(data.total_24hr) + `<br>$` + numberWithCommas(1 * (data.total_24hr * currentPrice).toPrecision(12)) + `</p>
-                                <canvas id="twentyFourChart" width="600" height="200"></canvas>
+                                <canvas id="twentyFourChart" height="200"></canvas>
                             </div>
                         </div>
                     </div>
                     `
                 } else {
                     longTerm.innerHTML = `
-                    <h1 class="title" style="color: black">Lifetime Balance Increase:</h1>
-                    <p class="subtitle" style="color: black">` + numberWithCommas(data.lifetime) + `<br>$` + numberWithCommas(1 * (data.lifetime * currentPrice).toPrecision(12)) + `</p>
+                    <h1 class="title fancyTitle">Lifetime Balance Increase:</h1>
+                    <p class="subtitle fancyTitle">` + numberWithCommas(data.lifetime) + `<br>$` + numberWithCommas(1 * (data.lifetime * currentPrice).toPrecision(12)) + `</p>
                     <p class="subtitle" style="color: grey">These numbers include all transfers into your account since you linked with CluTrack. Including buys and people sending to you.</p>
                     <div class="columns is-desktop">
                         <div class="column is-fullwidth">
                             <div class="box">
                                 <p class="subtitle"><strong style="color: black">Total Gained<br>12 Hours</strong></p>
                                 <p class="subtitle" style="color: black">` + numberWithCommas(data.total_12hr) + `<br>$` + numberWithCommas(1 * (data.total_12hr * currentPrice).toPrecision(12)) + `</p>
-                                <canvas id="twelveHourChart" width="600" height="200"></canvas>
+                                <canvas id="twelveHourChart" height="200"></canvas>
                             </div>
                         </div>
                     </div>
@@ -124,6 +126,8 @@ function getRewards(addr) {
                         }]
                     },
                     options: {
+                        responsive: true,
+                        maintainAspectRation: false,
                         scales: {
                             yAxes: [{
                                 stacked: true
@@ -158,6 +162,8 @@ function getRewards(addr) {
                         }]
                     },
                     options: {
+                        responsive: true,
+                        maintainAspectRation: false,
                         scales: {
                             yAxes: [{
                                 stacked: true
@@ -192,6 +198,8 @@ function getRewards(addr) {
                     }]
                 },
                 options: {
+                    responsive: true,
+                    maintainAspectRation: false,
                     scales: {
                         yAxes: [{
                             stacked: true
@@ -224,6 +232,8 @@ function getRewards(addr) {
                     }]
                 },
                 options: {
+                    responsive: true,
+                    maintainAspectRation: false,
                     scales: {
                         yAxes: [{
                             stacked: true

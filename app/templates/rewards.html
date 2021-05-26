@@ -54,19 +54,23 @@
 </head>
 
 <body>
-    <section class="section hero is-fullheight is-dark is-bold">
-        <div class="hero-head is-fullwidth">
-            <div class="navbar">
-                <div class="container">
-                    <div class="navbar-brand">
-                        <a class="navbar-item" href="https://clutrack.io/">
-                            <img src="https://clucoin.com/static/images/3000.png" style="margin-right: 2%" alt="Logo">
-                            CLUTRACK.IO
-                        </a>
-                    </div>
-                    <div class="navbar-end">
-                        <p class="subtitle" id="cluPrice">
-                        </p>
+    <nav class="navbar is-fixed-top is-bold is-primary" style="background-color: rgb(32, 32, 32);">
+        <div class="container">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="https://clutrack.io/">
+                    <img src="https://clucoin.com/static/images/3000.png" style="margin-right: 2%" alt="Logo">
+                    CLUTRACK.IO
+                </a>
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
+                    data-target="navbarBasicExample">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+            <div id="navbarBasicExample" class="navbar-menu">
+                <div class="navbar-start">
+                    <div class="navbar-item">
                         <form action='/search' method='GET'>
                             <div class="field has-addons is-grouped-right">
                                 <div class="control">
@@ -80,52 +84,60 @@
                                 </div>
                             </div>
                         </form>
-                        <a style="margin-left: 5px;" class="button is-primary"
-                            href="https://github.com/M4cs/clutrack-io" target="_blank">
-                            View Source Code
-                        </a>
-                        {% if not is_logged_in %}
-                        <a style="margin-left: 5px;" class="button is-primary" onclick="login()">
-                            Connect To Wallet
-                        </a>
-                        {% endif %}
-                        {% if is_logged_in %}
-                        <a style="margin-left: 5px;" class="button is-danger" href="https://clutrack.io//logout">
-                            Logout
-                        </a>
-                        {% endif %}
+                    </div>
+                </div>
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <p class="subtitle" id="cluPrice">
+                        </p>
+                    </div>
+                    <div class="navbar-item">
+                        <div class="buttons">
+                            <a class="button is-primary"
+                                href="https://github.com/M4cs/clutrack-io" target="_blank">
+                                View Source Code
+                            </a>
+                            {% if not is_logged_in %}
+                            <a class="button is-primary" onclick="login()">
+                                Connect To Wallet
+                            </a>
+                            {% endif %}
+                            {% if is_logged_in %}
+                            <a class="button is-danger" href="https://clutrack.io//logout">
+                                Logout
+                            </a>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    </nav>
+    <section class="section hero is-fullheight is-dark is-bold">
+        <div class="hero-head is-fullwidth">
+        </div>
         <div class="hero-body">
             <div class="container has-text-centered">
-                <h1 class="title">CluCoin Redistribution Tracker</h1>
-                <div class="box">
-                    <h1 class="title" id="title" style="color: black">
-                        Displaying Rewards for Wallet:
-                    </h1>
+                <h1 class="title fancyTitle is-3" id="mainTitle">
+                    Loading Rewards for Wallet:
+                </h1>
 
-                    <a src="https://bscscan.com/address/{{wallet_addr}}" target="_blank" class="subtitle"
-                        style="color: rgb(104, 104, 104)">{{wallet_addr}}</a>
-                    <p class="subtitle" style="color: black">
-                        Current Balance: {{wallet_bal}}
-                        <br>
-                        RPB = Reward Per Block (0.3 Blocks per second are processed)
-                    </p>
-                    <hr style="color: rgb(87, 87, 87)">
-                    <div id="rewardStats">
-                        <p class="subtitle" style="color: black">
-                            Loading reward stats...
-                        </p>
-                    </div>
-                    <hr style="color: rgb(87, 87, 87)">
-                    <div id="longTermStats">
-                        <p class="subtitle" style="color: black">
-                            {{longterm_msg}}
-                        </p>
-                    </div>
+                <a src="https://bscscan.com/address/{{wallet_addr}}" target="_blank" class="subtitle"
+                    style="color: rgb(104, 104, 104)">{{wallet_addr}}</a>
+                <p class="subtitle">
+                    Current Balance: {{wallet_bal}}
                     <br>
+                    RPB = Reward Per Block (0.3 Blocks per second are processed)
+                </p>
+                <div id="rewardStats">
+                    <p class="subtitle">
+                    </p>
+                </div>
+                <br>
+                <div id="longTermStats">
+                    <p class="subtitle" style="display: none;">
+                        {{longterm_msg}}
+                    </p>
                 </div>
             </div>
         </div>
