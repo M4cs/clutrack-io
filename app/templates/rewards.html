@@ -51,6 +51,7 @@
     <meta property="twitter:image"
         content="https://clucoin.com/static/images/3000.png">
     <link rel="stylesheet" href="/assets/css/clu.css">
+    <script src="assets/js/gradanim.js"></script>
 </head>
 
 <body>
@@ -78,7 +79,7 @@
                                         placeholder="Ex: 0x44f6498D1403321890F3f2917E00F22dBDE3577a">
                                 </div>
                                 <div class="control">
-                                    <button type="submit" class="button is-primary">
+                                    <button type="submit" class="button is-primary is-outlined">
                                         <strong class="fancyTitle">Search</strong>
                                     </button>
                                 </div>
@@ -93,17 +94,17 @@
                     </div>
                     <div class="navbar-item">
                         <div class="buttons">
-                            <a class="button is-primary"
+                            <a class="button is-primary gradient is-outlined"
                                 href="https://github.com/M4cs/clutrack-io" target="_blank">
                                 View Source Code
                             </a>
                             {% if not is_logged_in %}
-                            <a class="button is-primary" onclick="login()">
+                            <a class="button is-primary gradient is-outlined" onclick="login()">
                                 Connect To Wallet
                             </a>
                             {% endif %}
                             {% if is_logged_in %}
-                            <a class="button is-danger" href="{{conf.app.host}}/logout">
+                            <a class="button is-danger is-outlined" href="{{conf.app.host}}/logout">
                                 Logout
                             </a>
                             {% endif %}
