@@ -24,6 +24,12 @@
 </style>
 
 <head>
+    <!-- Jinja2 Bootstrap Modals -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+
     <script data-ad-client="ca-pub-9279253230674491" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <meta charset="utf-8">
     <link rel="icon" href="https://clucoin.com/static/images/favicon/favicon-32x32.png">
@@ -109,11 +115,15 @@
                     <a src="https://bscscan.com/address/{{wallet_addr}}" target="_blank" class="subtitle"
                         style="color: rgb(104, 104, 104)">{{wallet_addr}}</a>
                     <p class="subtitle" style="color: black">
-                        Current Balance: {{wallet_bal}}
-                        <br>
                         RPB = Reward Per Block (0.3 Blocks per second are processed)
                     </p>
                     <hr style="color: rgb(87, 87, 87)">
+                    <div id="realtimeBalance">
+                        <p class="subtitle" style="color: black">
+                            Loading realtime balance...
+                            <hr/>
+                        </p>
+                    </div>                    
                     <div id="rewardStats">
                         <p class="subtitle" style="color: black">
                             Loading reward stats...
@@ -129,9 +139,51 @@
                 </div>
             </div>
         </div>
+        <div id="disclaimerDialog" class="modal fade" role="dialog" style="z-index:1000000">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="border: none">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" style="color: gray">About Projections</h4>
+                    </div>
+                    <div class="modal-body" style="color: black">
+                        <p>
+                        Projections are just for fun. They will change up, down, and sideways as the market fluctuates.
+                        They are simply a look at what would happen if the Market Price for CLU remained fixed and
+                        the Reflection Rate stayed the same, extrapolated over time.<br>
+                        <br>
+                        <strong>How do they work?</strong><br>
+                        The CluTrack algorithm samples 3 minutes of recent data from the blockchain and derives
+                        a Reflection Rate (CLU/sec) score, then multiplies that score by the current fiat Market
+                        Price (USD). Projections are then extrapolated for the next hour, day, month, etc., answering
+                        the question, "what would happen if the Reflection Rate and the Market Price remained constant?"<br>
+                        <br>
+                        <strong>Caveats</strong><br>
+                        In practice, nothing is a constant here (neither the price of CLU nor the rate at which
+                        we receive CLU reflections). Also, the numbers are only as good as the last data we received
+                        (both about the market price and the blockchain). Our testing revealed that Market Price data
+                        from certain feeds can lag, remain fixed or stalled, and often be off by as much as 3x.<br>
+                        <br>
+                        <strong>Disclaimer</strong><br>
+                        Enjoy Projections, but as we've said elsewhere, please don't use this for your financial planning.
+                        No one can predict the market with any degree of accuracy. This is just a way to play "What If?"
+                        CluTrack is not a financial planning tool in any way shape or form and there is
+                        no warranty expressed or implied about the accuracy of the information presented.
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>        
         <div class="hero-foot">
             <div class="container has-text-centered">
                 <p>{{credits}}</p>
+                <br>
+                <p>{{tipjar}}</p>
             </div>
         </div>
     </section>

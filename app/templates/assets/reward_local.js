@@ -1,5 +1,10 @@
 
-function numberWithCommas(x) {
+function numberWithCommas(x, precision = -1) {
+    // precision is not negative, so round to the specified number of places
+    if (precision >= 0) {
+        x = (x * 1).toFixed(precision);
+    }
+
     var parts = x.toString().split(".");
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return parts.join(".");
@@ -22,14 +27,23 @@ function getRewards(addr) {
         headers: {'Content-Type': 'application/json'}
     }).then((response) => {
         response.json().then(data => {
-            var elem = document.getElementById('rewardStats')
+            var realtimeBalance = document.getElementById('realtimeBalance')
+            realtimeBalance.innerHTML = `
+            <div class="subtitle" style="height: 30px; line-height: 30px; color: black">
+                Current Balance: 🚀 <span style="color: magenta">` + numberWithCommas(data.current_balance.toPrecision(12), 9) + `</span>
+                (<span style="color: green">USD $` + numberWithCommas(1 * (currentPrice * data.current_balance).toPrecision(12), 2) + `</span>
+                <span style="color: gray; font-size: 12px; display:inline-block; vertical-align:middle; line-height:normal; margin-bottom:4px">@ $` + numberWithCommas(currentPrice, 12) + ` / CLU</span>)
+                <br>
+            </div>
+            <br>
+            `
+            var rewardStats = document.getElementById('rewardStats')
             var avgRewardPerSecond = data.total_reward_3m / 180
             var rewardPerMinute = avgRewardPerSecond * 60
             var rewardPerHour = rewardPerMinute * 60
             var rewardPerDay = rewardPerHour * 24
-            var rewardPerMonth = rewardPerDay * 30
-
-            elem.innerHTML = `
+            var rewardPerMonth = rewardPerDay * 30            
+            rewardStats.innerHTML = `
             <div class="columns is-desktop">
                 <div class="column is-half">
                     <div class="box">
@@ -44,9 +58,21 @@ function getRewards(addr) {
                 </div>
                 <div class="column is-half">
                     <div class="box">
+                        <button type="button"
+                                class="btn btn-info btn-sm"
+                                style="float:right; background-color: lightgray; color: black; border: none"
+                                data-toggle="modal"
+                                data-target="#disclaimerDialog">?</button>
                         <p class="subtitle">
-                            <strong style="color: black">Projections</strong><br>
-                            <span style="color: gray">CLU per Second * Current Price * Timeframe</span>
+                            <span>
+                                <strong style="color: black">
+                                &nbsp;&nbsp;Projections
+                                <sup style="font-size:10px; background-color: lightgray">
+                                BETA
+                                </sup>
+                            </strong>
+                            </span><br>
+                            <span style="color: gray">Reflection Rate * Market Price * Time</span>
                         </p>
                         <table class="center" style="text-align:right; width:70%">
                         <thead style="table-header-group">
@@ -55,7 +81,7 @@ function getRewards(addr) {
                             <th>Projected Value</th>
                         </tr>
                         </thead>
-                        <tbody style="display:table-row-group">
+                        <tbody style="display:table-row-group; font-weight: normal">
                         <tr>
                             <td width="50%">per Hour</td>
                             <td style="color: green">USD $` +  numberWithCommas(1 * (rewardPerHour * currentPrice).toPrecision(8)) + `</td>
