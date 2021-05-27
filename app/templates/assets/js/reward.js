@@ -12,7 +12,7 @@ function numberWithCommas(x, precision = -1) {
 
 function getRewards(addr) {
     var currentPrice = 0
-    fetch('http://localhost:5000/getPrice',{
+    fetch('https://clutrack.io/getPrice',{
         method: 'get',
         headers: {'Content-Type': 'application/json'}
     }).then((response) => {
@@ -22,7 +22,7 @@ function getRewards(addr) {
             }
         })
     })
-    fetch('http://localhost:5000/getRewards/' + addr, {
+    fetch('https://clutrack.io/getRewards/' + addr, {
         method: 'get',
         headers: {'Content-Type': 'application/json'}
     }).then((response) => {
@@ -147,7 +147,7 @@ function getRewards(addr) {
                     <br><br>
                     <h1 class="title fancyTitle">Lifetime Balance Increase:</h1>
                     <p class="subtitle fancyTitle">` + numberWithCommas(data.lifetime) + `<br>$` + numberWithCommas(1 * (data.lifetime * currentPrice).toPrecision(12)) + `</p>
-                    <p class="subtitle" style="color: grey">These numbers include all transfers into your account since you linked with CluTrack. Including buys and people sending to you.</p> 
+                    <p class="subtitle" style="color: grey">These statistics include all transfers to and from your wallet since you linked with CluTrack.</p> 
                     <div class="columns is-desktop">
                         <div class="column is-half">
                             <div class="box">
@@ -170,7 +170,7 @@ function getRewards(addr) {
                     <br><br>
                     <h1 class="title fancyTitle">Lifetime Balance Increase:</h1>
                     <p class="subtitle fancyTitle">` + numberWithCommas(data.lifetime) + `<br>$` + numberWithCommas(1 * (data.lifetime * currentPrice).toPrecision(12)) + `</p>
-                    <p class="subtitle" style="color: grey">These numbers include all transfers into your account since you linked with CluTrack. Including buys and people sending to you.</p>
+                    <p class="subtitle" style="color: grey">These statistics include all transfers to and from your wallet since you linked with CluTrack.</p>
                     <div class="columns is-desktop">
                         <div class="column is-fullwidth">
                             <div class="box">
@@ -340,7 +340,7 @@ function getRewards(addr) {
 
 
 function handleAuth(accountAddress, signature, message_hash) {
-    fetch('http://localhost:5000/sign', {
+    fetch('https://clutrack.io/sign', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -383,7 +383,7 @@ function login() {
 
 
 function handleDelete(accountAddress, signature, message_hash) {
-    fetch('http://localhost:5000/removeAccount', {
+    fetch('https://clutrack.io/removeAccount', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({

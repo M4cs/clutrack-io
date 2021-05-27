@@ -147,7 +147,7 @@ function getRewards(addr) {
                     <br><br>
                     <h1 class="title fancyTitle">Lifetime Balance Increase:</h1>
                     <p class="subtitle fancyTitle">` + numberWithCommas(data.lifetime) + `<br>$` + numberWithCommas(1 * (data.lifetime * currentPrice).toPrecision(12)) + `</p>
-                    <p class="subtitle" style="color: grey">These numbers include all transfers into your account since you linked with CluTrack. Including buys and people sending to you.</p> 
+                    <p class="subtitle" style="color: grey">These statistics include all transfers to and from your wallet since you linked with CluTrack.</p> 
                     <div class="columns is-desktop">
                         <div class="column is-half">
                             <div class="box">
@@ -170,7 +170,7 @@ function getRewards(addr) {
                     <br><br>
                     <h1 class="title fancyTitle">Lifetime Balance Increase:</h1>
                     <p class="subtitle fancyTitle">` + numberWithCommas(data.lifetime) + `<br>$` + numberWithCommas(1 * (data.lifetime * currentPrice).toPrecision(12)) + `</p>
-                    <p class="subtitle" style="color: grey">These numbers include all transfers into your account since you linked with CluTrack. Including buys and people sending to you.</p>
+                    <p class="subtitle" style="color: grey">These statistics include all transfers to and from your wallet since you linked with CluTrack.</p>
                     <div class="columns is-desktop">
                         <div class="column is-fullwidth">
                             <div class="box">

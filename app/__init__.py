@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 import time
 import requests
 from flask import Flask, render_template, send_file, request, session, jsonify, Markup
@@ -11,6 +11,7 @@ from web3.exceptions import InvalidAddress
 from requests.exceptions import HTTPError
 from decimal import Decimal
 from bson import ObjectId
+import pytz
 import jwt
 import json
 
@@ -23,7 +24,7 @@ credits = """<strong>CluTrack.io</strong> was created by <a target="_blank" href
 <strong>NOT</strong> affiliated with the CluCoin team. CluTrack.io is not a financial planning tool. There is no warranty expressed
 or implied, nor any claim of accuracy or suitability for any stated purpose. We will never request to withdraw from your account.
 If you ever get a request that requires you pay gas, reject it! The website content is licensed
-<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
+<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a> <a onclick="removeAccount()">If you would like to disconnect entirely from CluTrack click here.</a>
 """
 
 header_jinja2_includes = """
@@ -143,6 +144,7 @@ def search_parser():
     parser = reqparse.RequestParser()
     parser.add_argument('address')
     return parser
+
 
 @app.route('/search')
 def search():
@@ -266,10 +268,9 @@ def remove():
 
 @app.route('/getPrice')
 def price():
-    res = requests.get('https://api.pancakeswap.info/api/v2/tokens/0x1162e2efce13f99ed259ffc24d99108aaa0ce935').json()
+    res = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=clucoin&vs_currencies=usd').json()
     obj = {
-        'price': res.get('data').get('price')[0:12],
-        'price_BNB': res.get('data').get('price_BNB')[0:14]
+        'price': f"{res['clucoin']['usd']:.8f}"
     }
     return jsonify(obj)
 
