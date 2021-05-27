@@ -29,6 +29,8 @@
 </style>
 
 <head>
+    {{header_jinja2_includes}}
+
     <script data-ad-client="ca-pub-9279253230674491" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="robots" content="noindex"/>
@@ -76,6 +78,7 @@
             </div>
             <div id="navbarBasicExample" class="navbar-menu">
                 <div class="navbar-end">
+                    {{tipjar_navbar}}
                     <div class="navbar-item">
                         <div class="buttons">
                             <a style="margin-left: 5px;" class="button is-primary gradient"
@@ -186,7 +189,7 @@
                 <div class="box">
                     <h1 class="title" style="color: black">Want to Support CluTrack?</h1>
                     <p class="subtitle" style="color: black;">
-                        {{tipjar}}
+                        {{tipjar_inline}}
                     </p>
                 </div>
                 <div class="box">
@@ -243,9 +246,10 @@
         <div class="hero-foot">
             <br><br>
             <div class="container has-text-centered">
-                <p>{{credits}}</p>
+                <p>{{credits}}</p>         
             </div>
         </div>
+        {{tipjar_modal}}
     </section>
     <script src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js" type="application/javascript"></script>
     {% if conf.app.host == conf.app.local_host %}

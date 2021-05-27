@@ -24,11 +24,7 @@
 </style>
 
 <head>
-    <!-- Jinja2 Bootstrap Modals -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    {{header_jinja2_includes}}
 
     <script data-ad-client="ca-pub-9279253230674491" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <meta charset="utf-8">
@@ -98,6 +94,7 @@
                         <p class="subtitle" id="cluPrice">
                         </p>
                     </div>
+                    {{tipjar_navbar}}
                     <div class="navbar-item">
                         <div class="buttons">
                             <a class="button is-primary is-outlined"
@@ -165,7 +162,7 @@
                         </button>
                         <h4 class="modal-title" style="color: gray">About Projections</h4>
                     </div>
-                    <div class="modal-body" style="color: black">
+                    <div class="modal-body" style="color: black; font-weight:300">
                         <p>
                         Projections are just for fun. They will change up, down, and sideways as the market fluctuates.
                         They are simply a look at what would happen if the Market Price for CLU remained fixed and
@@ -195,7 +192,8 @@
                     </div>
                 </div>
             </div>
-        </div>        
+        </div>
+        {{tipjar_modal}}
         <div class="hero-foot">
             <div class="container has-text-centered">
                 <p>{{credits}}</p>
