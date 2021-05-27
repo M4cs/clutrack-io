@@ -35,22 +35,20 @@ header_jinja2_includes = """
 """
 
 tipjar_inline = """
-<strong style="color:black">If you'd like to help pay for the server:</strong>
+<div style="font-weight:300">
+<strong style="color:black">If you'd like to help pay for the server...</strong><br>
+Please send any ERC-20/BEP-20 (ETH, BNB Smart Chain (BSC), etc.) apart from CLU. This wallet will be drained each month to cover server costs!<br> 
 <br>
-Server costs wallet: <kbd>0xF88e4A3af660ab09979a33c3c99E576244dda5aF</kbd>
+💻 Server costs (not CLU, please!): <kbd>0xF88e4A3af660ab09979a33c3c99E576244dda5aF</kbd><br>
 <br>
-This account will be drained each month to cover server costs, so please do NOT send CLU here.<br>
-Other ERC-20/BEP-20 (ETH, BNB Smart Chain (BSC), etc.) addresses are appreciated!
-<br><br>
-<strong style="color: black">If you'd like to support us directly, our addresses are:</strong>
+<strong style="color: black">If you'd like to support us directly...</strong><br>
+Please send any ERC-20/BEP-20 (ETH, BNB Smart Chain (BSC), etc.) <em>including</em> 🚀CLU! We've got 💎👐!<br>
 <br>
-Leave a tip for Max (macs):  <kbd>0x44f6498D1403321890F3f2917E00F22dBDE3577a</kbd>
+😁 A tip for Max (macs):  <kbd>0x44f6498D1403321890F3f2917E00F22dBDE3577a</kbd> (ETH, BNB Smart Chain (BSC), etc.) <br>
+😎 A tip for Jer (JERisBRISK): <kbd>0xa38bC10C3176C70081941ebe676c0F08D6dED0bB</kbd> (ETH, BNB Smart Chain (BSC), etc.) <br>
 <br>
-Leave a tip for Jer (JERisBRISK): <kbd>0xa38bC10C3176C70081941ebe676c0F08D6dED0bB</kbd>
-<br>
-<strong>Please only send CLU and/or ERC-20/BEP-20 (ETH, BNB Smart Chain (BSC), etc.) Tokens to the above addresses.
-Anything else will get lost!</strong><br>
-(CLU will not be sold because we're 💎👐 HODLers. Other coins might be)!
+We're not accountable for any funds lost in transit. (We'll be sad they didn't arrive, though!)
+</div>
 """
 
 tipjar_modal = """
@@ -226,6 +224,7 @@ def index():
                 conf=conf,
                 credits=Markup(credits),
                 header_jinja2_includes=Markup(header_jinja2_includes),
+                tipjar_inline=Markup(tipjar_inline),
                 tipjar_modal=Markup(tipjar_modal),
                 tipjar_navbar=Markup(tipjar_navbar))
 
@@ -235,6 +234,7 @@ def index():
         conf=conf,
         credits=Markup(credits),
         header_jinja2_includes=Markup(header_jinja2_includes),
+        tipjar_inline=Markup(tipjar_inline),
         tipjar_modal=Markup(tipjar_modal),
         tipjar_navbar=Markup(tipjar_navbar))
 
