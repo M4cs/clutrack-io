@@ -90,13 +90,11 @@ tipjar_modal = """
 """
 
 tipjar_navbar = """
-<div class="navbar-item">
-    <a class="button is-primary is-outlined"
-        data-toggle="modal"
-        data-target="#tipJar">
-        Tip Jar
-    </a>
-</div>
+<a class="button is-primary is-outlined"
+    data-toggle="modal"
+    data-target="#tipJar">
+    Tip Jar
+</a>
 """
 
 def create_app():
@@ -158,7 +156,7 @@ def search():
     args = parser.parse_args()
     if args.get('address'):
         try:
-            bal = w3.fromWei(Decimal(contract.functions.balanceOf(args.get('address')).call()) * Decimal(10 ** 9), 'ether')
+            bal = w3.fromWei(Decimal(contract.functions.balanceOf(w3.toChecksumAddress(args.get('address'))).call()) * Decimal(10 ** 9), 'ether')
         except InvalidAddress:
             return render_template(
                 'badaddress.html',
@@ -206,7 +204,7 @@ def index():
     if session.get('access_token'):
         holder = decodeJWT(session.get('access_token'))
         if holder:
-            bal = w3.fromWei(Decimal(contract.functions.balanceOf(holder.address).call())*(Decimal(10) ** 9), "ether")
+            bal = w3.fromWei(Decimal(contract.functions.balanceOf(w3.toChecksumAddress(holder.address)).call())*(Decimal(10) ** 9), "ether")
             longterm_msg = ""
             if holder_bal_count := len(holder.balances) < 12:
                 longterm_msg = "Long term stats will kick in after at least 12 hours of linking. Hours Left: " + str(12 - holder_bal_count)
