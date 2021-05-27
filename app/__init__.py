@@ -307,7 +307,7 @@ def getRewards(addr):
 
     while currentBlock - block <= 120:
         try:
-            balance = contract.functions.balanceOf(addr).call(block_identifier=block)
+            balance = contract.functions.balanceOf(w3.toChecksumAddress(addr)).call(block_identifier=block)
             bals.append(w3.fromWei(Decimal(Decimal(lastBal) - Decimal(balance))* (Decimal(10) ** 9), 'ether'))
             block_data['b' + str(block)] = float(w3.fromWei(Decimal(Decimal(lastBal) - Decimal(balance))* (Decimal(10) ** 9), 'ether'))
             lastBal = balance
