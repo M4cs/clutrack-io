@@ -27,13 +27,17 @@ function getRewards(addr) {
         headers: {'Content-Type': 'application/json'}
     }).then((response) => {
         response.json().then(data => {
+            var title = document.getElementById('mainTitle')
+            title.innerText = "Displaying Rewards for Wallet:"
             var realtimeBalance = document.getElementById('realtimeBalance')
             realtimeBalance.innerHTML = `
-            <div class="subtitle" style="height: 30px; line-height: 30px; color: black">
-                Current Balance: 🚀 <span style="color: magenta">` + numberWithCommas(data.current_balance.toPrecision(12), 9) + `</span>
-                (<span style="color: green">USD $` + numberWithCommas(1 * (currentPrice * data.current_balance).toPrecision(12), 2) + `</span>
-                <span style="color: gray; font-size: 12px; display:inline-block; vertical-align:middle; line-height:normal; margin-bottom:4px">@ $` + numberWithCommas(currentPrice, 12) + ` / CLU</span>)
-                <br>
+            <div class="container has-text-centered">
+                <p class="subtitle">
+                    Current Balance: 🚀 <span style="color: deeppink">` + numberWithCommas(data.current_balance.toPrecision(12), 9) + `</span>
+                    (<span style="color: green">USD $` + numberWithCommas(1 * (currentPrice * data.current_balance).toPrecision(12), 2) + `</span>
+                    <span style="color: gray; font-size: 12px; vertical-align:middle; line-height:normal; margin-bottom:4px">@ $` + numberWithCommas(currentPrice, 12) + ` / CLU</span>)
+                    <br><br><br>
+                </p>
             </div>
             <br>
             `
@@ -74,25 +78,29 @@ function getRewards(addr) {
                             </span><br>
                             <span style="color: gray">Reflection Rate * Market Price * Time</span>
                         </p>
-                        <table class="center" style="text-align:right; width:70%">
+                        <table class="center" style="text-align:right; width:90%">
                         <thead style="table-header-group">
                         <tr>
                             <th>Timeframe</th>
-                            <th>Projected Value</th>
+                            <th>Gains (<span style="color: magenta">🚀 CLU</span>)</th>
+                            <th>Value (<span style="color: green">$ USD</span>)</th>
                         </tr>
                         </thead>
                         <tbody style="display:table-row-group; font-weight: normal">
                         <tr>
-                            <td width="50%">per Hour</td>
-                            <td style="color: green">USD $` +  numberWithCommas(1 * (rewardPerHour * currentPrice).toPrecision(8)) + `</td>
+                            <td width="20%">per Hour</td>
+                            <td width="50%" style="color: magenta">` +  numberWithCommas(1 * (rewardPerHour).toPrecision(9), 9) + `</td>
+                            <td width="30%" style="color: green">` +  numberWithCommas(1 * (rewardPerHour * currentPrice).toPrecision(8), 4) + `</td>
                         </tr>
                         <tr>
-                            <td width="50%">per Day</td>
-                            <td style="color: green">USD $` +  numberWithCommas(1 * (rewardPerDay * currentPrice).toPrecision(2)) + `</td>
+                            <td width="20%">per Day</td>
+                            <td width="40%" style="color: magenta">` +  numberWithCommas(1 * (rewardPerDay).toPrecision(9), 9) + `</td>
+                            <td width="40%" style="color: green">` +  numberWithCommas(1 * (rewardPerDay * currentPrice).toPrecision(2), 3) + `</td>
                         </tr>
                         <tr>
-                            <td width="50%">per Month</td>
-                            <td style="color: green">USD $` +  numberWithCommas(1 * (rewardPerMonth * currentPrice).toPrecision(2)) + `</td>
+                            <td width="20%">per Month</td>
+                            <td width="40%" style="color: magenta">` +  numberWithCommas(1 * (rewardPerMonth).toPrecision(9), 9) + `</td>
+                            <td width="40%" style="color: green">` +  numberWithCommas(1 * (rewardPerMonth * currentPrice).toPrecision(2), 2) + `</td>
                         </tr>
                         </tbody>
                         </table>
@@ -111,10 +119,7 @@ function getRewards(addr) {
                 </div>
                 <div class="column is-half">
                     <div class="box">
-                        <p class="subtitle">
-                            <strong style="color: black">Total Gained</strong><br>
-                            <span style="color: gray">3 Minutes</strong></span>
-                        </p>
+                        <p class="subtitle"><strong style="color: black">Total Gained<br>3 Minutes</strong></p>
                         <p class="subtitle" style="color: black">` + numberWithCommas(data.total_reward_3m) + `<br>$` + numberWithCommas(1 * (data.total_reward_3m * currentPrice).toPrecision(12)) + `</p>
                     </div>
                 </div>
@@ -124,14 +129,14 @@ function getRewards(addr) {
                     <div class="box">
                         <p class="subtitle"><strong style="color: black">Avg. RPB Per Minute</strong></p>
                         <p class="subtitle" style="color: black">` + numberWithCommas(data.avg_br_1m) + `<br>$` + numberWithCommas(1 * (data.avg_br_1m * currentPrice).toPrecision(12)) + `</p>
-                        <canvas id="minuteChart" width="600" height="200"></canvas>
+                        <canvas id="minuteChart" height="200"></canvas>
                     </div>
                 </div>
                 <div class="column is-half">
                 <div class="box">
                     <p class="subtitle"><strong style="color: black">Avg. RPB Per 3 Minutes</strong></p>
                     <p class="subtitle" style="color: black">` + numberWithCommas(data.avg_br_3m) + `<br>$` + numberWithCommas(1 * (data.avg_br_3m * currentPrice).toPrecision(12)) + `</p>
-                    <canvas id="threeMinChart" width="600" height="200"></canvas>
+                    <canvas id="threeMinChart" height="200"></canvas>
                     </div>
                 </div>
             </div>`
@@ -139,37 +144,39 @@ function getRewards(addr) {
             if (data.has_12hr !== null && data.has_12hr === true) {
                 if (data.has_24hr === true) {
                     longTerm.innerHTML = `
-                    <h1 class="title" style="color: black">Lifetime Balance Increase:</h1>
-                    <p class="subtitle" style="color: black">` + numberWithCommas(data.lifetime) + `<br>$` + numberWithCommas(1 * (data.lifetime * currentPrice).toPrecision(12)) + `</p>
+                    <br><br>
+                    <h1 class="title fancyTitle">Lifetime Balance Increase:</h1>
+                    <p class="subtitle fancyTitle">` + numberWithCommas(data.lifetime) + `<br>$` + numberWithCommas(1 * (data.lifetime * currentPrice).toPrecision(12)) + `</p>
                     <p class="subtitle" style="color: grey">These numbers include all transfers into your account since you linked with CluTrack. Including buys and people sending to you.</p> 
                     <div class="columns is-desktop">
                         <div class="column is-half">
                             <div class="box">
                                 <p class="subtitle"><strong style="color: black">Total Gained<br>12 Hours</strong></p>
                                 <p class="subtitle" style="color: black">` + numberWithCommas(data.total_12hr) + `<br>$` + numberWithCommas(1 * (data.total_12hr * currentPrice).toPrecision(12)) + `</p>
-                                <canvas id="twelveHourChart" width="600" height="200"></canvas>
+                                <canvas id="twelveHourChart" height="200"></canvas>
                             </div>
                         </div>
                         <div class="column is-half">
                             <div class="box">
                                 <p class="subtitle"><strong style="color: black">Total Gained<br>24 Hours</strong></p>
                                 <p class="subtitle" style="color: black">` + numberWithCommas(data.total_24hr) + `<br>$` + numberWithCommas(1 * (data.total_24hr * currentPrice).toPrecision(12)) + `</p>
-                                <canvas id="twentyFourChart" width="600" height="200"></canvas>
+                                <canvas id="twentyFourChart" height="200"></canvas>
                             </div>
                         </div>
                     </div>
                     `
                 } else {
                     longTerm.innerHTML = `
-                    <h1 class="title" style="color: black">Lifetime Balance Increase:</h1>
-                    <p class="subtitle" style="color: black">` + numberWithCommas(data.lifetime) + `<br>$` + numberWithCommas(1 * (data.lifetime * currentPrice).toPrecision(12)) + `</p>
+                    <br><br>
+                    <h1 class="title fancyTitle">Lifetime Balance Increase:</h1>
+                    <p class="subtitle fancyTitle">` + numberWithCommas(data.lifetime) + `<br>$` + numberWithCommas(1 * (data.lifetime * currentPrice).toPrecision(12)) + `</p>
                     <p class="subtitle" style="color: grey">These numbers include all transfers into your account since you linked with CluTrack. Including buys and people sending to you.</p>
                     <div class="columns is-desktop">
                         <div class="column is-fullwidth">
                             <div class="box">
                                 <p class="subtitle"><strong style="color: black">Total Gained<br>12 Hours</strong></p>
                                 <p class="subtitle" style="color: black">` + numberWithCommas(data.total_12hr) + `<br>$` + numberWithCommas(1 * (data.total_12hr * currentPrice).toPrecision(12)) + `</p>
-                                <canvas id="twelveHourChart" width="600" height="200"></canvas>
+                                <canvas id="twelveHourChart" height="200"></canvas>
                             </div>
                         </div>
                     </div>
@@ -205,6 +212,8 @@ function getRewards(addr) {
                         }]
                     },
                     options: {
+                        responsive: true,
+                        maintainAspectRation: false,
                         scales: {
                             yAxes: [{
                                 stacked: true
@@ -239,6 +248,8 @@ function getRewards(addr) {
                         }]
                     },
                     options: {
+                        responsive: true,
+                        maintainAspectRation: false,
                         scales: {
                             yAxes: [{
                                 stacked: true
@@ -273,6 +284,8 @@ function getRewards(addr) {
                     }]
                 },
                 options: {
+                    responsive: true,
+                    maintainAspectRation: false,
                     scales: {
                         yAxes: [{
                             stacked: true
@@ -305,6 +318,8 @@ function getRewards(addr) {
                     }]
                 },
                 options: {
+                    responsive: true,
+                    maintainAspectRation: false,
                     scales: {
                         yAxes: [{
                             stacked: true

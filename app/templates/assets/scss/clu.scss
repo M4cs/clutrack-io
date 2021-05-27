@@ -1,0 +1,30 @@
+@charset "utf-8";
+@import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
+@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oxygen:wght@700&family=Poppins:wght@700&display=swap');
+
+$pink: deeppink;
+$black: #0a0a0a;
+$white: #fafafa;
+
+$progress-bar-background-color: linear-gradient(to right, rgba(218,75,253,1) 0%,rgba(73,15,180,1) 100%);
+$primary: $pink;
+$link: $progress-bar-background-color;
+
+@import "../node_modules/bulma/bulma.sass";
+
+p,h1,a,strong.fancyTitle {
+    font-family: Poppins;
+}
+
+body::-webkit-scrollbar-track, 
+body::-moz-scrollbar-track, 
+body::-o-scrollbar-track
+{
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    -moz-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    -o-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    background-color: rgb(32, 32, 32);
+}

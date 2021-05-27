@@ -29,6 +29,8 @@
 </style>
 
 <head>
+    {{header_jinja2_includes}}
+
     <meta charset="utf-8">
     <link rel="icon" href="https://clucoin.com/static/images/favicon/favicon-32x32.png">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -52,7 +54,7 @@
     <meta property="twitter:description"
         content="Track the rewards you gain from holding CLU in your wallet. Link with one-click and start seeing those gains.">
     <meta property="twitter:image" content="https://clucoin.com/static/images/3000.png">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+    <link rel="stylesheet" href="/assets/css/clu.css">
     <script src="https://kit.fontawesome.com/bfef34323a.js" crossorigin="anonymous"></script>
 </head>
 
@@ -67,11 +69,18 @@
                             CLUTRACK.io
                         </a>
                     </div>
-                    <div class="navbar-end">
-                        <a style="margin-left: 5px;" class="button is-warning"
-                            href="https://github.com/M4cs/clutrack-io" target="_blank">
-                            View Source Code
-                        </a>
+                    <div id="navbarBasicExample" class="navbar-menu">
+                        <div class="navbar-end">
+                            {{tipjar_navbar}}
+                            <div class="navbar-item">
+                                <div class="buttons">
+                                    <a style="margin-left: 5px;" class="button is-primary gradient"
+                                        href="https://github.com/M4cs/clutrack-io" target="_blank">
+                                        View Source Code
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -91,11 +100,10 @@
             <br><br>
             <div class="container has-text-centered">
                 <p>{{credits}}</p>
-                <br>
-                <p>{{tipjar}}</p>
             </div>
         </div>
     </section>
+    {{tipjar_modal}}
     <script src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js" type="application/javascript"></script>
 </body>
 

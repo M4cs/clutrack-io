@@ -1,5 +1,10 @@
 
-function numberWithCommas(x) {
+function numberWithCommas(x, precision = -1) {
+    // precision is not negative, so round to the specified number of places
+    if (precision >= 0) {
+        x = (x * 1).toFixed(precision);
+    }
+
     var parts = x.toString().split(".");
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return parts.join(".");
@@ -7,7 +12,7 @@ function numberWithCommas(x) {
 
 function getRewards(addr) {
     var currentPrice = 0
-    fetch('https://clutrack.io/getPrice',{
+    fetch('http://localhost:5000/getPrice',{
         method: 'get',
         headers: {'Content-Type': 'application/json'}
     }).then((response) => {
@@ -17,17 +22,98 @@ function getRewards(addr) {
             }
         })
     })
-    fetch('https://clutrack.io/getRewards/' + addr, {
+    fetch('http://localhost:5000/getRewards/' + addr, {
         method: 'get',
         headers: {'Content-Type': 'application/json'}
     }).then((response) => {
         response.json().then(data => {
-            var elem = document.getElementById('rewardStats')
-            elem.innerHTML = `
+            var title = document.getElementById('mainTitle')
+            title.innerText = "Displaying Rewards for Wallet:"
+            var realtimeBalance = document.getElementById('realtimeBalance')
+            realtimeBalance.innerHTML = `
+            <div class="container has-text-centered">
+                <p class="subtitle">
+                    Current Balance: 🚀 <span style="color: deeppink">` + numberWithCommas(data.current_balance.toPrecision(12), 9) + `</span>
+                    (<span style="color: green">USD $` + numberWithCommas(1 * (currentPrice * data.current_balance).toPrecision(12), 2) + `</span>
+                    <span style="color: gray; font-size: 12px; vertical-align:middle; line-height:normal; margin-bottom:4px">@ $` + numberWithCommas(currentPrice, 12) + ` / CLU</span>)
+                    <br><br><br>
+                </p>
+            </div>
+            <br>
+            `
+            var rewardStats = document.getElementById('rewardStats')
+            var avgRewardPerSecond = data.total_reward_3m / 180
+            var rewardPerMinute = avgRewardPerSecond * 60
+            var rewardPerHour = rewardPerMinute * 60
+            var rewardPerDay = rewardPerHour * 24
+            var rewardPerMonth = rewardPerDay * 30            
+            rewardStats.innerHTML = `
             <div class="columns is-desktop">
                 <div class="column is-half">
                     <div class="box">
-                        <p class="subtitle"><strong style="color: black">Total Gained<br>1 Minute</strong></p>
+                        <p class="subtitle">
+                            <strong style="color: black">Reflection Rate</strong><br>
+                            <span style="color: gray">3 Minutes</span>
+                        </p>
+                        <p class="subtitle" style="color: magenta">CLU per Second 🚀` +  numberWithCommas(1 * (avgRewardPerSecond).toPrecision(12)) + `</p>
+                        <p class="subtitle" style="color: green">USD per Second $` +  numberWithCommas(1 * (avgRewardPerSecond * currentPrice).toPrecision(8))  + `</p>
+                        <p style="line-height:50%" />
+                    </div>
+                </div>
+                <div class="column is-half">
+                    <div class="box">
+                        <button type="button"
+                                class="btn btn-info btn-sm"
+                                style="float:right; background-color: lightgray; color: black; border: none"
+                                data-toggle="modal"
+                                data-target="#disclaimerDialog">?</button>
+                        <p class="subtitle">
+                            <span>
+                                <strong style="color: black">
+                                &nbsp;&nbsp;Projections
+                                <sup style="font-size:10px; background-color: lightgray">
+                                BETA
+                                </sup>
+                            </strong>
+                            </span><br>
+                            <span style="color: gray">Reflection Rate * Market Price * Time</span>
+                        </p>
+                        <table class="center" style="text-align:right; width:90%">
+                        <thead style="table-header-group">
+                        <tr>
+                            <th>Timeframe</th>
+                            <th>Gains (<span style="color: magenta">🚀 CLU</span>)</th>
+                            <th>Value (<span style="color: green">$ USD</span>)</th>
+                        </tr>
+                        </thead>
+                        <tbody style="display:table-row-group; font-weight: normal">
+                        <tr>
+                            <td width="20%">per Hour</td>
+                            <td width="50%" style="color: magenta">` +  numberWithCommas(1 * (rewardPerHour).toPrecision(9), 9) + `</td>
+                            <td width="30%" style="color: green">` +  numberWithCommas(1 * (rewardPerHour * currentPrice).toPrecision(8), 4) + `</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">per Day</td>
+                            <td width="40%" style="color: magenta">` +  numberWithCommas(1 * (rewardPerDay).toPrecision(9), 9) + `</td>
+                            <td width="40%" style="color: green">` +  numberWithCommas(1 * (rewardPerDay * currentPrice).toPrecision(2), 3) + `</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">per Month</td>
+                            <td width="40%" style="color: magenta">` +  numberWithCommas(1 * (rewardPerMonth).toPrecision(9), 9) + `</td>
+                            <td width="40%" style="color: green">` +  numberWithCommas(1 * (rewardPerMonth * currentPrice).toPrecision(2), 2) + `</td>
+                        </tr>
+                        </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="columns is-desktop">
+                <div class="column is-half">
+                    <div class="box">
+                        <p class="subtitle">
+                            <strong style="color: black">Total Gained</strong><br>
+                            <span style="color: gray">1 Minute</span>
+                        </p>
                         <p class="subtitle" style="color: black">` + numberWithCommas(data.total_reward_1m) + `<br>$` + numberWithCommas(1 * (data.total_reward_1m * currentPrice).toPrecision(12)) + `</p>
                     </div>
                 </div>
@@ -43,14 +129,14 @@ function getRewards(addr) {
                     <div class="box">
                         <p class="subtitle"><strong style="color: black">Avg. RPB Per Minute</strong></p>
                         <p class="subtitle" style="color: black">` + numberWithCommas(data.avg_br_1m) + `<br>$` + numberWithCommas(1 * (data.avg_br_1m * currentPrice).toPrecision(12)) + `</p>
-                        <canvas id="minuteChart" width="600" height="200"></canvas>
+                        <canvas id="minuteChart" height="200"></canvas>
                     </div>
                 </div>
                 <div class="column is-half">
                 <div class="box">
                     <p class="subtitle"><strong style="color: black">Avg. RPB Per 3 Minutes</strong></p>
                     <p class="subtitle" style="color: black">` + numberWithCommas(data.avg_br_3m) + `<br>$` + numberWithCommas(1 * (data.avg_br_3m * currentPrice).toPrecision(12)) + `</p>
-                    <canvas id="threeMinChart" width="600" height="200"></canvas>
+                    <canvas id="threeMinChart" height="200"></canvas>
                     </div>
                 </div>
             </div>`
@@ -58,37 +144,39 @@ function getRewards(addr) {
             if (data.has_12hr !== null && data.has_12hr === true) {
                 if (data.has_24hr === true) {
                     longTerm.innerHTML = `
-                    <h1 class="title" style="color: black">Lifetime Balance Increase:</h1>
-                    <p class="subtitle" style="color: black">` + numberWithCommas(data.lifetime) + `<br>$` + numberWithCommas(1 * (data.lifetime * currentPrice).toPrecision(12)) + `</p>
+                    <br><br>
+                    <h1 class="title fancyTitle">Lifetime Balance Increase:</h1>
+                    <p class="subtitle fancyTitle">` + numberWithCommas(data.lifetime) + `<br>$` + numberWithCommas(1 * (data.lifetime * currentPrice).toPrecision(12)) + `</p>
                     <p class="subtitle" style="color: grey">These numbers include all transfers into your account since you linked with CluTrack. Including buys and people sending to you.</p> 
                     <div class="columns is-desktop">
                         <div class="column is-half">
                             <div class="box">
                                 <p class="subtitle"><strong style="color: black">Total Gained<br>12 Hours</strong></p>
                                 <p class="subtitle" style="color: black">` + numberWithCommas(data.total_12hr) + `<br>$` + numberWithCommas(1 * (data.total_12hr * currentPrice).toPrecision(12)) + `</p>
-                                <canvas id="twelveHourChart" width="600" height="200"></canvas>
+                                <canvas id="twelveHourChart" height="200"></canvas>
                             </div>
                         </div>
                         <div class="column is-half">
                             <div class="box">
                                 <p class="subtitle"><strong style="color: black">Total Gained<br>24 Hours</strong></p>
                                 <p class="subtitle" style="color: black">` + numberWithCommas(data.total_24hr) + `<br>$` + numberWithCommas(1 * (data.total_24hr * currentPrice).toPrecision(12)) + `</p>
-                                <canvas id="twentyFourChart" width="600" height="200"></canvas>
+                                <canvas id="twentyFourChart" height="200"></canvas>
                             </div>
                         </div>
                     </div>
                     `
                 } else {
                     longTerm.innerHTML = `
-                    <h1 class="title" style="color: black">Lifetime Balance Increase:</h1>
-                    <p class="subtitle" style="color: black">` + numberWithCommas(data.lifetime) + `<br>$` + numberWithCommas(1 * (data.lifetime * currentPrice).toPrecision(12)) + `</p>
+                    <br><br>
+                    <h1 class="title fancyTitle">Lifetime Balance Increase:</h1>
+                    <p class="subtitle fancyTitle">` + numberWithCommas(data.lifetime) + `<br>$` + numberWithCommas(1 * (data.lifetime * currentPrice).toPrecision(12)) + `</p>
                     <p class="subtitle" style="color: grey">These numbers include all transfers into your account since you linked with CluTrack. Including buys and people sending to you.</p>
                     <div class="columns is-desktop">
                         <div class="column is-fullwidth">
                             <div class="box">
                                 <p class="subtitle"><strong style="color: black">Total Gained<br>12 Hours</strong></p>
                                 <p class="subtitle" style="color: black">` + numberWithCommas(data.total_12hr) + `<br>$` + numberWithCommas(1 * (data.total_12hr * currentPrice).toPrecision(12)) + `</p>
-                                <canvas id="twelveHourChart" width="600" height="200"></canvas>
+                                <canvas id="twelveHourChart" height="200"></canvas>
                             </div>
                         </div>
                     </div>
@@ -124,6 +212,8 @@ function getRewards(addr) {
                         }]
                     },
                     options: {
+                        responsive: true,
+                        maintainAspectRation: false,
                         scales: {
                             yAxes: [{
                                 stacked: true
@@ -158,6 +248,8 @@ function getRewards(addr) {
                         }]
                     },
                     options: {
+                        responsive: true,
+                        maintainAspectRation: false,
                         scales: {
                             yAxes: [{
                                 stacked: true
@@ -192,6 +284,8 @@ function getRewards(addr) {
                     }]
                 },
                 options: {
+                    responsive: true,
+                    maintainAspectRation: false,
                     scales: {
                         yAxes: [{
                             stacked: true
@@ -224,6 +318,8 @@ function getRewards(addr) {
                     }]
                 },
                 options: {
+                    responsive: true,
+                    maintainAspectRation: false,
                     scales: {
                         yAxes: [{
                             stacked: true
@@ -244,7 +340,7 @@ function getRewards(addr) {
 
 
 function handleAuth(accountAddress, signature, message_hash) {
-    fetch('https://clutrack.io/sign', {
+    fetch('http://localhost:5000/sign', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -275,7 +371,7 @@ function login() {
                 signer = provider.getSigner();
                 now = (Date.now()/1000).toFixed(0);
                 near = now-(now%600);
-                var message = "Signing message to https://clutrack.io at " + near
+                var message = "Signing message to http://localhost:5000 at " + near
                 var message_hash = ethers.utils.hashMessage(message + ":" + message.length.toString())
                 signer.signMessage(message + ":" + message.length.toString(), accountAddress, "1234567890!!!").then((signature) => {
                     handleAuth(accountAddress, signature, message_hash)
@@ -287,7 +383,7 @@ function login() {
 
 
 function handleDelete(accountAddress, signature, message_hash) {
-    fetch('https://clutrack.io/removeAccount', {
+    fetch('http://localhost:5000/removeAccount', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -318,7 +414,7 @@ function removeAccount() {
                     signer = provider.getSigner();
                     now = (Date.now()/1000).toFixed(0);
                     near = now-(now%600);
-                    var message = "DELETE ACCOUNT | Signing message to https://clutrack.io at " + near
+                    var message = "DELETE ACCOUNT | Signing message to http://localhost:5000 at " + near
                     var message_hash = ethers.utils.hashMessage(message + ":" + message.length.toString())
                     signer.signMessage(message + ":" + message.length.toString(), accountAddress, "1234567890!!!").then((signature) => {
                         handleDelete(accountAddress, signature, message_hash)

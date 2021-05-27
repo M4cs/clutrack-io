@@ -24,11 +24,7 @@
 </style>
 
 <head>
-    <!-- Jinja2 Bootstrap Modals -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    {{header_jinja2_includes}}
 
     <script data-ad-client="ca-pub-9279253230674491" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <meta charset="utf-8">
@@ -56,23 +52,28 @@
         content="Track the rewards you gain from holding CLU in your wallet. Link with one-click and start seeing those gains.">
     <meta property="twitter:image"
         content="https://clucoin.com/static/images/3000.png">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+    <link rel="stylesheet" href="/assets/css/clu.css">
+    <script src="assets/js/gradanim.js"></script>
 </head>
 
 <body>
-    <section class="section hero is-fullheight is-dark is-bold">
-        <div class="hero-head is-fullwidth">
-            <div class="navbar">
-                <div class="container">
-                    <div class="navbar-brand">
-                        <a class="navbar-item" href="https://clutrack.io/">
-                            <img src="https://clucoin.com/static/images/3000.png" style="margin-right: 2%" alt="Logo">
-                            CLUTRACK.io
-                        </a>
-                    </div>
-                    <div class="navbar-end">
-                        <p class="subtitle" id="cluPrice">
-                        </p>
+    <nav class="navbar is-fixed-top is-bold is-primary" style="background-color: rgb(32, 32, 32);">
+        <div class="container">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="https://clutrack.io/">
+                    <img src="https://clucoin.com/static/images/3000.png" style="margin-right: 2%" alt="Logo">
+                    CLUTRACK.IO
+                </a>
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
+                    data-target="navbarBasicExample">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+            <div id="navbarBasicExample" class="navbar-menu">
+                <div class="navbar-start">
+                    <div class="navbar-item">
                         <form action='/search' method='GET'>
                             <div class="field has-addons is-grouped-right">
                                 <div class="control">
@@ -80,62 +81,71 @@
                                         placeholder="Ex: 0x44f6498D1403321890F3f2917E00F22dBDE3577a">
                                 </div>
                                 <div class="control">
-                                    <button type="submit" class="button is-warning">
-                                        Search Address
+                                    <button type="submit" class="button is-primary is-outlined">
+                                        <strong class="fancyTitle">Search</strong>
                                     </button>
                                 </div>
                             </div>
                         </form>
-                        <a style="margin-left: 5px;" class="button is-warning"
-                            href="https://github.com/M4cs/clutrack-io" target="_blank">
-                            View Source Code
-                        </a>
-                        {% if not is_logged_in %}
-                        <a style="margin-left: 5px;" class="button is-warning" onclick="login()">
-                            Connect To Wallet
-                        </a>
-                        {% endif %}
-                        {% if is_logged_in %}
-                        <a style="margin-left: 5px;" class="button is-danger" href="https://clutrack.io//logout">
-                            Logout
-                        </a>
-                        {% endif %}
+                    </div>
+                </div>
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <div class="buttons">
+                            {{tipjar_navbar}}
+                            <a class="button is-primary is-outlined"
+                                href="https://github.com/M4cs/clutrack-io" target="_blank">
+                                View Source Code
+                            </a>
+                            {% if not is_logged_in %}
+                            <a class="button is-primary is-outlined" onclick="login()">
+                                Connect To Wallet
+                            </a>
+                            {% endif %}
+                            {% if is_logged_in %}
+                            <a class="button is-danger is-outlined" href="{{conf.app.host}}/logout">
+                                Logout
+                            </a>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    </nav>
+    <section class="section hero is-fullheight is-dark"  style="background-color: rgb(32, 32, 32);">
         <div class="hero-body">
             <div class="container has-text-centered">
-                <h1 class="title">CluCoin Redistribution Tracker</h1>
-                <div class="box">
-                    <h1 class="title" id="title" style="color: black">
-                        Displaying Rewards for Wallet:
-                    </h1>
+                <h1 class="title fancyTitle is-3" id="mainTitle">
+                    Loading Rewards for Wallet:
+                </h1>
 
                     <a src="https://bscscan.com/address/{{wallet_addr}}" target="_blank" class="subtitle"
                         style="color: rgb(104, 104, 104)">{{wallet_addr}}</a>
-                    <p class="subtitle" style="color: black">
+                    <p class="subtitle">
                         RPB = Reward Per Block (0.3 Blocks per second are processed)
                     </p>
-                    <hr style="color: rgb(87, 87, 87)">
                     <div id="realtimeBalance">
-                        <p class="subtitle" style="color: black">
-                            Loading realtime balance...
-                            <hr/>
+                        <p class="subtitle">
+                            Loading realtime stats...
                         </p>
                     </div>                    
                     <div id="rewardStats">
-                        <p class="subtitle" style="color: black">
-                            Loading reward stats...
-                        </p>
                     </div>
-                    <hr style="color: rgb(87, 87, 87)">
                     <div id="longTermStats">
                         <p class="subtitle" style="color: black">
-                            {{longterm_msg}}
                         </p>
                     </div>
-                    <br>
+                </p>
+                <div id="rewardStats">
+                    <p class="subtitle">
+                    </p>
+                </div>
+                <br>
+                <div id="longTermStats">
+                    <p class="subtitle" style="display: none;">
+                        {{longterm_msg}}
+                    </p>
                 </div>
             </div>
         </div>
@@ -148,7 +158,7 @@
                         </button>
                         <h4 class="modal-title" style="color: gray">About Projections</h4>
                     </div>
-                    <div class="modal-body" style="color: black">
+                    <div class="modal-body" style="color: black; font-weight:300">
                         <p>
                         Projections are just for fun. They will change up, down, and sideways as the market fluctuates.
                         They are simply a look at what would happen if the Market Price for CLU remained fixed and
@@ -178,21 +188,20 @@
                     </div>
                 </div>
             </div>
-        </div>        
+        </div>
+        {{tipjar_modal}}
         <div class="hero-foot">
             <div class="container has-text-centered">
                 <p>{{credits}}</p>
-                <br>
-                <p>{{tipjar}}</p>
             </div>
         </div>
     </section>
     <script src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js" type="application/javascript"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.2.1/dist/chart.min.js"></script>
     {% if conf.app.host == conf.app.local_host %}
-    <script src="assets/reward_local.js"></script>
+    <script src="assets/js/reward_local.js"></script>
     {% else %}
-    <script src="assets/reward.js"></script>
+    <script src="assets/js/reward.js"></script>
     {% endif %}
     <script>
         window.addEventListener('load', function () {
@@ -233,6 +242,21 @@
                 })
             }, 60000)
         })
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+            if ($navbarBurgers.length > 0) {
+                $navbarBurgers.forEach(el => {
+                    el.addEventListener('click', () => {
+                        const target = el.dataset.target;
+                        const $target = document.getElementById(target);
+                        el.classList.toggle('is-active');
+                        $target.classList.toggle('is-active');
+                    });
+                });
+            }
+        });
     </script>
 </body>
 

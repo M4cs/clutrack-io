@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="has-navbar-fixed-top">
 <style>
     .center-screen {
         display: flex;
@@ -29,6 +29,8 @@
 </style>
 
 <head>
+    {{header_jinja2_includes}}
+
     <script data-ad-client="ca-pub-9279253230674491" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="robots" content="noindex"/>
@@ -53,42 +55,54 @@
     <meta property="twitter:description"
         content="Track the rewards you gain from holding CLU in your wallet. Link with one-click and start seeing those gains.">
     <meta property="twitter:image" content="https://clucoin.com/static/images/3000.png">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+    <link rel="stylesheet" href="/assets/css/clu.css">
     <script src="https://kit.fontawesome.com/bfef34323a.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+    <script src="/assets/js/gradanim.js"></script>
 </head>
 
 <body>
-    <section class="section hero is-fullheight is-dark is-bold">
-        <div class="hero-head is-fullwidth">
-            <div class="navbar">
-                <div class="container">
-                    <div class="navbar-brand">
-                        <a class="navbar-item" href="https://clutrack.io/">
-                            <img src="https://clucoin.com/static/images/3000.png" style="margin-right: 2%" alt="Logo">
-                            CLUTRACK.io
-                        </a>
-                    </div>
-                    <div class="navbar-end">
-                        <a style="margin-left: 5px;" class="button is-warning"
-                            href="https://github.com/M4cs/clutrack-io" target="_blank">
-                            View Source Code
-                        </a>
+    <nav class="navbar is-fixed-top is-bold is-primary" style="background-color: rgb(32, 32, 32);">
+        <div class="container">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="https://clutrack.io/">
+                    <img src="https://clucoin.com/static/images/3000.png" style="margin-right: 2%" alt="Logo">
+                    CLUTRACK.IO
+                </a>
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
+                    data-target="navbarBasicExample">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+            <div id="navbarBasicExample" class="navbar-menu">
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <div class="buttons">
+                            <a style="margin-left: 5px;" class="button is-primary gradient"
+                                href="https://github.com/M4cs/clutrack-io" target="_blank">
+                                View Source Code
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    </nav>
+    <section class="section hero is-medium is-dark " style="background-color: rgb(32, 32, 32);">
         <div class="hero-body">
             <div class="container">
-                <h1 class="title">CluCoin Redistribution Tracker</h1>
+                <h1 class="title">CluCoin Reflection Tracker</h1>
                 <h1 class="title" id="title">
 
                 </h1>
                 <p class="subtitle">
-                    Connect to your BSC Wallet and join {{count}} others tracking their rewards<br>
+                    Connect to your Binance Smart Chain (BSC) Wallet and join thousands of others in tracking their rewards<br>
                     Linking your wallet enables lifetime tracking and better reports!
                 </p>
-                <button id="rusty" onclick="sign()" class="button is-rounded is-warning">
-                    Sign In With Wallet
+                <button id="rusty" onclick="sign()" class="button is-rounded is-primary is-outlined">
+                    <strong class="fancyTitle">Sign In With Wallet</strong>
                 </button>
                 <br><br>
                 <form action='/search' method='GET'>
@@ -97,114 +111,139 @@
                     </label>
                     <div id="search" class="field has-addons">
                         <div class="control">
-                            <input class="input" type="text" name="address"
+                            <input class="input is-rounded is-normal" type="text" name="address"
                                 placeholder="Ex: 0x44f6498D1403321890F3f2917E00F22dBDE3577a">
                         </div>
                         <div class="control">
-                            <button type="submit" class="button is-warning">
-                                Search Address
+                            <button type="submit" class="button is-primary is-rounded is-outlined">
+                                <strong>Search</strong>
                             </button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
-        <div class="hero-foot">
+    </section>
+    <section class="hero is-dark is-medium" style="background-color: rgb(41, 41, 41);">
+        <div class="hero-head">
+            <br><br>
             <div class="container has-text-centered">
-
-                <a class="subtitle" href="#safetyInfo">
-                    ▼ Safety Info Below ▼
-                </a>
+                <a href="#safetyInfo"><h1 class="title is-1">F.A.Q</h1></a>
             </div>
         </div>
-    </section>
-    <section class="hero is-dark is-medium">
         <div class="hero-body" id="safetyInfo">
-            <div class="container has-text-centered">
-                <div class="box">
-                    <h1 class="title" style="color: black">Is this site safe?</h1>
-                    <p class="subtitle" style="color: black">
-                        Yes! This site was made for the community to help allow everybody keep track of their rewards from
-                        Clu! It's hard to tell just how much you are gaining if you just look at your wallet every once in a
-                        while. Signing in with your wallet does 3 things: Signs a Message to prove you are the owner of your
-                        wallet, Stores your wallet address in a database to create an account to start tracking balances,
-                        and stores a JWT token based off your user to keep you logged in.
-                        <br><br>
-                        You will <strong style="color: black">NEVER</strong> receive a request to send CLU/BNB/Any Token to Anywhere. If you ever
-                        get a request to send funds, reject it and immediately contact Max on Discord (@macs#0420) or Twitter
-                        (@maxbridgland). All source code that this site runs on is available for public viewing and auditing
-                        on GitHub. Click the button above to head over to the GitHub Source.<br><br>
-                        The reason you must link your wallet to get longer reporting times is because it takes a snapshot every hour
-                        of your balance. There are 55k holders at the time of writing this and that number is growing rapidly. We can't
-                        track all of them! Once you are linked, you will be able to see your rewards from that time forward!
-                    </p>
-                    <br><br>
+            <div class="container">
+                <div class="columns is-desktop">
+                    <div class="column is-one-quarter">
+                        <h1 class="title fancyTitle is-1">Is CluTrack <strong style="color: deeppink">Safe</strong>?</h1>
+                    </div>
+                    <div class="column">
+                        <p class="subtitle">
+                            Yes! This site was made for the community to help allow everybody keep track of their rewards from
+                            Clu! It's hard to tell just how much you are gaining if you just look at your wallet every once in a
+                            while. Signing in with your wallet does 3 things: Signs a Message to prove you are the owner of your
+                            wallet, Stores your wallet address in a database to create an account to start tracking balances,
+                            and stores a JWT token based off your user to keep you logged in.
+                            <br><br>
+                            You will <strong style="color: deeppink">NEVER</strong> receive a request to send CLU/BNB/Any Token to Anywhere. If you ever
+                            get a request to send funds, reject it and immediately contact me on Discord (@macs#0420) or Twitter
+                            (@maxbridgland). All source code that this site runs on is available for public viewing and auditing
+                            on GitHub. Click the button above to head over to the GitHub Source.<br><br>
+                            The reason you must link your wallet to get longer reporting times is because it takes a snapshot every hour
+                            of your balance. There are 55k holders at the time of writing this and that number is growing rapidly, I can't
+                            track all of them. If you are linked, you will be able to see your rewards from the time of linking!
+                        </p>
+                    </div>
                 </div>
-                <div class="box">
-                    <h1 class="title" style="color: black">Tips to Stay Safe</h1>
-                    <p class="subtitle" style="color: black;">
-                        • Make sure the site address is <strong style="color: black">https://clutrack.io</strong>
-                        <br>
-                        • Never give your 12-word Secret Phrase / Passcode Key to Anybody EVER
-                        <br>
-                        • Never give your Private Key and Password to Anybody EVER
-                        <br>
-                        • CluTrack is free. It will not ask you for your money. If it does check the site address again!
-                    </p>
+                <div class="columns is-desktop">
+                    <div class="column">
+                        <div class="box">
+                            <p class="subtitle fancyTitle" style="color: black;">
+                                Make sure the URL is <strong style="color: deeppink">https://clutrack.io</strong>. This is the only one.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="box">
+                            <p class="subtitle fancyTitle" style="color: black;">
+                                Never give your 12 Phrase Passcode Key to Anybody EVER
+                            </p>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="box">
+                            <p class="subtitle fancyTitle" style="color: black;">
+                                Never give your private key and password to Anybody EVER
+                            </p>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="box">
+                            <p class="subtitle fancyTitle" style="color: black;">
+                                This site will never ask you for your money, phrase, or private keys!
+                            </p>
+                        </div>
+                    </div>
                 </div>
                 <div class="box">
                     <h1 class="title" style="color: black">Want to Support CluTrack?</h1>
                     <p class="subtitle" style="color: black;">
-                        {{tipjar}}
+                        {{tipjar_inline}}
                     </p>
                 </div>
                 <div class="box">
                     <div class="container has-text-centered">
                         <h1 class="title" style="color: black">Team Socials</h1>
                         <div class="field is-grouped-centered">
-                            <div class="row">
-                                <a target="_blank" class="button is-info" href="https://twitter.com/maxbridgland">
-                                    <span class="icon">
-                                        <i class="fab fa-twitter"></i>
-                                    </span>
-                                    <span>@maxbridgland</span>
-                                </a>
-                                <a target="_blank" class="button" href="https://github.com/M4cs">
-                                    <span class="icon">
-                                        <i class="fab fa-github"></i>
-                                    </span>
-                                    <span>GitHub</span>
-                                </a>
-                                <a target="_blank" class="button is-dark" href="https://linkedin.com/in/maxbridgland">
-                                    <span class="icon is-small">
-                                        <i class="fab fa-linkedin"></i>
-                                    </span>
-                                    <span>LinkedIn</span>
-                                </a>
+                            <div class="columns">
+                                <div class="column">
+                                    <p class="subtitle" style="color: deeppink;">Max Bridgland</p>
+                                    <div class="buttons is-centered">
+                                        <a target="_blank" class="button is-info" href="https://twitter.com/maxbridgland">
+                                            <span class="icon">
+                                                <i class="fab fa-twitter"></i>
+                                            </span>
+                                            <span>@maxbridgland</span>
+                                        </a>
+                                        <a target="_blank" class="button" href="https://github.com/M4cs">
+                                            <span class="icon">
+                                                <i class="fab fa-github"></i>
+                                            </span>
+                                            <span>GitHub</span>
+                                        </a>
+                                        <a target="_blank" class="button is-dark" href="https://linkedin.com/in/maxbridgland">
+                                            <span class="icon is-small">
+                                                <i class="fab fa-linkedin"></i>
+                                            </span>
+                                            <span>LinkedIn</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="column">
+                                    <p class="subtitle" style="color: deeppink;">JERisBRISK</p>
+                                    <div class="buttons is-centered">
+                                        <a target="_blank" class="button is-info" href="https://twitter.com/jerisbrisk">
+                                            <span class="icon">
+                                                <i class="fab fa-twitter"></i>
+                                            </span>
+                                            <span>@jerisbrisk</span>
+                                        </a>
+                                        <a target="_blank" class="button" href="https://github.com/jerisbrisk">
+                                            <span class="icon">
+                                                <i class="fab fa-github"></i>
+                                            </span>
+                                            <span>GitHub</span>
+                                        </a>                                
+                                        <a target="_blank" class="button is-dark" href="https://linkedin.com/in/jeremystephenanderson">
+                                            <span class="icon is-small">
+                                                <i class="fab fa-linkedin"></i>
+                                            </span>
+                                            <span>LinkedIn</span>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="field is-grouped-centered">
-                            <div class="row">
-                                <a target="_blank" class="button is-info" href="https://twitter.com/jerisbrisk">
-                                    <span class="icon">
-                                        <i class="fab fa-twitter"></i>
-                                    </span>
-                                    <span>@jerisbrisk</span>
-                                </a>
-                                <a target="_blank" class="button" href="https://github.com/jerisbrisk">
-                                    <span class="icon">
-                                        <i class="fab fa-github"></i>
-                                    </span>
-                                    <span>GitHub</span>
-                                </a>                                
-                                <a target="_blank" class="button is-dark" href="https://linkedin.com/in/jeremystephenanderson">
-                                    <span class="icon is-small">
-                                        <i class="fab fa-linkedin"></i>
-                                    </span>
-                                    <span>LinkedIn</span>
-                                </a>
-                            </div>
-                        </div>                        
+                        </div>                    
                     </div>
                 </div>
             </div>
@@ -212,16 +251,32 @@
         <div class="hero-foot">
             <br><br>
             <div class="container has-text-centered">
-                <p>{{credits}}</p>
+                <p>{{credits}}</p>         
             </div>
         </div>
+        {{tipjar_modal}}
     </section>
     <script src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js" type="application/javascript"></script>
     {% if conf.app.host == conf.app.local_host %}
-    <script src="assets/app_local.js"></script>
+    <script src="assets/js/app_local.js"></script>
     {% else %}
-    <script src="assets/app.js"></script>
+    <script src="assets/js/app.js"></script>
     {% endif %}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+            if ($navbarBurgers.length > 0) {
+                $navbarBurgers.forEach(el => {
+                    el.addEventListener('click', () => {
+                        const target = el.dataset.target;
+                        const $target = document.getElementById(target);
+                        el.classList.toggle('is-active');
+                        $target.classList.toggle('is-active');
+                    });
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>
