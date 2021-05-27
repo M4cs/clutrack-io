@@ -50,14 +50,13 @@ function getRewards(addr) {
             rewardStats.innerHTML = `
             <div class="columns is-desktop">
                 <div class="column is-half">
-                    <div class="box">
+                    <div class="box" style="height: 100%">
                         <p class="subtitle">
                             <strong style="color: black">Reflection Rate</strong><br>
                             <span style="color: gray">3 Minutes</span>
                         </p>
                         <p class="subtitle" style="color: magenta">CLU per Second 🚀` +  numberWithCommas(1 * (avgRewardPerSecond).toPrecision(12)) + `</p>
                         <p class="subtitle" style="color: green">USD per Second $` +  numberWithCommas(1 * (avgRewardPerSecond * currentPrice).toPrecision(8))  + `</p>
-                        <p style="line-height:50%" />
                     </div>
                 </div>
                 <div class="column is-half">
@@ -78,32 +77,29 @@ function getRewards(addr) {
                             </span><br>
                             <span style="color: gray">Reflection Rate * Market Price * Time</span>
                         </p>
-                        <table class="center" style="text-align:right; width:90%">
-                        <thead style="table-header-group">
-                        <tr>
-                            <th>Timeframe</th>
-                            <th>Gains (<span style="color: magenta">🚀 CLU</span>)</th>
-                            <th>Value (<span style="color: green">$ USD</span>)</th>
-                        </tr>
-                        </thead>
-                        <tbody style="display:table-row-group; font-weight: normal">
-                        <tr>
-                            <td width="20%">per Hour</td>
-                            <td width="50%" style="color: magenta">` +  numberWithCommas(1 * (rewardPerHour).toPrecision(9), 9) + `</td>
-                            <td width="30%" style="color: green">` +  numberWithCommas(1 * (rewardPerHour * currentPrice).toPrecision(8), 4) + `</td>
-                        </tr>
-                        <tr>
-                            <td width="20%">per Day</td>
-                            <td width="40%" style="color: magenta">` +  numberWithCommas(1 * (rewardPerDay).toPrecision(9), 9) + `</td>
-                            <td width="40%" style="color: green">` +  numberWithCommas(1 * (rewardPerDay * currentPrice).toPrecision(2), 3) + `</td>
-                        </tr>
-                        <tr>
-                            <td width="20%">per Month</td>
-                            <td width="40%" style="color: magenta">` +  numberWithCommas(1 * (rewardPerMonth).toPrecision(9), 9) + `</td>
-                            <td width="40%" style="color: green">` +  numberWithCommas(1 * (rewardPerMonth * currentPrice).toPrecision(2), 2) + `</td>
-                        </tr>
-                        </tbody>
-                        </table>
+                        <div class="columns is-desktop">
+                            <div class="column">
+                                <h1 class="title is-6" style="color: black; margin-bottom: 5px;">Timeframe</h1>
+                                <p style="color: black">
+                                per Hour<br>
+                                per Day<br>
+                                per Month<br>
+                                </p>
+                            </div>
+                            <div class="column">
+                                <h1 class="title is-6" style="color: black; margin-bottom: 5px;">Gains (🚀 CLU)</h1>
+                                <p style="color: deeppink">` +  numberWithCommas(1 * (rewardPerHour).toPrecision(5), 5) + `</p>
+                                <p style="color: deeppink">` +  numberWithCommas(1 * (rewardPerDay).toPrecision(4), 4) + `</p>
+                                <p style="color: deeppink">` +  numberWithCommas(1 * (rewardPerMonth).toPrecision(3), 3) + `</p>
+                            </div>
+                            <div class="column">
+                                <h1 class="title is-6" style="color: black; margin-bottom: 5px;">Gains (💲 USD)</h1>
+                                <p style="color: green">` +  numberWithCommas(1 * (rewardPerHour * currentPrice).toPrecision(8), 4) + `<br>
+                                ` +  numberWithCommas(1 * (rewardPerDay * currentPrice).toPrecision(2), 3) + `<br>
+                                ` +  numberWithCommas(1 * (rewardPerMonth * currentPrice).toPrecision(2), 2) + `</p>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -371,7 +367,7 @@ function login() {
                 signer = provider.getSigner();
                 now = (Date.now()/1000).toFixed(0);
                 near = now-(now%600);
-                var message = "Signing message to http://localhost:5000 at " + near
+                var message = "Signing message to https://clutrack.io at " + near
                 var message_hash = ethers.utils.hashMessage(message + ":" + message.length.toString())
                 signer.signMessage(message + ":" + message.length.toString(), accountAddress, "1234567890!!!").then((signature) => {
                     handleAuth(accountAddress, signature, message_hash)
@@ -414,7 +410,7 @@ function removeAccount() {
                     signer = provider.getSigner();
                     now = (Date.now()/1000).toFixed(0);
                     near = now-(now%600);
-                    var message = "DELETE ACCOUNT | Signing message to http://localhost:5000 at " + near
+                    var message = "DELETE ACCOUNT | Signing message to https://clutrack.io at " + near
                     var message_hash = ethers.utils.hashMessage(message + ":" + message.length.toString())
                     signer.signMessage(message + ":" + message.length.toString(), accountAddress, "1234567890!!!").then((signature) => {
                         handleDelete(accountAddress, signature, message_hash)
