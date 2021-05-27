@@ -284,7 +284,7 @@ def sign():
             session['access_token'] = (signJWT(str(holder.id), holder.address), time.time() + 3500 * 20)
             return {'redirect': conf.app.host}
     else:
-        bal = contract.functions.balanceOf(data['wallet_address']).call()
+        bal = contract.functions.balanceOf(w3.toChecksumAddress(data['wallet_address'])).call()
         new_holder = {
             'address': data['wallet_address'],
             'balances': {}
@@ -299,7 +299,7 @@ def sign():
 def getRewards(addr):
     from app.models.holder import Holder
     currentBlock = w3.eth.blockNumber
-    currentBalance = contract.functions.balanceOf(addr).call()
+    currentBalance = contract.functions.balanceOf(w3.toChecksumAddress(addr)).call()
     block = currentBlock
     lastBal = currentBalance
     bals = []
