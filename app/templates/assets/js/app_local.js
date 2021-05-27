@@ -10,7 +10,7 @@ function sign() {
     
         provider.getNetwork().then(function (result) {
             if (result['chainId'] != 56){
-                document.getElementById("title").textContent = 'Please Switch to the BSC Network!';
+                document.getElementById("title").textContent = 'Please Switch to the Binance Smart Chain Network!';
                 document.getElementById("rusty").disabled = true;
             } else {
                 provider.listAccounts().then(function (result) {

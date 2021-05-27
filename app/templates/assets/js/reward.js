@@ -12,7 +12,7 @@ function numberWithCommas(x, precision = -1) {
 
 function getRewards(addr) {
     var currentPrice = 0
-    fetch('https://clutrack.io/getPrice',{
+    fetch('http://localhost:5000/getPrice',{
         method: 'get',
         headers: {'Content-Type': 'application/json'}
     }).then((response) => {
@@ -22,7 +22,7 @@ function getRewards(addr) {
             }
         })
     })
-    fetch('https://clutrack.io/getRewards/' + addr, {
+    fetch('http://localhost:5000/getRewards/' + addr, {
         method: 'get',
         headers: {'Content-Type': 'application/json'}
     }).then((response) => {
@@ -78,25 +78,29 @@ function getRewards(addr) {
                             </span><br>
                             <span style="color: gray">Reflection Rate * Market Price * Time</span>
                         </p>
-                        <table class="center" style="text-align:right; width:70%">
+                        <table class="center" style="text-align:right; width:90%">
                         <thead style="table-header-group">
                         <tr>
                             <th>Timeframe</th>
-                            <th>Projected Value</th>
+                            <th>Gains (<span style="color: magenta">🚀 CLU</span>)</th>
+                            <th>Value (<span style="color: green">$ USD</span>)</th>
                         </tr>
                         </thead>
                         <tbody style="display:table-row-group; font-weight: normal">
                         <tr>
-                            <td width="50%">per Hour</td>
-                            <td style="color: green">USD $` +  numberWithCommas(1 * (rewardPerHour * currentPrice).toPrecision(8)) + `</td>
+                            <td width="20%">per Hour</td>
+                            <td width="50%" style="color: magenta">` +  numberWithCommas(1 * (rewardPerHour).toPrecision(9), 9) + `</td>
+                            <td width="30%" style="color: green">` +  numberWithCommas(1 * (rewardPerHour * currentPrice).toPrecision(8), 4) + `</td>
                         </tr>
                         <tr>
-                            <td width="50%">per Day</td>
-                            <td style="color: green">USD $` +  numberWithCommas(1 * (rewardPerDay * currentPrice).toPrecision(2)) + `</td>
+                            <td width="20%">per Day</td>
+                            <td width="40%" style="color: magenta">` +  numberWithCommas(1 * (rewardPerDay).toPrecision(9), 9) + `</td>
+                            <td width="40%" style="color: green">` +  numberWithCommas(1 * (rewardPerDay * currentPrice).toPrecision(2), 3) + `</td>
                         </tr>
                         <tr>
-                            <td width="50%">per Month</td>
-                            <td style="color: green">USD $` +  numberWithCommas(1 * (rewardPerMonth * currentPrice).toPrecision(2)) + `</td>
+                            <td width="20%">per Month</td>
+                            <td width="40%" style="color: magenta">` +  numberWithCommas(1 * (rewardPerMonth).toPrecision(9), 9) + `</td>
+                            <td width="40%" style="color: green">` +  numberWithCommas(1 * (rewardPerMonth * currentPrice).toPrecision(2), 2) + `</td>
                         </tr>
                         </tbody>
                         </table>
@@ -336,7 +340,7 @@ function getRewards(addr) {
 
 
 function handleAuth(accountAddress, signature, message_hash) {
-    fetch('https://clutrack.io/sign', {
+    fetch('http://localhost:5000/sign', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -367,7 +371,7 @@ function login() {
                 signer = provider.getSigner();
                 now = (Date.now()/1000).toFixed(0);
                 near = now-(now%600);
-                var message = "Signing message to https://clutrack.io at " + near
+                var message = "Signing message to http://localhost:5000 at " + near
                 var message_hash = ethers.utils.hashMessage(message + ":" + message.length.toString())
                 signer.signMessage(message + ":" + message.length.toString(), accountAddress, "1234567890!!!").then((signature) => {
                     handleAuth(accountAddress, signature, message_hash)
@@ -379,7 +383,7 @@ function login() {
 
 
 function handleDelete(accountAddress, signature, message_hash) {
-    fetch('https://clutrack.io/removeAccount', {
+    fetch('http://localhost:5000/removeAccount', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -410,7 +414,7 @@ function removeAccount() {
                     signer = provider.getSigner();
                     now = (Date.now()/1000).toFixed(0);
                     near = now-(now%600);
-                    var message = "DELETE ACCOUNT | Signing message to https://clutrack.io at " + near
+                    var message = "DELETE ACCOUNT | Signing message to http://localhost:5000 at " + near
                     var message_hash = ethers.utils.hashMessage(message + ":" + message.length.toString())
                     signer.signMessage(message + ":" + message.length.toString(), accountAddress, "1234567890!!!").then((signature) => {
                         handleDelete(accountAddress, signature, message_hash)
