@@ -1,7 +1,7 @@
 from datetime import date, datetime, timedelta
 import time
 import requests
-from flask import Flask, render_template, send_file, request, session, jsonify, Markup
+from flask import Flask, render_template, send_file, request, session, jsonify, Markup, send_from_directory
 from flask_mongoengine import MongoEngine
 from flask_restful import reqparse
 from werkzeug.utils import redirect
@@ -240,7 +240,7 @@ def index():
 
 @app.route('/assets/<folder>/<file>')
 def serve(folder, file):
-    return send_file(f'templates/assets/{folder}/{file}')
+    return send_from_directory(directory='templates/assets/' + folder, filename=file)
 
 @app.route('/logout')
 def logout():
