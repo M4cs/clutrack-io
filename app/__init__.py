@@ -40,13 +40,13 @@ tipjar_inline = """
 <strong style="color:black">If you'd like to help pay for the server...</strong><br>
 Please send any ERC-20/BEP-20 (ETH, BNB Smart Chain (BSC), etc.) apart from CLU. This wallet will be drained each month to cover server costs!<br> 
 <br>
-💻 Server costs (not CLU, please!): <kbd>0xF88e4A3af660ab09979a33c3c99E576244dda5aF</kbd><br>
+💻 Server costs (not CLU, please!): <code>0xF88e4A3af660ab09979a33c3c99E576244dda5aF</code><br>
 <br>
 <strong style="color: black">If you'd like to support us directly...</strong><br>
 Please send any ERC-20/BEP-20 (ETH, BNB Smart Chain (BSC), etc.) <em>including</em> 🚀CLU! We've got 💎👐!<br>
 <br>
-😁 A tip for Max (macs):  <kbd>0x44f6498D1403321890F3f2917E00F22dBDE3577a</kbd> (ETH, BNB Smart Chain (BSC), etc.) <br>
-😎 A tip for Jer (JERisBRISK): <kbd>0xa38bC10C3176C70081941ebe676c0F08D6dED0bB</kbd> (ETH, BNB Smart Chain (BSC), etc.) <br>
+😁 A tip for Max (macs):  <code>0x44f6498D1403321890F3f2917E00F22dBDE3577a</code> (ETH, BNB Smart Chain (BSC), etc.) <br>
+😎 A tip for Jer (JERisBRISK): <code>0xa38bC10C3176C70081941ebe676c0F08D6dED0bB</code> (ETH, BNB Smart Chain (BSC), etc.) <br>
 <br>
 We're not accountable for any funds lost in transit. (We'll be sad they didn't arrive, though!)
 </div>
@@ -68,16 +68,16 @@ tipjar_modal = """
                     <br>
                     <table>
                         <tr>
-                            <td width="60%">💻 Pay for server costs</td>
-                            <td><kbd>0xF88e4A3af660ab09979a33c3c99E576244dda5aF</kbd></td>
+                            <td>💻 Pay for server costs</td>
+                            <td><code>0xF88e4A3af660ab09979a33c3c99E576244dda5aF</code></td>
                         </tr>
                         <tr>
-                            <td width="60%">😁 A tip for Max (macs)</td>
-                            <td><kbd>0x44f6498D1403321890F3f2917E00F22dBDE3577a</kbd></td>
+                            <td>😁 A tip for Max (macs)</td>
+                            <td><code>0x44f6498D1403321890F3f2917E00F22dBDE3577a</code></td>
                         </tr>
                         <tr>
-                            <td width="60%">😎 A tip for Jer (JERisBRISK)</td>
-                            <td><kbd>0xa38bC10C3176C70081941ebe676c0F08D6dED0bB</kbd></td>
+                            <td>😎 A tip for Jer (JERisBRISK)</td>
+                            <td><code>0xa38bC10C3176C70081941ebe676c0F08D6dED0bB</code></td>
                         </tr>
                     </table>
                 </p>
