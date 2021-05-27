@@ -26,7 +26,15 @@ If you ever get a request that requires you pay gas, reject it! The website cont
 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
 """
 
-tipjar = """
+header_jinja2_includes = """
+<!-- Jinja2 Bootstrap Modals -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+"""
+
+tipjar_inline = """
 <strong style="color:black">If you'd like to help pay for the server:</strong>
 <br>
 Server costs wallet: <kbd>0xF88e4A3af660ab09979a33c3c99E576244dda5aF</kbd>
@@ -34,7 +42,7 @@ Server costs wallet: <kbd>0xF88e4A3af660ab09979a33c3c99E576244dda5aF</kbd>
 This account will be drained each month to cover server costs, so please do NOT send CLU here.<br>
 Other ERC-20/BEP-20 (ETH, BNB Smart Chain (BSC), etc.) addresses are appreciated!
 <br><br>
-<strong style="color: black">If you'd like to support us directly, our addresses are:</strong> 
+<strong style="color: black">If you'd like to support us directly, our addresses are:</strong>
 <br>
 Leave a tip for Max (macs):  <kbd>0x44f6498D1403321890F3f2917E00F22dBDE3577a</kbd>
 <br>
@@ -45,13 +53,52 @@ Anything else will get lost!</strong><br>
 (CLU will not be sold because we're 💎👐 HODLers. Other coins might be)!
 """
 
-mini_tipjar = """
-To support our work you may <strong>Donate CLU or any ERC/BEP-20 Tokens (ETH, BNB Smart Chain (BSC), etc.)</strong> as follows:<br>
-To help pay for server costs: <kbd>0xF88e4A3af660ab09979a33c3c99E576244dda5aF</kbd>
-<br>
-Leave a tip for Max (macs): <kbd>0x44f6498D1403321890F3f2917E00F22dBDE3577a</kbd>
-<br>
-Leave a tip for Jer (JERisBRISK): <kbd>0xa38bC10C3176C70081941ebe676c0F08D6dED0bB</kbd>
+tipjar_modal = """
+<div id="tipJar" class="modal fade" role="dialog" style="z-index:1000000">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="border: none">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" style="color: gray">Tip Jar</h4>
+            </div>
+            <div class="modal-body" style="color: black;">
+                <p style="font-weight:300">
+                    Donate <strong>CLU</strong> or any <strong>ERC/BEP-20 Tokens (ETH, BNB Smart Chain (BSC), etc.)</strong><br>
+                    <br>
+                    <table>
+                        <tr>
+                            <td width="60%">💻 Pay for server costs</td>
+                            <td><kbd>0xF88e4A3af660ab09979a33c3c99E576244dda5aF</kbd></td>
+                        </tr>
+                        <tr>
+                            <td width="60%">😁 A tip for Max (macs)</td>
+                            <td><kbd>0x44f6498D1403321890F3f2917E00F22dBDE3577a</kbd></td>
+                        </tr>
+                        <tr>
+                            <td width="60%">😎 A tip for Jer (JERisBRISK)</td>
+                            <td><kbd>0xa38bC10C3176C70081941ebe676c0F08D6dED0bB</kbd></td>
+                        </tr>
+                    </table>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Thanks!</button>
+            </div>
+        </div>
+    </div>
+</div>
+"""
+
+tipjar_navbar = """
+<div class="navbar-item">
+    <a class="button is-primary is-outlined"
+        data-toggle="modal"
+        data-target="#tipJar">
+        Tip Jar
+    </a>
+</div>
 """
 
 def create_app():
@@ -66,7 +113,7 @@ def create_app():
                 w3 = w3 = Web3(Web3.HTTPProvider('https://bsc-dataseed1.ninicoin.io/'))
             except HTTPError:
                 w3 = Web3(Web3.HTTPProvider('https://bsc-dataseed.binance.org/'))
- 
+
     from web3.middleware import geth_poa_middleware
     w3.middleware_onion.inject(geth_poa_middleware, layer=0)
     contract = w3.eth.contract(address=Web3.toChecksumAddress('0x1162e2efce13f99ed259ffc24d99108aaa0ce935'), abi=ABI)
@@ -118,7 +165,9 @@ def search():
             return render_template(
                 'badaddress.html',
                 credits=Markup(credits),
-                tipjar=Markup(mini_tipjar))
+                header_jinja2_includes=Markup(header_jinja2_includes),
+                tipjar_modal=Markup(tipjar_modal),
+                tipjar_navbar=Markup(tipjar_navbar))
 
         holder = Holder.objects(address=args.get('address')).first()
         longterm_msg = "This address is not linked with CluTrack, long term stats unavailable."
@@ -138,7 +187,9 @@ def search():
             longterm_msg=longterm_msg,
             conf=conf,
             credits=Markup(credits),
-            tipjar=Markup(mini_tipjar))
+            header_jinja2_includes=Markup(header_jinja2_includes),
+            tipjar_modal=Markup(tipjar_modal),
+            tipjar_navbar=Markup(tipjar_navbar))
 
     return render_template(
         'index.html',
@@ -146,7 +197,10 @@ def search():
         Holder.objects().all()),
         conf=conf,
         credits=Markup(credits),
-        tipjar=Markup(tipjar))
+        header_jinja2_includes=Markup(header_jinja2_includes),
+        tipjar_inline=Markup(tipjar_inline),
+        tipjar_modal=Markup(tipjar_modal),
+        tipjar_navbar=Markup(tipjar_navbar))
 
 @app.route('/')
 def index():
@@ -171,14 +225,18 @@ def index():
                 longterm_msg=longterm_msg,
                 conf=conf,
                 credits=Markup(credits),
-                tipjar=Markup(tipjar))
+                header_jinja2_includes=Markup(header_jinja2_includes),
+                tipjar_modal=Markup(tipjar_modal),
+                tipjar_navbar=Markup(tipjar_navbar))
 
     return render_template(
         'index.html',
         count=len(Holder.objects().all()),
         conf=conf,
         credits=Markup(credits),
-        tipjar=Markup(tipjar))
+        header_jinja2_includes=Markup(header_jinja2_includes),
+        tipjar_modal=Markup(tipjar_modal),
+        tipjar_navbar=Markup(tipjar_navbar))
 
 @app.route('/assets/<folder>/<file>')
 def serve(folder, file):
@@ -236,7 +294,7 @@ def sign():
         nh.save()
         session['access_token'] = (signJWT(str(nh.id), nh.address), time.time() + 3500 * 20)
     return {'redirect': conf.app.host}
-    
+
 
 @app.route('/getRewards/<addr>')
 def getRewards(addr):

@@ -29,6 +29,8 @@
 </style>
 
 <head>
+    {{header_jinja2_includes}}
+
     <meta charset="utf-8">
     <link rel="icon" href="https://clucoin.com/static/images/favicon/favicon-32x32.png">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -67,6 +69,7 @@
                             CLUTRACK.io
                         </a>
                     </div>
+                    {{tipjar_navbar}}
                     <div class="navbar-end">
                         <a style="margin-left: 5px;" class="button is-primary gradient"
                             href="https://github.com/M4cs/clutrack-io" target="_blank">
@@ -91,11 +94,10 @@
             <br><br>
             <div class="container has-text-centered">
                 <p>{{credits}}</p>
-                <br>
-                <p>{{tipjar}}</p>
             </div>
         </div>
     </section>
+    {{tipjar_modal}}
     <script src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js" type="application/javascript"></script>
 </body>
 
