@@ -17,6 +17,19 @@
     ::-webkit-scrollbar-thumb {
         background: #4d4d4d;
     }
+    .thumbnail {
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+}
+.thumbnail img {
+top: 50%;
+height: 100%;
+width: auto;
+}
+.thumbnail img.portrait {
+height: auto;
+  }
 </style>
 
 <head>
@@ -39,6 +52,7 @@
         content="Track the rewards you gain from holding CLU in your wallet. Link with one-click and start seeing those gains.">
     <meta property="og:image"
         content="https://clucoin.com/static/images/3000.png">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
@@ -78,7 +92,7 @@
                                 </div>
                                 <div class="control">
                                     <button type="submit" class="button is-primary is-outlined">
-                                        <strong class="fancyTitle">Search</strong>
+                                        <strong class="fancyTitle">Search for Reflections</strong>
                                     </button>
                                 </div>
                             </div>
@@ -93,11 +107,8 @@
                                 href="https://github.com/M4cs/clutrack-io" target="_blank">
                                 View Source Code
                             </a>
-                            <a class="button is-info is-outlined" href="/nfts">
-                                Check NFTs
-                            </a>
                             {% if not is_logged_in %}
-                            <a class="button is-primary is-outlined" onclick="login()">
+                            <a class="button is-primary is-outlined" onclick="sign()">
                                 Connect To Wallet
                             </a>
                             {% endif %}
@@ -115,87 +126,111 @@
     <section class="hero is-fullheight is-dark"  style="background-color: rgb(32, 32, 32);">
         <div class="hero-body">
             <div class="container has-text-centered">
-                <h1 class="title fancyTitle is-3" id="mainTitle">
-                    Loading Rewards for Wallet:
+                {% if not is_logged_in and not is_search%}
+                <h1 class="title fancyTitle">
+                    Did I get my NFTs?
                 </h1>
-                <a src="https://bscscan.com/address/{{wallet_addr}}" target="_blank" class="subtitle"
-                    style="color: rgb(104, 104, 104)">{{wallet_addr}}</a>
-                <p class="subtitle">
-                    RPB = Reward Per Block (0.3 Blocks per second are processed)
-                </p>
-                <div class="container" id="realtimeBalance">
-                    <p class="subtitle">
-                        Loading realtime stats...
-                    </p>
-                </div>                    
-                <div class="container has-text-centered is-mobile" id="rewardStats">
-                </div>
-                <div class="container has-text-centered" id="longTermStats">
-                </div>
-            </div>
-        </div>
-        <div id="disclaimerDialog" class="modal fade" role="dialog" style="z-index:1000000">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="border: none">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <h4 class="modal-title" style="color: gray">About Projections</h4>
+                {% elif not is_logged_in and is_search %}
+                    {% if len(nft_data) > 0 %}
+                    <h1 class="title fancyTitle">
+                        This address has {{len(nft_data)}} Clu NFTs!
+                    </h1>
+                    <div class="columns is-desktop">
+                        {% for nft in nft_data %}
+                        <div class="column">
+                            <div class="box">
+                                <center>
+                                    <div class="thumbnail">
+                                        <img src="{{nft.get('data').get('image')}}">
+                                    </div>
+                                </center>
+                                <h1 class="title is-4 fancyTitle" style="color: black;">
+                                    {{nft.get('data').get('name')}}
+                                </h1>
+                                <a class="button is-info is-outlined" href="https://opensea.io/assets/matic/0x39bd630610225d11d3e18ecef25c9de4f42edcec/{{nft.get('index')}}" target="_blank">
+                                    View on OpenSea
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
                     </div>
-                    <div class="modal-body" style="color: black; font-weight:300">
-                        <p>
-                        Projections are just for fun. They will change up, down, and sideways as the market fluctuates.
-                        They are simply a look at what would happen if the Market Price for CLU remained fixed and
-                        the Reflection Rate stayed the same, extrapolated over time.<br>
-                        <br>
-                        <strong>How do they work?</strong><br>
-                        The CluTrack algorithm samples 3 minutes of recent data from the blockchain and derives
-                        a Reflection Rate (CLU/sec) score, then multiplies that score by the current fiat Market
-                        Price (USD). Projections are then extrapolated for the next hour, day, month, etc., answering
-                        the question, "what would happen if the Reflection Rate and the Market Price remained constant?"<br>
-                        <br>
-                        <strong>Caveats</strong><br>
-                        In practice, nothing is a constant here (neither the price of CLU nor the rate at which
-                        we receive CLU reflections). Also, the numbers are only as good as the last data we received
-                        (both about the market price and the blockchain). Our testing revealed that Market Price data
-                        from certain feeds can lag, remain fixed or stalled, and often be off by as much as 3x.<br>
-                        <br>
-                        <strong>Disclaimer</strong><br>
-                        Enjoy Projections, but as we've said elsewhere, please don't use this for your financial planning.
-                        No one can predict the market with any degree of accuracy. This is just a way to play "What If?"
-                        CluTrack is not a financial planning tool in any way shape or form and there is
-                        no warranty expressed or implied about the accuracy of the information presented.
-                        </p>
+                    {% endif %}
+                {% elif is_logged_in and not is_search %}
+                    {% if len(nft_data) > 0 %}
+                    <h1 class="title fancyTitle">
+                        You have {{len(nft_data)}} Clu NFTs!
+                    </h1>
+                    <div class="columns is-desktop">
+                        {% for nft in nft_data %}
+                        <div class="column">
+                            <div class="box">
+                                <center>
+                                    <div class="thumbnail">
+                                        <img src="{{nft.get('data').get('image')}}">
+                                    </div>
+                                </center>
+                                <h1 class="title is-4 fancyTitle" style="color: black;">
+                                    {{nft.get('data').get('name')}}
+                                </h1>
+                                <a class="button is-info is-outlined" href="https://opensea.io/assets/matic/0x39bd630610225d11d3e18ecef25c9de4f42edcec/{{nft.get('index')}}" target="_blank">
+                                    View on OpenSea
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+                    {% endif %}
+                {% elif is_logged_in and is_search %}
+                {% if len(nft_data) > 0 %}
+                    <h1 class="title fancyTitle">
+                        This address has {{len(nft_data)}} Clu NFTs!
+                    </h1>
+                    <div class="columns is-desktop">
+                        {% for nft in nft_data %}
+                        <div class="column">
+                            <div class="box">
+                                <center>
+                                    <div class="thumbnail">
+                                        <img src="{{nft.get('data').get('image')}}">
+                                    </div>
+                                </center>
+                                <h1 class="title is-4 fancyTitle" style="color: black;">
+                                    {{nft.get('data').get('name')}}
+                                </h1>
+                                <a class="button is-info is-outlined" href="https://opensea.io/assets/matic/0x39bd630610225d11d3e18ecef25c9de4f42edcec/{{nft.get('index')}}" target="_blank">
+                                    View on OpenSea
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
                     </div>
-                </div>
-            </div>
-        </div>
-        {{tipjar_modal}}
-        <div class="hero-foot">
-            <div class="container has-text-centered">
-                <p>{{credits}}</p>
+                    {% endif %}
+                {% endif %}
+                <form action='/nfts' method='GET'>
+                    <div class="container has-text-centered">
+
+                        <label class="label" for="search" style="color: #868686">
+                            Enter an address below to find NFTs!
+                        </label>
+                        <div id="search" class="field has-addons">
+                            <input class="input is-rounded is-normal" type="text" name="address"
+                            placeholder="Ex: 0x44f6498D1403321890F3f2917E00F22dBDE3577a">
+                            <button type="submit" class="button is-primary is-rounded is-outlined">
+                                <strong>Search</strong>
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </section>
-    <script src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js" type="application/javascript"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.2.1/dist/chart.min.js"></script>
+</body>
+<script src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js" type="application/javascript"></script>
     {% if conf.app.host == conf.app.local_host %}
-    <script src="assets/js/reward_local.js"></script>
+    <script src="assets/js/app_local.js"></script>
     {% else %}
-    <script src="assets/js/reward.js"></script>
+    <script src="assets/js/app.js"></script>
     {% endif %}
-    <script>
-        getRewards(`{{wallet_addr}}`)
-        window.addEventListener('load', function () {
-            var intervalId = window.setInterval(function () {
-                getRewards(`{{wallet_addr}}`)
-            }, 30000)
-        })
-    </script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
@@ -211,6 +246,4 @@
             }
         });
     </script>
-</body>
-
 </html>

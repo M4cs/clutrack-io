@@ -139,6 +139,7 @@ def decodeJWT(token):
     )
     if decoded['expires'] > time.time():
         return Holder.objects(id=ObjectId(decoded['user_id'])).first()
+    return None
 
 def search_parser():
     parser = reqparse.RequestParser()
@@ -362,3 +363,60 @@ def getRewards(addr):
         'total_12hr': total_12hr,
         'total_24hr': total_24hr
     })
+
+def nft_parser():
+    parser = reqparse.RequestParser()
+    parser.add_argument('address')
+    return parser
+
+@app.route('/nfts')
+def nfts():
+    parser = nft_parser()
+    args = parser.parse_args()
+    if args.get('address'):
+        is_logged_in = False
+        if session.get('access_token'):
+            holder = decodeJWT(session.get('access_token'))
+            if holder:
+                is_logged_in = True
+        nft_data = []
+        for x in [1,2,3]:
+            res = requests.get('https://api.clucoin.com/v1/nft/owns?address=' + Web3.toChecksumAddress(args.get('address')) + '&index=' + str(x)).json()
+            if res.get('value') == True:
+                d = requests.get('https://api.clucoin.com/v1/nft/data?index=' + str(x)).json()
+                if d.get('data').get('name') == 'Champions Sanctum':
+                    d['data']['image'] = 'https://lh3.googleusercontent.com/CWxa4SI265TPWdKVZLjOIbQcxf86wxot2f1v3ogTnsLbYzKNDSRHeb0cYS8QYPuv34Wp52djhKoAvEhd82IHm0XOyo8Yg-iOG-AL'
+                if d.get('data').get('name') == 'Oops!':
+                    d['data']['image'] = 'https://lh3.googleusercontent.com/zlUvob6z7vSTT4Bf7Wo9fMFyND1lee10ceWTRTGuwDUSFyCjgFHXHf8RSAb7i2osF44-2XjDRPq5EOxnR2qymFl_ZSMLXKTw-8wILg=w600'
+                if d.get('data').get('name') == 'Destination Infinity':
+                    d['data']['image'] = 'https://lh3.googleusercontent.com/Cy5x-mqZzcYZ0FTWlDewqASvr9Vp_DJsQqFUmT6zvHb7qkkiO3VhtI7ZKvljj4sENhylFlx_-GFMrcFxAkuZOwXPLW-PyqNAx6CeiM4=w600'
+                nft_data.append({
+                    'data': d.get('data'),
+                    'owns': True,
+                    'index': x
+                })
+        return render_template('nfts.html', nft_data=nft_data, is_logged_in=is_logged_in, is_search=True, conf=conf, len=len)
+    if session.get('access_token'):
+        holder = decodeJWT(session.get('access_token'))
+        if holder:
+            nft_data = []
+            for x in [1,2,3]:
+                res = requests.get('https://api.clucoin.com/v1/nft/owns?address=' + holder.address + '&index=' + str(x)).json()
+                if res.get('value') == True:
+                    d = requests.get('https://api.clucoin.com/v1/nft/data?index=' + str(x)).json()
+                    if d.get('data').get('name') == 'Champions Sanctum':
+                        d['data']['image'] = 'https://lh3.googleusercontent.com/CWxa4SI265TPWdKVZLjOIbQcxf86wxot2f1v3ogTnsLbYzKNDSRHeb0cYS8QYPuv34Wp52djhKoAvEhd82IHm0XOyo8Yg-iOG-AL'
+                    if d.get('data').get('name') == 'Oops!':
+                        d['data']['image'] = 'https://lh3.googleusercontent.com/zlUvob6z7vSTT4Bf7Wo9fMFyND1lee10ceWTRTGuwDUSFyCjgFHXHf8RSAb7i2osF44-2XjDRPq5EOxnR2qymFl_ZSMLXKTw-8wILg=w600'
+                    if d.get('data').get('name') == 'Destination Infinity':
+                        d['data']['image'] = 'https://lh3.googleusercontent.com/Cy5x-mqZzcYZ0FTWlDewqASvr9Vp_DJsQqFUmT6zvHb7qkkiO3VhtI7ZKvljj4sENhylFlx_-GFMrcFxAkuZOwXPLW-PyqNAx6CeiM4=w600'
+                    nft_data.append({
+                        'data': d.get('data'),
+                        'owns': True,
+                        'index': x
+                    })
+            return render_template('nfts.html', nft_data=nft_data, is_logged_in=True, is_search=False, conf=conf, len=len)
+        else:
+            session['access_token']= (None, 0)
+            return render_template('nfts.html', nft_data=[], is_logged_in=False, is_search=False, conf=conf)
+    return render_template('nfts.html', nft_data=[], is_logged_in=False, is_search=False, conf=conf)
