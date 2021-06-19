@@ -10,7 +10,6 @@ class Holder(mongo.Document):
     def check_msg(self, signature, message_hash):
         from app import w3
         signer = w3.eth.account.recoverHash(message_hash, signature=signature)
-        print(signer)
         if signer == self.address:
             return True
         return False

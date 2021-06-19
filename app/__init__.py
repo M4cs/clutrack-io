@@ -279,6 +279,7 @@ def price():
 def sign():
     from app.models.holder import Holder
     data = json.loads(request.data)
+    print(data['wallet_address'])
     holder = Holder.objects(address=str(data['wallet_address'])).first()
     if holder:
         if holder.check_msg(data['sig'], data['hash']):
@@ -400,7 +401,7 @@ def nfts():
         holder = decodeJWT(session.get('access_token'))
         if holder:
             nft_data = []
-            for x in [1,2,3]:
+            for x in [1,2,3,4]:
                 res = requests.get('https://api.clucoin.com/v1/nft/owns?address=' + holder.address + '&index=' + str(x)).json()
                 if res.get('value') == True:
                     d = requests.get('https://api.clucoin.com/v1/nft/data?index=' + str(x)).json()
@@ -410,6 +411,8 @@ def nfts():
                         d['data']['image'] = 'https://lh3.googleusercontent.com/zlUvob6z7vSTT4Bf7Wo9fMFyND1lee10ceWTRTGuwDUSFyCjgFHXHf8RSAb7i2osF44-2XjDRPq5EOxnR2qymFl_ZSMLXKTw-8wILg=w600'
                     if d.get('data').get('name') == 'Destination Infinity':
                         d['data']['image'] = 'https://lh3.googleusercontent.com/Cy5x-mqZzcYZ0FTWlDewqASvr9Vp_DJsQqFUmT6zvHb7qkkiO3VhtI7ZKvljj4sENhylFlx_-GFMrcFxAkuZOwXPLW-PyqNAx6CeiM4=w600'
+                    if d.get('data').get('name') == 'Clover and Calvin - Clu Troopers':
+                        d['data']['image'] = 'https://lh3.googleusercontent.com/5zozA7RGZv0Fkw1PKcLciIUNxB93kJocHzBJj8KbCgk5aGDF6gVFoMAc-IpDsOq61TfnxdUF5lLO9bEBk8iFTv5tTNuTfPQoXZ797A=s302'
                     nft_data.append({
                         'data': d.get('data'),
                         'owns': True,
